@@ -1,0 +1,8 @@
+dist
+node_modules
+pnpm-lock.yaml
+
+# vendored skills / docs, not app code
+.claude/
+docs/
+*.md
