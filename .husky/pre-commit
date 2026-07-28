@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# TODO: package.json 생성 후 `pnpm dlx husky init`으로 다시 초기화하고,
+# lint-staged 설정(스테이징된 파일만 lint/format)을 추가할 것.
+pnpm exec lint-staged
