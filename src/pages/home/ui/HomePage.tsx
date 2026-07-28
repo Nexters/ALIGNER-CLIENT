@@ -1,7 +1,7 @@
 export function HomePage() {
   return (
-    <main>
-      <h1>ALIGNER</h1>
+    <main className="flex min-h-screen items-center justify-center">
+      <h1 className="text-2xl font-semibold">ALIGNER</h1>
     </main>
   );
 }
