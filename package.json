@@ -14,6 +14,7 @@
   "packageManager": "pnpm@10.32.1",
   "dependencies": {
     "clsx": "^2.1.1",
+    "ky": "^2.0.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "tailwind-merge": "^3.6.0"
