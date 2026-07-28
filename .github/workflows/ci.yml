@@ -20,5 +20,4 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # TODO: package.json에 "typecheck" 스크립트(예: "tsc --noEmit")를 추가한 뒤 사용할 것.
       - run: pnpm run typecheck
