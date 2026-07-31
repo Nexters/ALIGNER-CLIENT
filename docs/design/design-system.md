@@ -1,6 +1,6 @@
 # Design System
 
-Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴포넌트 또는 `styles/globals.css` 토큰과 대응하는지 여기에 기록한다.
+Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴포넌트 또는 `styles/` 토큰(컬러는 `colors.css`, 타이포그래피는 `typography.css`, 그 외는 `globals.css`)과 대응하는지 여기에 기록한다.
 
 ## 컴포넌트 대응표
 
