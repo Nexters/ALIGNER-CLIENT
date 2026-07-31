@@ -1,3 +1,220 @@
 @import "tailwindcss";
 
-/* 디자인 시스템 토큰이 정해지면 docs/design/design-system.md의 대응표와 함께 채운다. */
+/* Figma ↔ 코드 토큰 대응표: docs/design/design-system.md */
+@font-face {
+  font-family: "SUIT";
+  font-weight: 400;
+  font-display: swap;
+  src: url("./SUIT-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 500;
+  font-display: swap;
+  src: url("./SUIT-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 600;
+  font-display: swap;
+  src: url("./SUIT-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 700;
+  font-display: swap;
+  src: url("./SUIT-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 800;
+  font-display: swap;
+  src: url("./SUIT-ExtraBold.woff2") format("woff2");
+}
+
+@theme {
+  /* Color / White */
+  --color-white: #ffffff;
+
+  /* Color / Black */
+  --color-black: #000000;
+
+  /* Color / Gray (cool gray) */
+  --color-gray-5: #0f0f10;
+  --color-gray-7: #141415;
+  --color-gray-10: #171719;
+  --color-gray-20: #292a2d;
+  --color-gray-30: #46474c;
+  --color-gray-40: #5a5c63;
+  --color-gray-50: #70737c;
+  --color-gray-60: #878a93;
+  --color-gray-70: #989ba2;
+  --color-gray-80: #aeb0b6;
+  --color-gray-90: #c2c4c8;
+  --color-gray-95: #dbdcdf;
+  --color-gray-96: #e1e2e4;
+  --color-gray-97: #eaebec;
+  --color-gray-98: #f4f4f5;
+  --color-gray-99: #f7f7f8;
+
+  /* Color / Primary */
+  --color-primary-50: #fdffeb;
+  --color-primary-100: #f9ffc0;
+  --color-primary-200: #f5ff95;
+  --color-primary-300: #f0ff6a;
+  --color-primary-400: #ecff3f;
+  --color-primary-500: #e6ff01;
+  --color-primary-700: #abbe00;
+  --color-primary-800: #849300;
+  --color-primary-900: #5e6800;
+  --color-primary-950: #373d00;
+
+  /* Color / Secondary */
+  --color-secondary-50: #eef8fc;
+  --color-secondary-100: #c9eaf6;
+  --color-secondary-200: #a9def0;
+  --color-secondary-300: #80cee9;
+  --color-secondary-400: #5cc0e3;
+  --color-secondary-500: #37b2dc;
+  --color-secondary-600: #239dc6;
+  --color-secondary-700: #1c80a2;
+  --color-secondary-800: #16637d;
+  --color-secondary-900: #0f4659;
+  --color-secondary-950: #092934;
+
+  /* Color / Tertiary */
+  --color-tertiary-50: #f6f7f3;
+  --color-tertiary-100: #e4e5da;
+  --color-tertiary-200: #d2d3c1;
+  --color-tertiary-300: #bfc2a8;
+  --color-tertiary-400: #adb08e;
+  --color-tertiary-500: #9a9e75;
+  --color-tertiary-600: #858960;
+  --color-tertiary-700: #6c6f4e;
+  --color-tertiary-800: #54563d;
+  --color-tertiary-900: #3b3d2b;
+  --color-tertiary-950: #232419;
+
+  /* Color / Semantic */
+  --color-bg-base: var(--color-gray-98);
+  --color-bg-surface: var(--color-white);
+  --color-bg-muted: var(--color-gray-97);
+  --color-bg-inverse: var(--color-gray-10);
+  --color-ink-strong: var(--color-gray-10);
+  --color-ink-base: var(--color-gray-20);
+  --color-ink-muted: var(--color-gray-70);
+  --color-ink-inverse: var(--color-white);
+  --color-accent-base: var(--color-primary-500);
+  --color-accent-strong: var(--color-primary-900);
+  --color-accent-subtle: var(--color-primary-200);
+  --color-border-base: var(--color-gray-97);
+  --color-border-strong: var(--color-gray-90);
+  --color-media-placeholder: var(--color-gray-90);
+  --color-overlay-dim: color-mix(in srgb, var(--color-black) 45%, transparent);
+
+  /* Typography */
+  --font-sans: "SUIT", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  --text-large-title-emphasized: 34px;
+  --text-large-title-emphasized--line-height: 1.3;
+  --text-large-title-emphasized--letter-spacing: 0px;
+  --text-large-title-emphasized--font-weight: 700;
+
+  --text-title-1-emphasized: 28px;
+  --text-title-1-emphasized--line-height: 1.3;
+  --text-title-1-emphasized--letter-spacing: 0px;
+  --text-title-1-emphasized--font-weight: 800;
+
+  --text-title-2-regular: 22px;
+  --text-title-2-regular--line-height: 1.4;
+  --text-title-2-regular--letter-spacing: -0.26px;
+  --text-title-2-regular--font-weight: 500;
+
+  --text-title-2-emphasized: 22px;
+  --text-title-2-emphasized--line-height: 1.4;
+  --text-title-2-emphasized--letter-spacing: -0.26px;
+  --text-title-2-emphasized--font-weight: 700;
+
+  --text-title-3-regular: 20px;
+  --text-title-3-regular--line-height: 1.4;
+  --text-title-3-regular--letter-spacing: -0.45px;
+  --text-title-3-regular--font-weight: 500;
+
+  --text-title-3-emphasized: 20px;
+  --text-title-3-emphasized--line-height: 1.4;
+  --text-title-3-emphasized--letter-spacing: -0.45px;
+  --text-title-3-emphasized--font-weight: 700;
+
+  --text-headline-regular: 18px;
+  --text-headline-regular--line-height: 1.4;
+  --text-headline-regular--letter-spacing: -0.43px;
+  --text-headline-regular--font-weight: 500;
+
+  --text-headline-emphasized: 18px;
+  --text-headline-emphasized--line-height: 1.4;
+  --text-headline-emphasized--letter-spacing: -0.43px;
+  --text-headline-emphasized--font-weight: 700;
+
+  --text-body-regular: 16px;
+  --text-body-regular--line-height: 1.4;
+  --text-body-regular--letter-spacing: -0.31px;
+  --text-body-regular--font-weight: 500;
+
+  --text-body-emphasized: 16px;
+  --text-body-emphasized--line-height: 1.4;
+  --text-body-emphasized--letter-spacing: -0.31px;
+  --text-body-emphasized--font-weight: 700;
+
+  --text-subheadline-regular: 14px;
+  --text-subheadline-regular--line-height: 1.4;
+  --text-subheadline-regular--letter-spacing: -0.23px;
+  --text-subheadline-regular--font-weight: 500;
+
+  --text-subheadline-emphasized: 14px;
+  --text-subheadline-emphasized--line-height: 1.4;
+  --text-subheadline-emphasized--letter-spacing: -0.23px;
+  --text-subheadline-emphasized--font-weight: 700;
+
+  --text-footnote-regular: 13px;
+  --text-footnote-regular--line-height: 1.4;
+  --text-footnote-regular--letter-spacing: -0.08px;
+  --text-footnote-regular--font-weight: 400;
+
+  --text-footnote-emphasized: 13px;
+  --text-footnote-emphasized--line-height: 1.4;
+  --text-footnote-emphasized--letter-spacing: -0.08px;
+  --text-footnote-emphasized--font-weight: 600;
+
+  --text-caption-1-regular: 12px;
+  --text-caption-1-regular--line-height: 1.4;
+  --text-caption-1-regular--letter-spacing: 0px;
+  --text-caption-1-regular--font-weight: 400;
+
+  --text-caption-1-emphasized: 12px;
+  --text-caption-1-emphasized--line-height: 1.4;
+  --text-caption-1-emphasized--letter-spacing: 0px;
+  --text-caption-1-emphasized--font-weight: 600;
+
+  --text-caption-2-regular: 11px;
+  --text-caption-2-regular--line-height: 1.4;
+  --text-caption-2-regular--letter-spacing: 0.06px;
+  --text-caption-2-regular--font-weight: 400;
+
+  --text-caption-2-emphasized: 11px;
+  --text-caption-2-emphasized--line-height: 1.4;
+  --text-caption-2-emphasized--letter-spacing: 0.06px;
+  --text-caption-2-emphasized--font-weight: 600;
+
+  /* Spacing (4-Point grid, 상황에 따라 2px 배수 허용) */
+  --spacing-0: 0px;
+  --spacing-1: 2px;
+  --spacing-2: 4px;
+  --spacing-3: 8px;
+  --spacing-4: 12px;
+  --spacing-5: 16px;
+  --spacing-6: 20px;
+  --spacing-7: 24px;
+  --spacing-8: 32px;
+  --spacing-9: 40px;
+  --spacing-10: 48px;
+}
