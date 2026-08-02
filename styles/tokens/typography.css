@@ -1,0 +1,167 @@
+/* 폰트: SUIT (SIL OFL 1.1). 라이선스 조건상 재배포 시 ./LICENSE를 함께 유지해야 한다. */
+@font-face {
+  font-family: "SUIT";
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/SUIT-Regular.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/SUIT-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 600;
+  font-display: swap;
+  src: url("../fonts/SUIT-SemiBold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 700;
+  font-display: swap;
+  src: url("../fonts/SUIT-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "SUIT";
+  font-weight: 800;
+  font-display: swap;
+  src: url("../fonts/SUIT-ExtraBold.woff2") format("woff2");
+}
+
+@theme {
+  --font-sans: "SUIT", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+/*
+  타이포그래피는 Tailwind의 `--text-*` 테마 네임스페이스를 쓰지 않는다.
+  tailwind-merge가 커스텀 --text-* 토큰을 "text color" 그룹으로 오인해서,
+  cn()으로 컬러 클래스와 합성할 때 타이포그래피 클래스가 통째로 삭제되는 문제가 있었다.
+  `typo-*` 프리픽스로 완전히 분리된 @utility로 정의해 이 충돌을 원천 차단한다.
+*/
+@utility typo-large-title-emphasized {
+  font-size: 34px;
+  line-height: 1.3;
+  letter-spacing: 0px;
+  font-weight: 700;
+}
+
+@utility typo-title-1-emphasized {
+  font-size: 28px;
+  line-height: 1.3;
+  letter-spacing: 0px;
+  font-weight: 800;
+}
+
+@utility typo-title-2-regular {
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.26px;
+  font-weight: 500;
+}
+
+@utility typo-title-2-emphasized {
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.26px;
+  font-weight: 700;
+}
+
+@utility typo-title-3-regular {
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.45px;
+  font-weight: 500;
+}
+
+@utility typo-title-3-emphasized {
+  font-size: 20px;
+  line-height: 1.4;
+  letter-spacing: -0.45px;
+  font-weight: 700;
+}
+
+@utility typo-headline-regular {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.43px;
+  font-weight: 500;
+}
+
+@utility typo-headline-emphasized {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.43px;
+  font-weight: 700;
+}
+
+@utility typo-body-regular {
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.31px;
+  font-weight: 500;
+}
+
+@utility typo-body-emphasized {
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: -0.31px;
+  font-weight: 700;
+}
+
+@utility typo-subheadline-regular {
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: -0.23px;
+  font-weight: 500;
+}
+
+@utility typo-subheadline-emphasized {
+  font-size: 14px;
+  line-height: 1.4;
+  letter-spacing: -0.23px;
+  font-weight: 700;
+}
+
+@utility typo-footnote-regular {
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -0.08px;
+  font-weight: 400;
+}
+
+@utility typo-footnote-emphasized {
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: -0.08px;
+  font-weight: 600;
+}
+
+@utility typo-caption-1-regular {
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0px;
+  font-weight: 400;
+}
+
+@utility typo-caption-1-emphasized {
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0px;
+  font-weight: 600;
+}
+
+@utility typo-caption-2-regular {
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.06px;
+  font-weight: 400;
+}
+
+@utility typo-caption-2-emphasized {
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.06px;
+  font-weight: 600;
+}

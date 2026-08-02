@@ -1,6 +1,6 @@
 # Design System
 
-Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴포넌트 또는 `styles/` 토큰(컬러는 `colors.css`, 타이포그래피는 `typography.css`, 그 외는 `globals.css`)과 대응하는지 여기에 기록한다.
+Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴포넌트 또는 `styles/` 토큰(컬러는 `tokens/colors.css`, 타이포그래피는 `tokens/typography.css`, spacing은 `tokens/spacing.css`, 전역 레이아웃/리셋은 `layout.css`)과 대응하는지 여기에 기록한다.
 
 ## 컴포넌트 대응표
 
@@ -112,27 +112,29 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 
 ### Typography
 
-| Figma 토큰 | CSS 변수 | 비고 |
+폰트 패밀리(`Font/SUIT`)는 `@theme`의 CSS 변수(`--font-sans`)로 노출되지만, 사이즈 토큰들은 `@utility` 커스텀 디렉티브로 정의된 CSS 클래스다 (변수 아님 — `tailwind-merge`가 `--text-*` 커스텀 토큰을 컬러 유틸리티로 오인해서 `cn()` 합성 시 삭제되는 문제가 있어 `text-*` 네임스페이스를 쓰지 않기로 함).
+
+| Figma 토큰 | CSS 변수/클래스 | 비고 |
 | ---------- | -------- | ---- |
-| `Font/SUIT` | `--font-sans` | |
-| `Large Title/Emphasized` | `--text-large-title-emphasized` | |
-| `Title1/Emphasized` | `--text-title-1-emphasized` | |
-| `Title2/Regular` | `--text-title-2-regular` | |
-| `Title2/Emphasized` | `--text-title-2-emphasized` | |
-| `Title3/Regular` | `--text-title-3-regular` | |
-| `Title3/Emphasized` | `--text-title-3-emphasized` | |
-| `Headline/Regular` | `--text-headline-regular` | |
-| `Headline/Emphasized` | `--text-headline-emphasized` | |
-| `body/Regular` | `--text-body-regular` | |
-| `body/Emphasized` | `--text-body-emphasized` | |
-| `Subheadline/Regular` | `--text-subheadline-regular` | |
-| `Subheadline/Emphasized` | `--text-subheadline-emphasized` | |
-| `Footnote/Regular` | `--text-footnote-regular` | |
-| `Footnote/Emphasized` | `--text-footnote-emphasized` | |
-| `Caption1/Regular` | `--text-caption-1-regular` | |
-| `Caption1/Emphasized` | `--text-caption-1-emphasized` | |
-| `Caption2/Regular` | `--text-caption-2-regular` | |
-| `Caption2/Emphasized` | `--text-caption-2-emphasized` | |
+| `Font/SUIT` | `--font-sans` | CSS 변수 |
+| `Large Title/Emphasized` | `typo-large-title-emphasized` | CSS 클래스 |
+| `Title1/Emphasized` | `typo-title-1-emphasized` | CSS 클래스 |
+| `Title2/Regular` | `typo-title-2-regular` | CSS 클래스 |
+| `Title2/Emphasized` | `typo-title-2-emphasized` | CSS 클래스 |
+| `Title3/Regular` | `typo-title-3-regular` | CSS 클래스 |
+| `Title3/Emphasized` | `typo-title-3-emphasized` | CSS 클래스 |
+| `Headline/Regular` | `typo-headline-regular` | CSS 클래스 |
+| `Headline/Emphasized` | `typo-headline-emphasized` | CSS 클래스 |
+| `body/Regular` | `typo-body-regular` | CSS 클래스 |
+| `body/Emphasized` | `typo-body-emphasized` | CSS 클래스 |
+| `Subheadline/Regular` | `typo-subheadline-regular` | CSS 클래스 |
+| `Subheadline/Emphasized` | `typo-subheadline-emphasized` | CSS 클래스 |
+| `Footnote/Regular` | `typo-footnote-regular` | CSS 클래스 |
+| `Footnote/Emphasized` | `typo-footnote-emphasized` | CSS 클래스 |
+| `Caption1/Regular` | `typo-caption-1-regular` | CSS 클래스 |
+| `Caption1/Emphasized` | `typo-caption-1-emphasized` | CSS 클래스 |
+| `Caption2/Regular` | `typo-caption-2-regular` | CSS 클래스 |
+| `Caption2/Emphasized` | `typo-caption-2-emphasized` | CSS 클래스 |
 
 ### Spacing
 

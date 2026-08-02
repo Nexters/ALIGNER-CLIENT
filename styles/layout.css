@@ -1,0 +1,58 @@
+@theme {
+  --custom-max-width: 37.5rem;
+}
+
+@layer base {
+  /* 10px = 1rem */
+  html {
+    font-size: 62.5%;
+  }
+
+  .fixed-center {
+    width: 100%;
+    max-width: var(--custom-max-width);
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  html,
+  body,
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  button {
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-wrap: nowrap;
+  }
+
+  input {
+    border: none;
+    outline: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  textarea {
+    font: inherit;
+    resize: none;
+  }
+}
