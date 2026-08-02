@@ -114,6 +114,7 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 
 | Figma 토큰 | CSS 변수 | 비고 |
 | ---------- | -------- | ---- |
+| `Font/SUIT` | `--font-sans` | |
 | `Large Title/Emphasized` | `--text-large-title-emphasized` | |
 | `Title1/Emphasized` | `--text-title-1-emphasized` | |
 | `Title2/Regular` | `--text-title-2-regular` | |
