@@ -1,20 +1,7 @@
 @import "tailwindcss";
 
 /* Figma ↔ 코드 토큰 대응표: docs/design/design-system.md */
-@import "./colors.css";
-@import "./typography.css";
-
-@theme {
-  /* Spacing (4-Point grid, 상황에 따라 2px 배수 허용) */
-  --spacing-0: 0px;
-  --spacing-1: 2px;
-  --spacing-2: 4px;
-  --spacing-3: 8px;
-  --spacing-4: 12px;
-  --spacing-5: 16px;
-  --spacing-6: 20px;
-  --spacing-7: 24px;
-  --spacing-8: 32px;
-  --spacing-9: 40px;
-  --spacing-10: 48px;
-}
+@import "./layout.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";

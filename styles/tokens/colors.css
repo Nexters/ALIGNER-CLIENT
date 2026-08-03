@@ -61,6 +61,9 @@
   --color-tertiary-900: #3b3d2b;
   --color-tertiary-950: #232419;
 
+  /* Color / Error */
+  --color-error: #ff3145;
+
   /* Color / Semantic */
   --color-bg-base: var(--color-gray-98);
   --color-bg-surface: var(--color-white);
@@ -70,6 +73,7 @@
   --color-ink-base: var(--color-gray-20);
   --color-ink-muted: var(--color-gray-70);
   --color-ink-inverse: var(--color-white);
+  --color-ink-error: var(--color-error);
   --color-accent-base: var(--color-primary-500);
   --color-accent-strong: var(--color-primary-900);
   --color-accent-subtle: var(--color-primary-200);
