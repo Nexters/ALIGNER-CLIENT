@@ -1,20 +1,20 @@
 import { cn } from "@/shared/lib/cn";
 import Button from "../base/Button";
 
-type BottomCTAButtonRootProps = React.HTMLAttributes<HTMLDivElement> & {
+type CTAButtonRootProps = React.HTMLAttributes<HTMLDivElement> & {
   children: React.ReactNode;
   className?: string;
   fixed?: boolean;
   background?: "white" | "black" | "none";
 };
 
-function BottomCTAButtonRoot({
+function CTAButtonRoot({
   children,
   fixed = true,
   background = "none",
   className,
   ...props
-}: BottomCTAButtonRootProps) {
+}: CTAButtonRootProps) {
   return (
     <div
       className={cn(
@@ -31,19 +31,19 @@ function BottomCTAButtonRoot({
   );
 }
 
-type SingleBottomCTAButtonProps = React.ComponentProps<typeof Button>;
+type SingleCTAButtonProps = React.ComponentProps<typeof Button>;
 
-function SingleBottomCTAButton({ children, ...props }: SingleBottomCTAButtonProps) {
+function SingleCTAButton({ children, ...props }: SingleCTAButtonProps) {
   return <Button {...props}>{children}</Button>;
 }
 
-type DoubleBottomCTAButtonProps = {
+type DoubleCTAButtonProps = {
   leftButton: React.ReactNode;
   rightButton: React.ReactNode;
   className?: string;
 };
 
-function DoubleBottomCTAButton({ leftButton, rightButton, className }: DoubleBottomCTAButtonProps) {
+function DoubleCTAButton({ leftButton, rightButton, className }: DoubleCTAButtonProps) {
   return (
     <div className={cn("flex", className)}>
       {leftButton}
@@ -52,14 +52,14 @@ function DoubleBottomCTAButton({ leftButton, rightButton, className }: DoubleBot
   );
 }
 
-type BottomCTAButtonComponent = typeof BottomCTAButtonRoot & {
-  Single: typeof SingleBottomCTAButton;
-  Double: typeof DoubleBottomCTAButton;
+type CTAButtonComponent = typeof CTAButtonRoot & {
+  Single: typeof SingleCTAButton;
+  Double: typeof DoubleCTAButton;
 };
 
-const BottomCTAButton: BottomCTAButtonComponent = Object.assign(BottomCTAButtonRoot, {
-  Single: SingleBottomCTAButton,
-  Double: DoubleBottomCTAButton,
+const CTAButton: CTAButtonComponent = Object.assign(CTAButtonRoot, {
+  Single: SingleCTAButton,
+  Double: DoubleCTAButton,
 });
 
-export default BottomCTAButton;
+export default CTAButton;
