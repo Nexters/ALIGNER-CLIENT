@@ -78,6 +78,12 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | `tertiary/900` | `--color-tertiary-900` | |
 | `tertiary/950` | `--color-tertiary-950` | |
 
+### Color / Error
+
+| Figma 토큰 | CSS 변수 | 비고 |
+| ---------- | -------- | ---- |
+| `error` | `--color-error` | |
+
 ### Color / White
 
 | Figma 토큰 | CSS 변수 | 비고 |
@@ -102,6 +108,7 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | `ink/base` | `--color-ink-base` | |
 | `ink/muted` | `--color-ink-muted` | |
 | `ink/inverse` | `--color-ink-inverse` | |
+| `ink/error` | `--color-ink-error` | |
 | `accent/base` | `--color-accent-base` | |
 | `accent/strong` | `--color-accent-strong` | |
 | `accent/subtle` | `--color-accent-subtle` | |
@@ -121,6 +128,8 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | `Title1/Emphasized` | `typo-title-1-emphasized` | CSS 클래스 |
 | `Title2/Regular` | `typo-title-2-regular` | CSS 클래스 |
 | `Title2/Emphasized` | `typo-title-2-emphasized` | CSS 클래스 |
+| `Title2.5/Regular` | `typo-title-2-5-regular` | CSS 클래스 |
+| `Title2.5/Emphasized` | `typo-title-2-5-emphasized` | CSS 클래스 |
 | `Title3/Regular` | `typo-title-3-regular` | CSS 클래스 |
 | `Title3/Emphasized` | `typo-title-3-emphasized` | CSS 클래스 |
 | `Headline/Regular` | `typo-headline-regular` | CSS 클래스 |

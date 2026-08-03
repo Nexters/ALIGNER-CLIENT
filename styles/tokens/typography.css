@@ -68,6 +68,20 @@
   font-weight: 700;
 }
 
+@utility typo-title-2-5-regular {
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: -0.26px;
+  font-weight: 500;
+}
+
+@utility typo-title-2-5-emphasized {
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: -0.26px;
+  font-weight: 700;
+}
+
 @utility typo-title-3-regular {
   font-size: 20px;
   line-height: 1.4;
