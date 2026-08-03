@@ -1,5 +1,5 @@
 @theme {
-  --custom-max-width: 37.5rem;
+  --container-max-width: 37.5rem;
 }
 
 @layer base {
@@ -8,23 +8,13 @@
     font-size: 62.5%;
   }
 
-  .fixed-center {
-    width: 100%;
-    max-width: var(--custom-max-width);
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
   html::-webkit-scrollbar,
-  body::-webkit-scrollbar,
-  .scrollbar-hide::-webkit-scrollbar {
+  body::-webkit-scrollbar {
     display: none;
   }
 
   html,
-  body,
-  .scrollbar-hide {
+  body {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
@@ -54,5 +44,22 @@
   textarea {
     font: inherit;
     resize: none;
+  }
+}
+
+@utility fixed-center {
+  width: 100%;
+  max-width: var(--container-max-width);
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 }
