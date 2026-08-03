@@ -1,7 +1,7 @@
 import type { ButtonColor } from "../constants/variant";
 
 export const BUTTON_BASE =
-  "w-full items-center justify-center px-[2rem] py-[1.6rem] rounded-[1.6rem] text-body-emphasized";
+  "w-full items-center justify-center px-[2rem] py-[1.6rem] rounded-[1.6rem] typo-body-emphasized";
 
 export const BUTTON_DISABLED =
   "disabled:cursor-not-allowed disabled:bg-gray-95 disabled:text-gray-8";
