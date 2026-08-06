@@ -1,6 +1,7 @@
-import type { ButtonColor, ButtonSize } from "../constants/variant";
+export type ButtonColor = "primary" | "tertiary";
+export type ButtonSize = "large" | "medium";
 
-export const BUTTON_BASE = "items-center justify-center typo-body-emphasized";
+export const BUTTON_BASE = "flex items-center justify-center typo-body-emphasized";
 
 export const BUTTON_SIZE: Record<NonNullable<ButtonSize>, string> = {
   large: "w-full px-6 py-5 rounded-[1.6rem]",

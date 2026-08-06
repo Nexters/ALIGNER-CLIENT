@@ -45,7 +45,7 @@ type DoubleCTAButtonProps = {
 
 function DoubleCTAButton({ leftButton, rightButton, className }: DoubleCTAButtonProps) {
   return (
-    <div className={cn("flex", className)}>
+    <div className={cn("flex gap-[1.6rem]", className)}>
       {leftButton}
       {rightButton}
     </div>

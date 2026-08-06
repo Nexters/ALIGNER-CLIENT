@@ -1,7 +1,13 @@
 import type { ButtonHTMLAttributes } from "react";
 import { cn } from "@/shared/lib/cn";
-import type { ButtonColor, ButtonSize } from "./constants/variant";
-import { BUTTON_BASE, BUTTON_COLOR, BUTTON_DISABLED, BUTTON_SIZE } from "./types/theme";
+import {
+  BUTTON_BASE,
+  BUTTON_COLOR,
+  BUTTON_DISABLED,
+  BUTTON_SIZE,
+  type ButtonColor,
+  type ButtonSize,
+} from "./theme";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
@@ -28,7 +34,7 @@ export default function Button({
         BUTTON_BASE,
         BUTTON_SIZE[size],
         BUTTON_COLOR[color],
-        isDisabled && BUTTON_DISABLED,
+        disabled && BUTTON_DISABLED,
         className,
       )}
       disabled={isDisabled}
