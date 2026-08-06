@@ -1,1 +1,2 @@
-export type ButtonColor = "primary";
+export type ButtonColor = "primary" | "tertiary";
+export type ButtonSize = "large" | "medium";
