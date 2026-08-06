@@ -18,7 +18,7 @@ function CTAButtonRoot({
   return (
     <div
       className={cn(
-        "px-[2rem] py-[1.6rem]",
+        "px-6 py-5",
         fixed ? "fixed-center bottom-0" : "mt-auto",
         background === "white" ? "bg-white" : undefined,
         background === "black" ? "bg-black" : undefined,
