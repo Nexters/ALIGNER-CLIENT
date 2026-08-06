@@ -16,7 +16,7 @@ The issue tracker and triage label vocabulary should have been provided to you â
 
 Check with the user that these seams match their expectations.
 
-3. Write the spec using the template in [`.github/ISSUE_TEMPLATE/spec.md`](../../../.github/ISSUE_TEMPLATE/spec.md), then publish it to the project issue tracker. Apply the `ready-for-agent` label (already set as the template's default), plus exactly one type label: `bug` if this is a fix, `enhancement` otherwise. `/start-work` reads this label to pick the `fix/issue-{n}` vs `feat/issue-{n}` branch prefix, so every issue needs one.
+3. Write the spec using the template in [`.github/ISSUE_TEMPLATE/spec.md`](../../../.github/ISSUE_TEMPLATE/spec.md), then publish it to the project issue tracker. Apply the `ready-for-agent` label (already set as the template's default), plus exactly one type label: `bug` if this is a fix, `enhancement` otherwise. `/start-work` reads this label to pick the `fix/issue-{n}` vs `feat/issue-{n}` branch prefix, so every issue needs one. Always include `--assignee @me` so the author is automatically assigned to the issue.
 
 Fill each section from what was actually discussed - don't pad a section just to fill it:
 
