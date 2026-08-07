@@ -1,0 +1,10 @@
+export { default as AlarmIcon } from "./mono/AlarmIcon";
+export { default as BackArrowIcon } from "./mono/BackArrowIcon";
+export { default as CloseIcon } from "./mono/CloseIcon";
+export { default as FireIcon } from "./mono/FireIcon";
+export { default as HumanIcon } from "./mono/HumanIcon";
+export { default as NextIcon } from "./mono/NextIcon";
+export { default as PreviousIcon } from "./mono/PreviousIcon";
+export { default as RightArrowIcon } from "./mono/RightArrowIcon";
+export { default as SoundIcon } from "./mono/SoundIcon";
+export { default as StarIcon } from "./multicolor/StarIcon";
