@@ -26,7 +26,6 @@ export default function Button({
   className,
   ...props
 }: ButtonProps) {
-  const isDisabled = disabled || isLoading;
   return (
     <button
       type={type}
@@ -37,7 +36,7 @@ export default function Button({
         disabled && BUTTON_DISABLED,
         className,
       )}
-      disabled={isDisabled}
+      disabled={disabled}
       aria-busy={isLoading || undefined}
       {...props}
     >

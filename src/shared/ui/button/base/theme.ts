@@ -13,5 +13,5 @@ export const BUTTON_DISABLED =
 
 export const BUTTON_COLOR: Record<NonNullable<ButtonColor>, string> = {
   primary: "bg-gray-10 text-white active:text-gray-40",
-  tertiary: "bg-tertiary-700 text-primary-200",
+  tertiary: "bg-tertiary-700 text-primary-200 active:text-primary-700",
 };
