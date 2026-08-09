@@ -14,6 +14,7 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   color?: ButtonColor;
   size?: ButtonSize;
   isLoading?: boolean;
+  isSelected?: boolean;
 };
 
 export default function Button({
@@ -22,6 +23,7 @@ export default function Button({
   size = "large",
   disabled = false,
   isLoading = false,
+  isSelected = false,
   type = "button",
   className,
   ...props
@@ -32,7 +34,8 @@ export default function Button({
       className={cn(
         BUTTON_BASE,
         BUTTON_SIZE[size],
-        BUTTON_COLOR[color],
+        BUTTON_COLOR[color].base,
+        isSelected && BUTTON_COLOR[color].selected,
         disabled && BUTTON_DISABLED,
         className,
       )}
