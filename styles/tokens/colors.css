@@ -81,4 +81,7 @@
   --color-border-strong: var(--color-gray-90);
   --color-media-placeholder: var(--color-gray-90);
   --color-overlay-dim: color-mix(in srgb, var(--color-black) 45%, transparent);
+
+  /*Color / Kakao*/
+  --color-kakao: #fee500;
 }
