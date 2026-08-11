@@ -21,26 +21,34 @@ export default function NumberField({
   return (
     <div
       className={cn(
-        "flex h-[6rem] w-full items-center justify-center rounded-[1.6rem] border bg-bg-surface px-8",
+        "group flex h-[8.2rem] w-full items-center justify-center rounded-[2rem] border bg-bg-surface px-8",
         error ? "border-error" : "border-border-base focus-within:border-accent-base",
         className,
       )}
     >
-      {/* value + suffix를 하나의 덩어리로 center 정렬하기 위해
-          ghost span으로 input 너비를 value에 맞게 자동 조정한다 */}
-      <span className="relative inline-flex items-center">
-        <span aria-hidden className="invisible whitespace-pre typo-title-2-emphasized">
-          {String(props.value || props.placeholder || "0")}
+      {/* 덩어리는 박스 세로 중앙에, 값과 suffix끼리는 밑선을 맞춘다 */}
+      <div className="flex items-end">
+        {/* value + suffix를 하나의 덩어리로 center 정렬하기 위해
+            ghost span으로 input 너비를 value에 맞게 자동 조정한다 */}
+        <span className="relative inline-flex">
+          <span aria-hidden className="invisible whitespace-pre typo-title-1-emphasized">
+            {String(props.value || props.placeholder || "0")}
+          </span>
+          <input
+            type="text"
+            inputMode="numeric"
+            onChange={handleChange}
+            className="absolute inset-0 w-full bg-transparent text-center outline-none typo-title-1-emphasized text-ink-strong placeholder:text-gray-95"
+            {...props}
+          />
         </span>
-        <input
-          type="text"
-          inputMode="numeric"
-          onChange={handleChange}
-          className="absolute inset-0 w-full bg-transparent text-center outline-none typo-title-2-emphasized text-ink-strong placeholder:text-ink-muted"
-          {...props}
-        />
-      </span>
-      {suffix && <span className="ml-4 typo-title-2-regular text-ink-strong">{suffix}</span>}
+        {suffix && (
+          // 값이 비어 있을 때는 suffix도 placeholder와 같은 톤으로 내린다
+          <span className="ml-3 typo-headline-regular text-ink-strong group-has-[input:placeholder-shown]:text-gray-95">
+            {suffix}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

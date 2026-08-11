@@ -19,13 +19,13 @@ export default function Indicator({ total, current, label, className, ...props }
       aria-valuenow={filled}
       aria-valuemin={0}
       aria-valuemax={total}
-      className={cn("flex w-full gap-5", className)}
+      className={cn("flex w-full gap-[1rem]", className)}
       {...props}
     >
       {Array.from({ length: total }, (_, index) => (
         <span
           key={index}
-          className={cn("h-1 flex-1", index < filled ? "bg-bg-inverse" : "bg-bg-muted")}
+          className={cn("h-1 flex-1", index < filled ? "bg-bg-inverse" : "bg-gray-96")}
         />
       ))}
     </div>
