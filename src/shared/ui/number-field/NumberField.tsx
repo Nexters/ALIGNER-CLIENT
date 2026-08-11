@@ -10,8 +10,14 @@ export default function NumberField({
   suffix,
   error = false,
   className,
+  onChange,
   ...props
 }: NumberFieldProps) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value = e.target.value.replace(/\D/g, "");
+    onChange?.(e);
+  };
+
   return (
     <div
       className={cn(
@@ -29,6 +35,7 @@ export default function NumberField({
         <input
           type="text"
           inputMode="numeric"
+          onChange={handleChange}
           className="absolute inset-0 w-full bg-transparent text-center outline-none typo-title-2-emphasized text-ink-strong placeholder:text-ink-muted"
           {...props}
         />
