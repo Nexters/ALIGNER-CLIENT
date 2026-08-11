@@ -83,7 +83,7 @@ function SelectRoot({
 
   return (
     <SelectContext.Provider value={{ value, setValue, open, setOpen }}>
-      <div ref={wrapperRef} className={cn("relative inline-block", className)}>
+      <div ref={wrapperRef} className={cn("relative inline-flex flex-col", className)}>
         {children}
       </div>
     </SelectContext.Provider>

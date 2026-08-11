@@ -21,11 +21,11 @@ export const SELECT_TRIGGER = {
 
 // Select.Content(펼쳐지는 옵션 리스트) 컨테이너 스타일
 export const SELECT_CONTENT_BASE =
-  "absolute top-0 inset-x-0 z-10 flex flex-col overflow-hidden rounded-[2rem] bg-tertiary-700 pt-[6rem]";
+  "relative -mt-[6rem] z-10 flex flex-col overflow-hidden rounded-[2rem] bg-tertiary-700 pt-[6rem]";
 
 // Select.Item 스타일
 export const SELECT_ITEM = {
-  base: "flex items-center justify-between pl-[1.6rem] pr-[2.6rem] py-[1.9rem] text-tertiary-100 active:text-primary-500 typo-body-regular",
+  base: "cursor-pointer flex items-center justify-between pl-[1.6rem] pr-[2.6rem] py-[1.9rem] text-tertiary-100 active:text-primary-500 typo-body-regular",
   dot: {
     shape: "w-[0.8rem] h-[0.8rem] rounded-full shrink-0",
     selectedBg: "bg-accent-base",
