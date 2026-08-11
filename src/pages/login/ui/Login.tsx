@@ -3,7 +3,7 @@ import { CTAButton } from "@/shared/ui/button";
 import { ROUTES } from "@/shared/config/routes";
 import { KakaoIcon, MannequinIcon } from "@/shared/ui/icons";
 
-export function LoginPage() {
+export function Login() {
   const navigate = useNavigate();
 
   return (
