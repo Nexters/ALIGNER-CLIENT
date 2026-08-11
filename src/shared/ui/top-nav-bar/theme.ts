@@ -16,5 +16,3 @@ export const BACK_BUTTON = "absolute inset-0 size-full rounded-full";
 export const RIGHT_ICON_SLOT = "size-[3.6rem] shrink-0";
 
 export const CENTER_SLOT = "flex min-w-0 flex-1 items-center justify-center";
-
-export const TITLE = "typo-headline-emphasized truncate text-gray-10";
