@@ -1,4 +1,6 @@
+import type { ComponentType, SVGProps } from "react";
 import { cn } from "@/shared/lib/cn";
+import { ROUTES } from "@/shared/config/routes";
 import {
   HomeFilledIcon,
   HomeOutlineIcon,
@@ -7,10 +9,17 @@ import {
 } from "@/shared/ui/icons";
 import TabItem from "./TabItem";
 
+type TabRoute = keyof Pick<typeof ROUTES, "home" | "my">;
+
 const TABS = [
   { id: "home", label: "홈", filledIcon: HomeFilledIcon, outlineIcon: HomeOutlineIcon },
-  { id: "user", label: "유저", filledIcon: UserFilledIcon, outlineIcon: UserOutlineIcon },
-] as const;
+  { id: "my", label: "유저", filledIcon: UserFilledIcon, outlineIcon: UserOutlineIcon },
+] as const satisfies {
+  id: TabRoute;
+  label: string;
+  filledIcon: ComponentType<SVGProps<SVGSVGElement>>;
+  outlineIcon: ComponentType<SVGProps<SVGSVGElement>>;
+}[];
 
 export type Tab = (typeof TABS)[number]["id"];
 
