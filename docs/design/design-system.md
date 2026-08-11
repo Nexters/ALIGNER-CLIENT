@@ -8,7 +8,7 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | -------------- | --------- | ---- |
 | Indicator ([482:7011](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=482-7011&m=dev)) | `shared/ui/indicator` | 세그먼트형 단계 진행 표시. `total`(필수)로 칸 수 가변, `current=0`은 미시작 |
 | status=Default/active ([452:5885](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=452-5885&m=dev)) | `shared/ui/option-item` | 원형 이미지 + 라벨 선택 아이템. Figma의 이름과 달리 `OptionItem`으로 명명 |
-| text field ([459:9086](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=459-9086&m=dev)) | `shared/ui/text-field` | Default/focussed/filled. 구현 예정 |
+| text field ([459:9086](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=459-9086&m=dev)) | `shared/ui/number-field` | Default/focussed/filled/error. `suffix`로 단위 표시. blur 에러는 외부 제어 |
 
 ## 토큰 대응표
 
