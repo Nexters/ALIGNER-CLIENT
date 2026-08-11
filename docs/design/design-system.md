@@ -1,6 +1,6 @@
 # Design System
 
-Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴포넌트 또는 `styles/` 토큰(컬러는 `tokens/colors.css`, 타이포그래피는 `tokens/typography.css`, spacing은 `tokens/spacing.css`, 전역 레이아웃/리셋은 `layout.css`)과 대응하는지 여기에 기록한다.
+Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴포넌트 또는 `styles/` 토큰(컬러는 `tokens/colors.css`, 타이포그래피는 `tokens/typography.css`, spacing은 `tokens/spacing.css`, shadow는 `tokens/shadow.css`, 전역 레이아웃/리셋은 `layout.css`)과 대응하는지 여기에 기록한다.
 
 ## 컴포넌트 대응표
 
@@ -164,3 +164,12 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | `Spacing-8` | `--spacing-8` | 32px |
 | `Spacing-9` | `--spacing-9` | 40px |
 | `Spacing-10` | `--spacing-10` | 48px |
+
+### Shadow
+
+Figma에 이름 붙은 스타일은 없고 레이어별 개별 drop shadow 값. 컴포넌트 간 중복되는 값만 토큰화.
+
+| CSS 변수 | 값 (X Y Blur Spread, Color) |
+| -------- | ---------------------------- |
+| `--shadow-back-button` | X0 Y8 Blur40 Spread0, `#000000` 12% |
+| `--shadow-tab-bar` | X0 Y0 Blur40 Spread0, `#000000` 10% |
