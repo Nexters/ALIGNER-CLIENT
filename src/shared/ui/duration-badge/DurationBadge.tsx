@@ -48,7 +48,7 @@ export default function DurationBadge({ minutes, className }: DurationBadgeProps
   return (
     <div
       className={cn(
-        "inline-flex h-[6.2rem] w-[6.2rem] items-center justify-center rounded-full bg-gray-10 p-[0.6rem]",
+        "inline-flex h-[7.4rem] w-[7.4rem] items-center justify-center rounded-full bg-gray-10 p-[0.6rem]",
         className,
       )}
     >
@@ -93,8 +93,10 @@ export default function DurationBadge({ minutes, className }: DurationBadgeProps
           )}
         </svg>
         <div className="absolute inset-0 flex items-center justify-center px-[1rem] py-[1.4rem] leading-none text-white">
-          <span className="typo-title-2-regular leading-none">{displayMinutes}</span>
-          <span className="typo-headline-regular leading-none">분</span>
+          <span className="flex items-baseline leading-none">
+            <span className="typo-title-2-5-regular leading-none">{displayMinutes}</span>
+            <span className="typo-headline-regular leading-none">분</span>
+          </span>
         </div>
       </div>
     </div>
