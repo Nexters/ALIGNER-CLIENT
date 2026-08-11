@@ -28,7 +28,7 @@ export default function TopNavBar({
   className,
 }: TopNavBarProps) {
   return (
-    <div className={cn(TOP_NAV_BAR_BASE, className)}>
+    <header className={cn(TOP_NAV_BAR_BASE, className)}>
       <BackButton onBack={onBack} />
       <div className={CENTER_SLOT}>{children ?? <span className={TITLE}>{title}</span>}</div>
       <div className={RIGHT_ICON_SLOT}>
@@ -41,6 +41,6 @@ export default function TopNavBar({
           />
         )}
       </div>
-    </div>
+    </header>
   );
 }

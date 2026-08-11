@@ -23,7 +23,7 @@ type BottomTabBarProps = {
 
 export default function BottomTabBar({ activeTab, onTabChange, className }: BottomTabBarProps) {
   return (
-    <div className={cn(BOTTOM_TAB_BAR_BASE, className)}>
+    <nav className={cn(BOTTOM_TAB_BAR_BASE, className)}>
       {TABS.map(({ id, label, filledIcon, outlineIcon }) => (
         <TabItem
           key={id}
@@ -33,6 +33,6 @@ export default function BottomTabBar({ activeTab, onTabChange, className }: Bott
           onClick={() => onTabChange(id)}
         />
       ))}
-    </div>
+    </nav>
   );
 }
