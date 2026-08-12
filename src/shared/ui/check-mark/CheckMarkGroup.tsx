@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "react";
+import type { DOMAttributes, HTMLAttributes } from "react";
 import { cn } from "@/shared/lib/cn";
 import { CheckIcon } from "@/shared/ui/icons";
 import { CheckMarkItemContext, useCheckMarkItemContext } from "./context";
@@ -28,7 +28,10 @@ function CheckMarkGroupItem({ isChecked, className, children, ...props }: CheckM
   );
 }
 
-type CheckMarkGroupIndicatorProps = HTMLAttributes<HTMLDivElement>;
+type CheckMarkGroupIndicatorProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  keyof DOMAttributes<HTMLDivElement>
+>;
 
 function CheckMarkGroupIndicator({ className, ...props }: CheckMarkGroupIndicatorProps) {
   const isChecked = useCheckMarkItemContext();
@@ -48,7 +51,10 @@ function CheckMarkGroupIndicator({ className, ...props }: CheckMarkGroupIndicato
   );
 }
 
-type CheckMarkGroupLabelProps = Omit<HTMLAttributes<HTMLSpanElement>, "children"> & {
+type CheckMarkGroupLabelProps = Omit<
+  HTMLAttributes<HTMLSpanElement>,
+  keyof DOMAttributes<HTMLSpanElement>
+> & {
   label: string;
 };
 

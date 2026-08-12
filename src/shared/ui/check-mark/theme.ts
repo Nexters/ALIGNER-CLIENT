@@ -3,8 +3,7 @@ export const CHECK_MARK_BASE = {
   ITEM_BASE: "flex flex-col items-center gap-[0.6rem]",
   INDICATOR_SHAPE: "flex w-[3.4rem] h-[3.4rem] items-center justify-center rounded-full",
   ICON: "w-[3.4rem] h-[3.4rem] text-primary-500",
-  //현재 폰트 정해지지 x
-  LABEL_BASE: "",
+  LABEL_BASE: "typo-caption-2-emphasized",
 };
 
 type CheckedState = "checked" | "unchecked";
@@ -16,5 +15,5 @@ export const CHECK_MARK_INDICATOR_BG: Record<CheckedState, string> = {
 
 export const CHECK_MARK_LABEL_TEXT: Record<CheckedState, string> = {
   checked: "text-gray-10",
-  unchecked: "text-gray-90",
+  unchecked: "text-gray-70",
 };
