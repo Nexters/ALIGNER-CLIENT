@@ -4,6 +4,7 @@ import { TabLayout } from "./layouts/TabLayout";
 
 import { HomePage } from "@/pages/home";
 import { Login } from "@/pages/login/ui/Login";
+import { MyPage } from "@/pages/my";
 
 type AppRoute = {
   path: RoutePath;
@@ -20,7 +21,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     layout: <TabLayout />,
     paths: [
       { path: ROUTES.home, element: <HomePage /> },
-      { path: ROUTES.my, element: <div /> },
+      { path: ROUTES.my, element: <MyPage /> },
     ],
   },
   bare: {
