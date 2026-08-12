@@ -25,10 +25,14 @@ export const SELECT_CONTENT_BASE =
 
 // Select.Item 스타일
 export const SELECT_ITEM = {
-  base: "cursor-pointer flex items-center justify-between pl-[1.6rem] pr-[2.6rem] py-[1.9rem] text-tertiary-100 active:text-primary-500 typo-body-regular",
+  base: "cursor-pointer flex items-center justify-between pl-[1.6rem] pr-[2.6rem] py-[1.9rem] typo-body-regular",
+  text: {
+    selectedColor: "text-accent-base",
+    unselectedColor: "text-tertiary-100 active:text-accent-base",
+  },
   dot: {
     shape: "w-[0.8rem] h-[0.8rem] rounded-full shrink-0",
     selectedBg: "bg-accent-base",
-    unselectedBg: "bg-tertiary-100",
+    unselectedBg: "bg-tertiary-100 active:bg-accent-base",
   } satisfies IndicatorTheme,
 };

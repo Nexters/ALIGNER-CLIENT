@@ -41,18 +41,22 @@ function SelectRoot({
 
   const setValue = useCallback(
     (next: string) => {
-      setUncontrolledValue(next);
+      if (controlledValue === undefined) {
+        setUncontrolledValue(next);
+      }
       onValueChange?.(next);
     },
-    [onValueChange],
+    [controlledValue, onValueChange],
   );
 
   const setOpen = useCallback(
     (next: boolean) => {
-      setUncontrolledOpen(next);
+      if (controlledOpen === undefined) {
+        setUncontrolledOpen(next);
+      }
       onOpenChange?.(next);
     },
-    [onOpenChange],
+    [controlledOpen, onOpenChange],
   );
 
   // 열려 있을 때만 감시: Trigger/Content를 감싸는 wrapper 바깥 클릭이나 Esc로 닫는다.
@@ -153,7 +157,11 @@ function SelectItem({ value, children, className, ...props }: SelectItemProps) {
         setValue(value);
         setOpen(false);
       }}
-      className={cn(SELECT_ITEM.base, className)}
+      className={cn(
+        SELECT_ITEM.base,
+        isSelected ? SELECT_ITEM.text.selectedColor : SELECT_ITEM.text.unselectedColor,
+        className,
+      )}
       {...props}
     >
       <span>{children}</span>
