@@ -46,7 +46,13 @@ export default function SequenceItem({
           {step}
         </span>
         {!isLast && (
-          <span aria-hidden="true" className="w-0 flex-1 border-l border-dashed border-gray-90" />
+          <span
+            aria-hidden="true"
+            className={cn(
+              "w-0 flex-1 border-l border-dashed",
+              active ? "border-gray-10" : "border-gray-70",
+            )}
+          />
         )}
       </div>
 
