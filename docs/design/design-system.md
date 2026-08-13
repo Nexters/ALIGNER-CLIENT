@@ -21,6 +21,8 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | `ProgressRingItem` 라벨-배지 간격 | 25%는 3px, 나머지는 4px | 전부 `gap-2`(4px) | Figma 변형 간 불일치로 판단 |
 | `ProgressRingItem` 이미지 영역 | 링 아래까지 덮는 99.7×97.5 | 링 안쪽으로 클립한 94×94 | 이미지가 링을 가리지 않게. 이미지 자체 여백은 주입하는 에셋이 소유한다 |
 | `SequenceItem` 카드 텍스트 세로 배치 | `items-end` (고정 24px 줄높이 전제) | `justify-between` | 줄높이가 토큰(1.4)이라 `items-end`면 제목이 썸네일 상단보다 내려온다. 제목=위, caption=아래라는 Figma의 두 기준선을 그대로 유지한다 |
+| `SequenceItem` 순번 배지 굵기 | SUIT Bold (700) | `typo-caption-1-emphasized` (600) | 12px 타이포 토큰에 700이 없다. 토큰 우선 |
+| `SequenceItem` 폭 | 루트 335px, 카드 309px 고정 | 루트 `w-full`, 카드 `flex-1` | 고정폭이면 컨테이너 폭이 달라질 때 깨진다. 레일 22 + gap 4 + 카드 309 = 335는 부모가 335일 때 그대로 재현된다 |
 
 ## 토큰 대응표
 

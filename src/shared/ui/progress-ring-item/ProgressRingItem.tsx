@@ -67,12 +67,10 @@ export default function ProgressRingItem({
   className,
   ...props
 }: ProgressRingItemProps) {
-  if (total < 1) {
-    throw new Error(`ProgressRingItem: total은 1 이상이어야 합니다 (받은 값: ${total})`);
-  }
-
-  const filled = Math.min(Math.max(current, 0), total);
-  const state: RingState = filled === 0 ? "idle" : filled === total ? "complete" : "progress";
+  // 0 이하가 들어오면 비율 계산이 NaN이 되어 아크가 깨지므로 최소 1로 잡는다.
+  const safeTotal = Math.max(total, 1);
+  const filled = Math.min(Math.max(current, 0), safeTotal);
+  const state: RingState = filled === 0 ? "idle" : filled === safeTotal ? "complete" : "progress";
 
   return (
     <div className={cn("flex w-[10.2rem] flex-col items-center gap-3", className)} {...props}>
@@ -117,7 +115,7 @@ export default function ProgressRingItem({
               />
             ) : (
               <path
-                d={describeArc((filled / total) * 360)}
+                d={describeArc((filled / safeTotal) * 360)}
                 strokeWidth={RING_STROKE}
                 className="stroke-primary-500"
               />
