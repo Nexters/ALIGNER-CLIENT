@@ -9,6 +9,18 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | Indicator ([482:7011](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=482-7011&m=dev)) | `shared/ui/indicator` | 세그먼트형 단계 진행 표시. `total`(필수)로 칸 수 가변, `current=0`은 미시작 |
 | status=Default/active ([452:5885](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=452-5885&m=dev)) | `shared/ui/option-item` | 원형 이미지 + 라벨 선택 아이템. Figma의 이름과 달리 `OptionItem`으로 명명 |
 | text field ([459:9086](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=459-9086&m=dev)) | `shared/ui/number-field` | Default/focussed/filled/error. `suffix`로 단위 표시. blur 에러는 외부 제어 |
+| Pose ([870:8935](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=870-8935&m=dev)) | `shared/ui/progress-ring-item` | Figma의 Default/25/50/75/100 5개 변형은 `current`/`total` 두 값으로 대체. Figma 이름과 달리 `ProgressRingItem`으로 명명 |
+| Exercise sequence ([883:3388](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=883-3388&m=dev)) | `shared/ui/sequence-item` | progress/Not in progress → `active`. Figma는 시퀀스 전체를 뜻하는 이름이지만 실제 단위는 한 줄이라 `SequenceItem`으로 명명 |
+
+### Figma와 어긋나는 지점
+
+| 위치 | Figma | 코드 | 이유 |
+| ---- | ----- | ---- | ---- |
+| `SequenceItem` 카드 텍스트 | `line-height: 24px` 고정 | `typo-body-emphasized` / `typo-subheadline-regular` (`1.4`) | 토큰 우선 (ADR-0002) |
+| `SequenceItem` 레일 연결선 | 137px 고정 높이 | 카드 높이에 맞춰 `flex`로 신축 | 카드 내용이 늘면 고정값이 깨진다 |
+| `ProgressRingItem` 라벨-배지 간격 | 25%는 3px, 나머지는 4px | 전부 `gap-2`(4px) | Figma 변형 간 불일치로 판단 |
+| `ProgressRingItem` 이미지 영역 | 링 아래까지 덮는 99.7×97.5 | 링 안쪽으로 클립한 94×94 | 이미지가 링을 가리지 않게. 이미지 자체 여백은 주입하는 에셋이 소유한다 |
+| `SequenceItem` 카드 텍스트 세로 배치 | `items-end` (고정 24px 줄높이 전제) | `justify-between` | 줄높이가 토큰(1.4)이라 `items-end`면 제목이 썸네일 상단보다 내려온다. 제목=위, caption=아래라는 Figma의 두 기준선을 그대로 유지한다 |
 
 ## 토큰 대응표
 
