@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { HomePage } from "@/pages/home";
+import { OnboardingPage } from "@/pages/onboarding";
 import { ROUTES, type RoutePath } from "@/shared/config/routes";
 
 type AppRoute = {
@@ -7,4 +8,7 @@ type AppRoute = {
   element: ReactNode;
 };
 
-export const APP_ROUTES: AppRoute[] = [{ path: ROUTES.home, element: <HomePage /> }];
+export const APP_ROUTES: AppRoute[] = [
+  { path: ROUTES.home, element: <HomePage /> },
+  { path: ROUTES.onboarding, element: <OnboardingPage /> },
+];
