@@ -39,7 +39,7 @@ export default function SequenceItem({
       <div className="flex w-[2.2rem] shrink-0 flex-col items-center">
         <span
           className={cn(
-            "typo-caption-1-emphasized flex size-[2.2rem] shrink-0 items-center justify-center rounded-[0.8rem] text-white",
+            "flex size-[2.2rem] shrink-0 items-center justify-center rounded-[0.8rem] text-[1.2rem] leading-[1.4] font-bold tracking-[-0.0024rem] text-white",
             active ? "bg-gray-10" : "bg-gray-70",
           )}
         >
@@ -58,7 +58,7 @@ export default function SequenceItem({
 
       <div
         className={cn(
-          "flex flex-1 gap-4 rounded-[2.8rem] bg-bg-surface px-[1.3rem] py-4",
+          "flex min-w-0 flex-1 items-end gap-4 rounded-[2.8rem] bg-bg-surface px-[1.3rem] py-4",
           !isLast && "mb-5",
         )}
       >
@@ -70,14 +70,18 @@ export default function SequenceItem({
           )}
         </div>
 
-        {/* 제목은 위, caption은 아래에 붙는다 — 그 사이를 남은 높이가 흡수한다 */}
-        <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">
+        <div className="flex min-w-0 flex-1 flex-col items-start gap-3">
           <div className="flex flex-col gap-3">
-            <p className="typo-body-emphasized text-black">{title}</p>
+            <p className="text-[1.6rem] leading-[2.4rem] font-bold tracking-[-0.0032rem] text-black">
+              {title}
+            </p>
             {descriptions && descriptions.length > 0 && (
               <div className="flex flex-col text-gray-10">
                 {descriptions.map((description, index) => (
-                  <p key={index} className="typo-subheadline-regular">
+                  <p
+                    key={index}
+                    className="text-[1.4rem] leading-[2.4rem] font-medium tracking-[-0.0028rem]"
+                  >
                     {description}
                   </p>
                 ))}
@@ -87,7 +91,11 @@ export default function SequenceItem({
           {(captionIcon || caption) && (
             <div className="flex items-center gap-2 text-gray-50">
               {captionIcon && <span className="flex shrink-0 items-center">{captionIcon}</span>}
-              {caption && <span className="typo-subheadline-regular">{caption}</span>}
+              {caption && (
+                <span className="text-[1.4rem] leading-[2.4rem] font-medium tracking-[-0.0028rem]">
+                  {caption}
+                </span>
+              )}
             </div>
           )}
         </div>

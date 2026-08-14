@@ -14,15 +14,14 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 
 ### Figma와 어긋나는 지점
 
+**원칙: 크리티컬한 경우에만 어긋난다.** 레이아웃이 깨지거나 컴포넌트의 목적이 무너지는 게 아니면 Figma 값을 그대로 쓴다.
+
 | 위치 | Figma | 코드 | 이유 |
 | ---- | ----- | ---- | ---- |
-| `SequenceItem` 카드 텍스트 | `line-height: 24px` 고정 | `typo-body-emphasized` / `typo-subheadline-regular` (`1.4`) | 토큰 우선 (ADR-0002) |
-| `SequenceItem` 레일 연결선 | 137px 고정 높이 | 카드 높이에 맞춰 `flex`로 신축 | 카드 내용이 늘면 고정값이 깨진다 |
-| `ProgressRingItem` 라벨-배지 간격 | 25%는 3px, 나머지는 4px | 전부 `gap-2`(4px) | Figma 변형 간 불일치로 판단 |
-| `ProgressRingItem` 이미지 영역 | 링 아래까지 덮는 99.7×97.5 | 링 안쪽으로 클립한 94×94 | 이미지가 링을 가리지 않게. 이미지 자체 여백은 주입하는 에셋이 소유한다 |
-| `SequenceItem` 카드 텍스트 세로 배치 | `items-end` (고정 24px 줄높이 전제) | `justify-between` | 줄높이가 토큰(1.4)이라 `items-end`면 제목이 썸네일 상단보다 내려온다. 제목=위, caption=아래라는 Figma의 두 기준선을 그대로 유지한다 |
-| `SequenceItem` 순번 배지 굵기 | SUIT Bold (700) | `typo-caption-1-emphasized` (600) | 12px 타이포 토큰에 700이 없다. 토큰 우선 |
-| `SequenceItem` 폭 | 루트 335px, 카드 309px 고정 | 루트 `w-full`, 카드 `flex-1` | 고정폭이면 컨테이너 폭이 달라질 때 깨진다. 레일 22 + gap 4 + 카드 309 = 335는 부모가 335일 때 그대로 재현된다 |
+| `SequenceItem` 레일 연결선 | 137px 고정 높이 | 카드 높이에 맞춰 `flex`로 신축 | 고정값이면 카드 내용이 늘 때 선이 끊긴다 |
+| `ProgressRingItem` 이미지 영역 | 링까지 덮는 99.7×97.5 | 링 안쪽 94×94로 클립 | 이미지가 링을 덮으면 "진행 링"의 목적이 사라진다 |
+| `SequenceItem` 폭 | 루트 335px, 카드 309px 고정 | 루트 `w-full`, 카드 `flex-1` | 고정폭이면 다른 컨테이너에서 재사용 불가. `Indicator`/`OptionItem`과 같은 컨벤션 |
+| `ProgressRingItem` 라벨-배지 간격 | 25%만 3px, 나머지 4px | 전부 `gap-2`(4px) | Figma 자체가 변형 간 불일치. 4/5 변형과 맞춤 |
 
 ## 토큰 대응표
 
