@@ -9,6 +9,8 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | Indicator ([482:7011](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=482-7011&m=dev)) | `shared/ui/indicator` | 세그먼트형 단계 진행 표시. `total`(필수)로 칸 수 가변, `current=0`은 미시작 |
 | status=Default/active ([452:5885](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=452-5885&m=dev)) | `shared/ui/option-item` | 원형 이미지 + 라벨 선택 아이템. Figma의 이름과 달리 `OptionItem`으로 명명 |
 | text field ([459:9086](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=459-9086&m=dev)) | `shared/ui/number-field` | Default/focussed/filled/error. `suffix`로 단위 표시. blur 에러는 외부 제어 |
+| Frame 2087328208 (아이콘+텍스트 카드) ([916:8438](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=916-8438&m=dev)) | `shared/ui/info-chip` | 아이콘+라벨 표기 카드. Figma는 이름(human/alarm/fire)으로 아이콘을 내부 스위칭하지만, 코드는 `icon`을 `ReactNode`로 주입받아 하드코딩된 분기가 없다. Figma에 별도 컴포넌트명이 없어 자동 생성된 레이어명(`Frame 2087328208`)을 그대로 표기 |
+| Frame 2087328227 (운동 요약 카드) ([916:8435](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=916-8435&m=dev)) | `shared/ui/summary-card` | 그라데이션 배경 위 `DurationBadge`(좌상단) + `InfoChip` 목록(하단)을 조립. `minutes`/`chips`만 받는 제네릭 컴포넌트. Figma상 숨겨진 CTA 버튼(`button_CTA_round`)은 구현 범위에서 제외 |
 
 ## 토큰 대응표
 
