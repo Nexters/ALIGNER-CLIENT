@@ -1,0 +1,5 @@
+@theme {
+  /* Shadow. Figma에 이름 붙은 스타일은 아니고 레이어별 개별 effect 값 — docs/design/design-system.md 토큰 대응표 참고 */
+  --shadow-back-button: 0px 0.8rem 4rem 0px color-mix(in srgb, var(--color-black) 12%, transparent);
+  --shadow-tab-bar: 0px 0px 4rem 0px color-mix(in srgb, var(--color-black) 10%, transparent);
+}
