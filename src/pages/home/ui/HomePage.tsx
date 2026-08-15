@@ -1,7 +1,4 @@
-import { useLocation, useNavigate } from "react-router";
 import type { CourseProgress, PoseTip, TodayWorkoutSummary } from "@/entities/course";
-import { ROUTES } from "@/shared/config/routes";
-import { BottomTabBar, type Tab } from "@/shared/ui/bottom-tab-bar";
 import todayCourseImage from "../assets/today-course.png";
 import CourseProgressCard from "./CourseProgressCard";
 import PoseChallengeRow from "./PoseChallengeRow";
@@ -20,10 +17,6 @@ const MOCK_PROGRESS: CourseProgress = { current: 1, total: 6 };
 const MOCK_TIP: PoseTip = { message: "낙타 자세는 등과 골반\n근육에 집중해 보세요" };
 
 export function HomePage() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const activeTab: Tab = location.pathname === ROUTES.my ? "my" : "home";
-
   return (
     <main className="relative flex min-h-screen flex-col items-center gap-[2rem] pt-[5.4rem] pb-[8rem]">
       {/* TODO: 로고 에셋 적용 */}
@@ -43,12 +36,6 @@ export function HomePage() {
 
       {/* TODO: 자세 도전 현황 화면 구현 후 실제 라우팅 연결 */}
       <PoseChallengeRow />
-
-      <BottomTabBar
-        activeTab={activeTab}
-        onTabChange={(tab) => navigate(tab === "home" ? ROUTES.home : ROUTES.my)}
-        className="fixed inset-x-0 bottom-[1.6rem] mx-auto w-fit"
-      />
     </main>
   );
 }
