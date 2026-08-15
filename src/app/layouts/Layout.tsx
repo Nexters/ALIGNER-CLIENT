@@ -6,7 +6,7 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <div className="mx-auto w-full bg-gray-99 min-h-screen max-w-(--container-max-width) px-[2rem]">
+    <div className="mx-auto w-full bg-gray-99 min-h-screen max-w-(--container-max-width)">
       {children}
     </div>
   );

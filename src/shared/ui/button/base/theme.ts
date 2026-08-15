@@ -1,4 +1,4 @@
-export type ButtonColor = "primary" | "tertiary" | "secondary" | "white";
+export type ButtonColor = "primary" | "tertiary" | "secondary" | "white" | "black";
 export type ButtonSize = "large" | "medium" | "small";
 
 export const BUTTON_BASE = "flex items-center justify-center";
@@ -16,6 +16,7 @@ export const BUTTON_DISABLED =
 type ButtonColorTheme = {
   base: string;
   selected?: string;
+  disabled?: string;
 };
 
 export const BUTTON_COLOR: Record<NonNullable<ButtonColor>, ButtonColorTheme> = {
@@ -29,5 +30,10 @@ export const BUTTON_COLOR: Record<NonNullable<ButtonColor>, ButtonColorTheme> = 
   white: {
     base: "bg-white text-gray-50",
     selected: "bg-gray-10 text-white",
+  },
+  black: {
+    base: "bg-gray-20 text-gray-98 active:bg-accent-base active:text-ink-base",
+    disabled:
+      "disabled:cursor-not-allowed disabled:bg-gray-5 disabled:text-gray-50 disabled:outline-none",
   },
 };
