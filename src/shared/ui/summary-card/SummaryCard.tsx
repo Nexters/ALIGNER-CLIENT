@@ -29,6 +29,7 @@ export default function SummaryCard({
       className={cn("relative h-[33rem] w-[33.5rem] overflow-hidden rounded-[4rem]", className)}
       {...props}
     >
+      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_35%,black_75%)] backdrop-blur-[1.5rem]" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary-500/40 to-[84.479%]" />
       <div className="relative flex h-full flex-col justify-between p-[1rem]">
         <DurationBadge minutes={minutes} />
