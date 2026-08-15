@@ -36,7 +36,8 @@ const MOCK_TIP: PoseTip = { message: POSE_TIP_MESSAGES.휠 };
 
 export function HomePage() {
   const navigate = useNavigate();
-  // 완료 여부는 별도 flag가 아니라 코스 진행도에서 파생시킨다 (current===total이면 오늘 것까지 다 끝난 상태).
+  // 완료 여부는 별도 flag가 아니라 코스 진행도에서 파생시킨다. progress는 서버가 매일 자정에
+  // 초기화해서 내려주므로 current===total이면 곧 "당일" 완료로 취급해도 된다.
   const isCourseCompleted = MOCK_COURSE_PROGRESS.current >= MOCK_COURSE_PROGRESS.total;
 
   return (
