@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router";
 import type { CourseProgress, PoseTip, TodayWorkoutSummary } from "@/entities/course";
+import { ROUTES } from "@/shared/config/routes";
 import todayCourseImage from "../assets/today-course.png";
 import CourseProgressCard from "./CourseProgressCard";
 import PoseChallengeRow from "./PoseChallengeRow";
@@ -12,6 +14,7 @@ const MOCK_WORKOUT: TodayWorkoutSummary = {
   setCount: 6,
   kcal: 69,
   imageSrc: todayCourseImage,
+  isCompleted: false,
 };
 const MOCK_PROGRESS: CourseProgress = { current: 1, total: 6 };
 
@@ -22,6 +25,8 @@ const buildPoseTipMessage = (poseName: string) => `${poseName} ${POSE_TIP_MESSAG
 const MOCK_TIP: PoseTip = { message: buildPoseTipMessage("낙타") };
 
 export function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <main className="relative flex min-h-screen flex-col items-center pt-[5.4rem] pb-[8rem]">
       {/* TODO: 로고 에셋 적용 */}
@@ -29,9 +34,7 @@ export function HomePage() {
 
       <TodayCourseCard
         workout={MOCK_WORKOUT}
-        ctaLabel="오늘 운동 시작하기"
-        // TODO: 코스 처방 플로우(#40) 구현 후 실제 라우팅 연결
-        onStart={undefined}
+        onStart={() => navigate(ROUTES.dailyRoutine)}
         className="mt-[2rem]"
       />
 

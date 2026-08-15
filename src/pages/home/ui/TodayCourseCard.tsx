@@ -3,24 +3,25 @@ import type { TodayWorkoutSummary } from "@/entities/course";
 import { AlarmIcon, FireIcon, HumanIcon, RightArrowIcon } from "@/shared/ui/icons";
 import { SummaryCard, type SummaryCardChip } from "@/shared/ui/summary-card";
 
+// 완료 여부에 따라 CTA 문구만 바뀌고 이동할 곳(데일리 루틴)은 동일하다.
+const CTA_LABEL = {
+  incomplete: "오늘 운동 시작하기",
+  completed: "내일 운동 미리보기",
+} as const;
+
 export interface TodayCourseCardProps {
   workout: TodayWorkoutSummary;
-  ctaLabel: string;
   onStart?: () => void;
   className?: string;
 }
 
-export default function TodayCourseCard({
-  workout,
-  ctaLabel,
-  onStart,
-  className,
-}: TodayCourseCardProps) {
+export default function TodayCourseCard({ workout, onStart, className }: TodayCourseCardProps) {
   const chips: SummaryCardChip[] = [
     { icon: <HumanIcon />, label: `${workout.exerciseCount}개 운동` },
     { icon: <AlarmIcon />, label: `${workout.setCount}개 세트` },
     { icon: <FireIcon />, label: `${workout.kcal}kcal` },
   ];
+  const ctaLabel = workout.isCompleted ? CTA_LABEL.completed : CTA_LABEL.incomplete;
 
   return (
     <div

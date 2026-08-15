@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { ROUTES, type RoutePath } from "@/shared/config/routes";
 import { TabLayout } from "./layouts/TabLayout";
 
+import { DailyRoutinePage } from "@/pages/daily-routine";
 import { HomePage } from "@/pages/home";
 import { Login } from "@/pages/login/ui/Login";
 import { MyPage } from "@/pages/my";
@@ -26,6 +27,9 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
   },
   bare: {
     layout: undefined,
-    paths: [{ path: ROUTES.login, element: <Login /> },],
+    paths: [
+      { path: ROUTES.login, element: <Login /> },
+      { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
+    ],
   },
 };
