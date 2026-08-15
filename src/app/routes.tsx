@@ -6,6 +6,7 @@ import { TabLayout } from "./layouts/TabLayout";
 
 import { Login } from "@/pages/login/ui/Login";
 import { MyPage } from "@/pages/my";
+import { SessionReportPage } from "@/pages/session-report";
 
 type AppRoute = {
   path: RoutePath;
@@ -30,6 +31,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     paths: [
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
+      { path: ROUTES.sessionReport, element: <SessionReportPage /> },
     ],
   },
 };
