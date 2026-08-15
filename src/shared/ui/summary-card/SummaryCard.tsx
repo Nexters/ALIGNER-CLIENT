@@ -29,8 +29,6 @@ export default function SummaryCard({
       className={cn("relative h-[33rem] w-[33.5rem] overflow-hidden rounded-[4rem]", className)}
       {...props}
     >
-      {/* 카드 뒤(같은 부모 안의 배경 이미지 등)를 하단으로 갈수록 강하게 블러 처리한다 */}
-      <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent_0%,transparent_35%,black_75%)] backdrop-blur-[1.5rem]" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary-500/40 to-[84.479%]" />
       <div className="relative flex h-full flex-col justify-between p-[1rem]">
         <DurationBadge minutes={minutes} />
