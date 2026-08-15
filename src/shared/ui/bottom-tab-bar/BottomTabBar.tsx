@@ -1,35 +1,27 @@
 import type { ComponentType, SVGProps } from "react";
 import { cn } from "@/shared/lib/cn";
-import { ROUTES } from "@/shared/config/routes";
-import {
-  HomeFilledIcon,
-  HomeOutlineIcon,
-  UserFilledIcon,
-  UserOutlineIcon,
-} from "@/shared/ui/icons";
 import TabItem from "./TabItem";
 
-type TabRoute = keyof Pick<typeof ROUTES, "home" | "my">;
-
-const TABS = [
-  { id: "home", label: "홈", filledIcon: HomeFilledIcon, outlineIcon: HomeOutlineIcon },
-  { id: "my", label: "유저", filledIcon: UserFilledIcon, outlineIcon: UserOutlineIcon },
-] as const satisfies {
-  id: TabRoute;
+export type BottomTabBarTab<T extends string = string> = {
+  id: T;
   label: string;
   filledIcon: ComponentType<SVGProps<SVGSVGElement>>;
   outlineIcon: ComponentType<SVGProps<SVGSVGElement>>;
-}[];
+};
 
-export type Tab = (typeof TABS)[number]["id"];
-
-type BottomTabBarProps = {
-  activeTab: Tab;
-  onTabChange: (tab: Tab) => void;
+type BottomTabBarProps<T extends string> = {
+  tabs: BottomTabBarTab<T>[];
+  activeTab: T;
+  onTabChange: (tab: T) => void;
   className?: string;
 };
 
-export default function BottomTabBar({ activeTab, onTabChange, className }: BottomTabBarProps) {
+export default function BottomTabBar<T extends string>({
+  tabs,
+  activeTab,
+  onTabChange,
+  className,
+}: BottomTabBarProps<T>) {
   return (
     <nav
       className={cn(
@@ -37,7 +29,7 @@ export default function BottomTabBar({ activeTab, onTabChange, className }: Bott
         className,
       )}
     >
-      {TABS.map(({ id, label, filledIcon, outlineIcon }) => (
+      {tabs.map(({ id, label, filledIcon, outlineIcon }) => (
         <TabItem
           key={id}
           icon={activeTab === id ? filledIcon : outlineIcon}
