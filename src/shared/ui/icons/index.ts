@@ -1,5 +1,6 @@
 export { default as AlarmIcon } from "./mono/AlarmIcon";
 export { default as BackArrowIcon } from "./mono/BackArrowIcon";
+export { default as CheckBoldIcon } from "./mono/CheckBoldIcon";
 export { default as CheckIcon } from "./mono/CheckIcon";
 export { default as CloseIcon } from "./mono/CloseIcon";
 export { default as FireIcon } from "./mono/FireIcon";
