@@ -37,7 +37,7 @@ export default function TodayCourseCard({
       <SummaryCard
         minutes={workout.minutes}
         chips={chips}
-        className="absolute inset-0"
+        className="absolute inset-0 size-full"
         footer={
           <button
             type="button"

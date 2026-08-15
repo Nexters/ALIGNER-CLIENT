@@ -1,5 +1,5 @@
 import { cn } from "@/shared/lib/cn";
-import { ChevronRightIcon, RunningIcon } from "@/shared/ui/icons";
+import { BackArrowIcon, HumanIcon } from "@/shared/ui/icons";
 
 export interface PoseChallengeRowProps {
   onClick?: () => void;
@@ -17,10 +17,10 @@ export default function PoseChallengeRow({ onClick, className }: PoseChallengeRo
       )}
     >
       <span className="flex items-center gap-[0.8rem]">
-        <RunningIcon className="size-[2.4rem] text-secondary-500" />
+        <HumanIcon className="size-[2.4rem] text-secondary-500" />
         <span className="typo-body-emphasized text-gray-10">자세 도전 현황 보기</span>
       </span>
-      <ChevronRightIcon className="size-[2.4rem] text-gray-60" />
+      <BackArrowIcon className="size-[2.4rem] -scale-x-100 text-gray-60" />
     </button>
   );
 }
