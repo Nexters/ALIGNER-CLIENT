@@ -11,6 +11,8 @@ Figma ↔ 코드 대응표. Figma 컴포넌트/토큰이 어떤 `shared/ui` 컴�
 | text field ([459:9086](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=459-9086&m=dev)) | `shared/ui/number-field` | Default/focussed/filled/error. `suffix`로 단위 표시. blur 에러는 외부 제어 |
 | Pose ([870:8935](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=870-8935&m=dev)) | `shared/ui/progress-ring-item` | Figma의 Default/25/50/75/100 5개 변형은 `current`/`total` 두 값으로 대체. Figma 이름과 달리 `ProgressRingItem`으로 명명 |
 | Exercise sequence ([883:3388](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=883-3388&m=dev)) | `shared/ui/sequence-item` | progress/Not in progress → `active`. Figma는 시퀀스 전체를 뜻하는 이름이지만 실제 단위는 한 줄이라 `SequenceItem`으로 명명 |
+| Frame 2087328208 (아이콘+텍스트 카드) ([916:8438](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=916-8438&m=dev)) | `shared/ui/info-chip` | 아이콘+라벨 표기 카드. Figma는 이름(human/alarm/fire)으로 아이콘을 내부 스위칭하지만, 코드는 `icon`을 `ReactNode`로 주입받아 하드코딩된 분기가 없다. Figma에 별도 컴포넌트명이 없어 자동 생성된 레이어명(`Frame 2087328208`)을 그대로 표기 |
+| Frame 2087328227 (운동 요약 카드) ([916:8435](https://www.figma.com/design/T2upW8lruemIBSEwLZ6Lpc/web_%ED%94%84%EB%A0%99_%EB%94%94%EC%9E%90%EC%9D%B8-%EC%9E%91%EC%97%85%EB%B0%A9?node-id=916-8435&m=dev)) | `shared/ui/summary-card` | 그라데이션 배경 위 `DurationBadge`(좌상단) + `InfoChip` 목록(하단)을 조립. `minutes`/`chips`만 받는 제네릭 컴포넌트. Figma상 숨겨진 CTA 버튼(`button_CTA_round`)은 구현 범위에서 제외 |
 
 ### Figma와 어긋나는 지점
 
