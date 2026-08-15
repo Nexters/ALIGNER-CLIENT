@@ -12,7 +12,7 @@ export default function InfoChip({ icon, label, className, ...props }: InfoChipP
   return (
     <div
       className={cn(
-        "flex h-[5.4rem] w-[9.3rem] items-center justify-center rounded-[1.6rem] bg-primary-50/40",
+        "flex h-[5.4rem] w-[9.3rem] items-center justify-center overflow-hidden rounded-[1.6rem] bg-primary-50/40",
         className,
       )}
       {...props}
