@@ -32,7 +32,7 @@ export function CompleteReport() {
   ];
 
   return (
-    <main className="flex min-h-screen flex-col gap-6 pt-8 pb-10">
+    <main className="flex min-h-screen flex-col gap-6 pt-8 pb-10 bg-bg-base h-full px-6">
       <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] bg-white p-7 h-[240px]">
         <div
           className="flex size-[56px] items-center justify-center rounded-full bg-accent-base"
