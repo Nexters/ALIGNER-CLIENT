@@ -18,11 +18,23 @@ const MOCK_WORKOUT: TodayWorkoutSummary = {
 };
 const MOCK_PROGRESS: CourseProgress = { current: 1, total: 6 };
 
-// 자세명만 바뀌고 나머지 문구는 고정인 템플릿. 줄바꿈은 PoseTipCard의 break-keep이 너비에 맞춰 처리한다.
-const POSE_TIP_MESSAGE_SUFFIX = "자세는 등과 골반 근육에 집중해 보세요";
-const buildPoseTipMessage = (poseName: string) => `${poseName} ${POSE_TIP_MESSAGE_SUFFIX}`;
+// Figma 엣지 케이스(node 914:4287) 기준 자세명별 실제 줄바꿈 지점을 그대로 하드코딩한다.
+// 자세명 글자수에 따라 줄바꿈 위치가 달라지고(예: 파이어로그만 다른 지점에서 끊김),
+// 사이드플랭크/말라사나처럼 한 줄에 들어가는 경우는 Figma에도 수동 줄바꿈이 없다.
+// TODO: API 연동 후 실제 응답 필드명(예: poseName)에 맞춰 이 표를 유틸 함수로 바꾸고,
+// 여기 하드코딩된 케이스들은 그 유틸의 스냅샷/단위 테스트 fixture로 옮긴다.
+const POSE_TIP_MESSAGES = {
+  휠: "휠 자세는 등과 골반 \n근육에 집중해 보세요",
+  사이드플랭크: "사이드플랭크 자세는 등과 골반 근육에 집중해 보세요",
+  말라사나: "말라사나 자세는 등과 골반 근육에 집중해 보세요",
+  활: "활 자세는 등과 골반 \n근육에 집중해 보세요",
+  반보트: "반보트 자세는 등과 골반 \n근육에 집중해 보세요",
+  파이어로그: "파이어로그 자세는 등과 \n골반 근육에 집중해 보세요",
+  보트: "보트 자세는 등과 골반 \n근육에 집중해 보세요",
+  브릿지: "브릿지 자세는 등과 골반 \n근육에 집중해 보세요",
+} as const satisfies Record<string, string>;
 
-const MOCK_TIP: PoseTip = { message: buildPoseTipMessage("낙타") };
+const MOCK_TIP: PoseTip = { message: POSE_TIP_MESSAGES.휠 };
 
 export function HomePage() {
   const navigate = useNavigate();
