@@ -25,7 +25,7 @@ export default function TodayCourseCard({
   return (
     <div
       className={cn(
-        "relative h-[33rem] w-[33.5rem] overflow-hidden rounded-[4rem] bg-gray-97",
+        "relative h-[33rem] w-full overflow-hidden rounded-[4rem] bg-gray-97",
         className,
       )}
     >
