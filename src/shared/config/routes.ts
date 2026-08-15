@@ -3,7 +3,7 @@ export const ROUTES = {
   onboarding: "/onboarding",
   login: "/login",
   my: "my",
-  sessionReport: "session-report/:sessionId",
+  complete: "complete/:sessionId",
 } as const;
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];

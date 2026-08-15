@@ -1,15 +1,10 @@
 import { useNavigate } from "react-router";
 import { cn } from "@/shared/lib/cn";
+import { toWeekdayLabel } from "@/shared/lib/date";
 import { CTAButton } from "@/shared/ui/button";
 import { CheckMarkGroup } from "@/shared/ui/check-mark";
 import { CheckBoldIcon } from "@/shared/ui/icons";
 import { ROUTES } from "@/shared/config/routes";
-
-const WEEKDAY_LABELS = ["일", "월", "화", "수", "목", "금", "토"];
-
-function toWeekdayLabel(date: string): string {
-  return WEEKDAY_LABELS[new Date(`${date}T00:00:00+09:00`).getDay()];
-}
 
 function formatDuration(durationSeconds: number): string {
   const minutes = Math.floor(durationSeconds / 60);
@@ -17,7 +12,7 @@ function formatDuration(durationSeconds: number): string {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-export function SessionReportPage() {
+export function CompleteReport() {
   const navigate = useNavigate();
 
   const days = [
