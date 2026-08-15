@@ -1,6 +1,7 @@
 export { default as AlarmIcon } from "./mono/AlarmIcon";
 export { default as BackArrowIcon } from "./mono/BackArrowIcon";
 export { default as CheckIcon } from "./mono/CheckIcon";
+export { default as ChevronRightIcon } from "./mono/ChevronRightIcon";
 export { default as CloseIcon } from "./mono/CloseIcon";
 export { default as FireIcon } from "./mono/FireIcon";
 export { default as HomeFilledIcon } from "./mono/HomeFilledIcon";
@@ -11,6 +12,7 @@ export { default as MannequinIcon } from "./mono/MannequinIcon";
 export { default as NextIcon } from "./mono/NextIcon";
 export { default as PreviousIcon } from "./mono/PreviousIcon";
 export { default as RightArrowIcon } from "./mono/RightArrowIcon";
+export { default as RunningIcon } from "./mono/RunningIcon";
 export { default as SoundIcon } from "./mono/SoundIcon";
 export { default as StarIcon } from "./multicolor/StarIcon";
 export { default as UserFilledIcon } from "./mono/UserFilledIcon";
