@@ -31,8 +31,8 @@ export function HomePage() {
       />
 
       <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">
-        <CourseProgressCard progress={MOCK_PROGRESS} className="w-[13rem]" />
-        <PoseTipCard tip={MOCK_TIP} className="w-[16.3rem]" />
+        <CourseProgressCard progress={MOCK_PROGRESS} className="min-w-[13rem] flex-1" />
+        <PoseTipCard tip={MOCK_TIP} className="min-w-[16.3rem] flex-1" />
       </div>
 
       {/* TODO: 자세 도전 현황 화면 구현 후 실제 라우팅 연결 */}

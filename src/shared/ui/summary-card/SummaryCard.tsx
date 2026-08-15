@@ -37,7 +37,12 @@ export default function SummaryCard({
         <div className="flex flex-col gap-[2rem] px-[1rem] pb-[1rem]">
           <div className="flex gap-[0.8rem]">
             {chips.map((chip, index) => (
-              <InfoChip key={index} icon={chip.icon} label={chip.label} />
+              <InfoChip
+                key={index}
+                icon={chip.icon}
+                label={chip.label}
+                className="w-auto min-w-[9.3rem] flex-1"
+              />
             ))}
           </div>
           {footer}
