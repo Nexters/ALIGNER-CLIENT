@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import type { PoseChallenge } from "@/entities/pose";
 import { Button } from "@/shared/ui/button";
 import { ProgressRingItem } from "@/shared/ui/progress-ring-item";
-import yogaImage from "../assets/yoga-1.png";
+import yogaImage from "@/shared/assets/images/yoga-1.png";
 
 // TODO: 실제 API 연동 전까지의 목데이터. entities/pose 타입에 맞춰 추후 fetch 훅으로 교체한다.
 const MOCK_POSES: PoseChallenge[] = [

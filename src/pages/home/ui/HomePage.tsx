@@ -6,7 +6,7 @@ import {
   type TodayWorkoutSummary,
 } from "@/entities/course";
 import { ROUTES } from "@/shared/config/routes";
-import yogaImage from "../assets/yoga-1.png";
+import yogaImage from "@/shared/assets/images/yoga-1.png";
 import CourseProgressCard from "./CourseProgressCard";
 import PoseChallengeRow from "./PoseChallengeRow";
 import PoseTipCard from "./PoseTipCard";

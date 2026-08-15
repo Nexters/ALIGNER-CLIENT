@@ -9,7 +9,7 @@ import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { AlarmIcon, FireIcon, HumanIcon } from "@/shared/ui/icons";
 import { SequenceItem } from "@/shared/ui/sequence-item";
 import { SummaryCard, type SummaryCardChip } from "@/shared/ui/summary-card";
-import yogaImage from "../assets/yoga-1.png";
+import yogaImage from "@/shared/assets/images/yoga-1.png";
 
 // TODO: 실제 API 연동 전까지의 목데이터. entities/course 타입에 맞춰 추후 fetch 훅으로 교체한다.
 const MOCK_POSE_TITLE = "낙타자세 정복하기";
