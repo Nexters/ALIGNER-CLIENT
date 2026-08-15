@@ -16,7 +16,7 @@ export default function PoseTipCard({ tip, className }: PoseTipCardProps) {
       )}
     >
       <StarIcon className="size-[2.4rem]" />
-      <p className="typo-footnote-emphasized whitespace-pre-line text-primary-900">{tip.message}</p>
+      <p className="typo-footnote-emphasized break-keep text-primary-900">{tip.message}</p>
     </div>
   );
 }

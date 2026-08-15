@@ -14,7 +14,12 @@ const MOCK_WORKOUT: TodayWorkoutSummary = {
   imageSrc: todayCourseImage,
 };
 const MOCK_PROGRESS: CourseProgress = { current: 1, total: 6 };
-const MOCK_TIP: PoseTip = { message: "낙타 자세는 등과 골반\n근육에 집중해 보세요" };
+
+// 자세명만 바뀌고 나머지 문구는 고정인 템플릿. 줄바꿈은 PoseTipCard의 break-keep이 너비에 맞춰 처리한다.
+const POSE_TIP_MESSAGE_SUFFIX = "자세는 등과 골반 근육에 집중해 보세요";
+const buildPoseTipMessage = (poseName: string) => `${poseName} ${POSE_TIP_MESSAGE_SUFFIX}`;
+
+const MOCK_TIP: PoseTip = { message: buildPoseTipMessage("낙타") };
 
 export function HomePage() {
   return (
