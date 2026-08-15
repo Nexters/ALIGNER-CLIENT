@@ -57,8 +57,7 @@ export function HomePage() {
         <PoseTipCard tip={MOCK_TIP} className="min-w-[16.3rem] flex-1" />
       </div>
 
-      {/* TODO: 자세 도전 현황 화면 구현 후 실제 라우팅 연결 */}
-      <PoseChallengeRow className="mt-[4rem]" />
+      <PoseChallengeRow onClick={() => navigate(ROUTES.poseChallenge)} className="mt-[4rem]" />
     </main>
   );
 }

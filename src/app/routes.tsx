@@ -6,6 +6,7 @@ import { DailyRoutinePage } from "@/pages/daily-routine";
 import { HomePage } from "@/pages/home";
 import { Login } from "@/pages/login/ui/Login";
 import { MyPage } from "@/pages/my";
+import { PoseChallengePage } from "@/pages/pose-challenge";
 
 type AppRoute = {
   path: RoutePath;
@@ -30,6 +31,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     paths: [
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
+      { path: ROUTES.poseChallenge, element: <PoseChallengePage /> },
     ],
   },
 };
