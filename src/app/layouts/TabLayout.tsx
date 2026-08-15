@@ -10,22 +10,24 @@ import {
 
 type Tab = "home" | "my";
 
-const TABS: (BottomTabBarTab<Tab> & { path: string })[] = [
-  {
+const TAB_CONFIG: Record<Tab, BottomTabBarTab<Tab> & { path: string }> = {
+  home: {
     id: "home",
     path: ROUTES.home,
     label: "홈",
     filledIcon: HomeFilledIcon,
     outlineIcon: HomeOutlineIcon,
   },
-  {
+  my: {
     id: "my",
     path: ROUTES.my,
     label: "유저",
     filledIcon: UserFilledIcon,
     outlineIcon: UserOutlineIcon,
   },
-];
+};
+
+const TABS = Object.values(TAB_CONFIG);
 
 function toAbsolutePath(path: string) {
   return path.startsWith("/") ? path : `/${path}`;
@@ -45,7 +47,7 @@ export function TabLayout() {
       <BottomTabBar
         tabs={TABS}
         activeTab={activeTab}
-        onTabChange={(tab) => navigate(toAbsolutePath(TABS.find((t) => t.id === tab)!.path))}
+        onTabChange={(tab) => navigate(toAbsolutePath(TAB_CONFIG[tab].path))}
         className="fixed inset-x-0 bottom-[1.6rem] mx-auto w-fit"
       />
     </>
