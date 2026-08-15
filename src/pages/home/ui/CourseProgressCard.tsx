@@ -10,10 +10,13 @@ export default function CourseProgressCard({ progress, className }: CourseProgre
   const { current, total } = progress;
   const filled = Math.min(Math.max(current, 0), total);
   const percent = total > 0 ? (filled / total) * 100 : 0;
+  // 코스를 다 완료하면 다음 코스로 넘어가기 전까지 "동작 진행도"로 표기가 바뀐다.
+  const isCompleted = current >= total;
+  const label = isCompleted ? "동작 진행도" : "현재 코스 진행도";
 
   return (
     <div className={cn("flex flex-col gap-[1.5rem]", className)}>
-      <p className="typo-subheadline-emphasized text-gray-10">현재 코스 진행도</p>
+      <p className="typo-subheadline-emphasized text-gray-10">{label}</p>
       <div className="flex flex-col gap-[0.4rem]">
         <p className="flex items-baseline text-gray-10">
           <span className="typo-title-2-5-emphasized">{current}</span>
@@ -21,7 +24,7 @@ export default function CourseProgressCard({ progress, className }: CourseProgre
         </p>
         <div
           role="progressbar"
-          aria-label="현재 코스 진행도"
+          aria-label={label}
           aria-valuenow={filled}
           aria-valuemin={0}
           aria-valuemax={total}

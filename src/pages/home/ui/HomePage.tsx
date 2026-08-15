@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import type { CourseProgress, PoseTip, TodayWorkoutSummary } from "@/entities/course";
+import { MOCK_COURSE_PROGRESS, type PoseTip, type TodayWorkoutSummary } from "@/entities/course";
 import { ROUTES } from "@/shared/config/routes";
-import todayCourseImage from "../assets/today-course.png";
+import yogaImage from "../assets/yoga-1.png";
 import CourseProgressCard from "./CourseProgressCard";
 import PoseChallengeRow from "./PoseChallengeRow";
 import PoseTipCard from "./PoseTipCard";
@@ -13,10 +13,8 @@ const MOCK_WORKOUT: TodayWorkoutSummary = {
   exerciseCount: 6,
   setCount: 6,
   kcal: 69,
-  imageSrc: todayCourseImage,
-  isCompleted: false,
+  imageSrc: yogaImage,
 };
-const MOCK_PROGRESS: CourseProgress = { current: 1, total: 6 };
 
 // Figma 엣지 케이스(node 914:4287) 기준 자세명별 실제 줄바꿈 지점을 그대로 하드코딩한다.
 // 자세명 글자수에 따라 줄바꿈 위치가 달라지고(예: 파이어로그만 다른 지점에서 끊김),
@@ -38,20 +36,23 @@ const MOCK_TIP: PoseTip = { message: POSE_TIP_MESSAGES.휠 };
 
 export function HomePage() {
   const navigate = useNavigate();
+  // 완료 여부는 별도 flag가 아니라 코스 진행도에서 파생시킨다 (current===total이면 오늘 것까지 다 끝난 상태).
+  const isCourseCompleted = MOCK_COURSE_PROGRESS.current >= MOCK_COURSE_PROGRESS.total;
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center pt-[5.4rem] pb-[8rem]">
+    <main className="relative flex min-h-screen flex-col items-center pb-[8rem]">
       {/* TODO: 로고 에셋 적용 */}
-      <h1 className="w-full typo-headline-emphasized text-gray-10">ALIGNER</h1>
+      <p className="w-full typo-headline-emphasized text-black">header</p>
 
       <TodayCourseCard
         workout={MOCK_WORKOUT}
+        isCompleted={isCourseCompleted}
         onStart={() => navigate(ROUTES.dailyRoutine)}
         className="mt-[2rem]"
       />
 
       <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">
-        <CourseProgressCard progress={MOCK_PROGRESS} className="min-w-[13rem] flex-1" />
+        <CourseProgressCard progress={MOCK_COURSE_PROGRESS} className="min-w-[13rem] flex-1" />
         <PoseTipCard tip={MOCK_TIP} className="min-w-[16.3rem] flex-1" />
       </div>
 
