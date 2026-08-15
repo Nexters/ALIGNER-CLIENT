@@ -42,10 +42,12 @@ export default function TodayCourseCard({
           <button
             type="button"
             onClick={onStart}
-            className="flex w-full items-center justify-between rounded-[10rem] bg-tertiary-950 py-[0.8rem] pr-[0.8rem] pl-[2.8rem]"
+            className="group flex w-full items-center justify-between rounded-[10rem] bg-tertiary-950 py-[0.8rem] pr-[0.8rem] pl-[2.8rem]"
           >
-            <span className="typo-subheadline-regular text-gray-96">{ctaLabel}</span>
-            <span className="flex items-center justify-center rounded-full bg-tertiary-100 p-[0.3rem]">
+            <span className="typo-subheadline-regular text-gray-96 group-hover:text-gray-40 group-active:text-gray-40">
+              {ctaLabel}
+            </span>
+            <span className="flex items-center justify-center rounded-full bg-tertiary-100 p-[0.3rem] group-hover:bg-gray-40 group-active:bg-gray-40">
               <RightArrowIcon className="size-[3.2rem] text-gray-10" />
             </span>
           </button>
