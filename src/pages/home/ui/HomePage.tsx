@@ -1,5 +1,10 @@
 import { useNavigate } from "react-router";
-import { MOCK_COURSE_PROGRESS, type PoseTip, type TodayWorkoutSummary } from "@/entities/course";
+import {
+  isCourseCompleted,
+  MOCK_COURSE_PROGRESS,
+  type PoseTip,
+  type TodayWorkoutSummary,
+} from "@/entities/course";
 import { ROUTES } from "@/shared/config/routes";
 import yogaImage from "../assets/yoga-1.png";
 import CourseProgressCard from "./CourseProgressCard";
@@ -36,9 +41,7 @@ const MOCK_TIP: PoseTip = { message: POSE_TIP_MESSAGES.휠 };
 
 export function HomePage() {
   const navigate = useNavigate();
-  // 완료 여부는 별도 flag가 아니라 코스 진행도에서 파생시킨다. progress는 서버가 매일 자정에
-  // 초기화해서 내려주므로 current===total이면 곧 "당일" 완료로 취급해도 된다.
-  const isCourseCompleted = MOCK_COURSE_PROGRESS.current >= MOCK_COURSE_PROGRESS.total;
+  const isCompleted = isCourseCompleted(MOCK_COURSE_PROGRESS);
 
   return (
     <main className="relative flex min-h-screen flex-col items-center pb-[8rem]">
@@ -47,7 +50,7 @@ export function HomePage() {
 
       <TodayCourseCard
         workout={MOCK_WORKOUT}
-        isCompleted={isCourseCompleted}
+        isCompleted={isCompleted}
         onStart={() => navigate(ROUTES.dailyRoutine)}
         className="mt-[2rem]"
       />

@@ -1,5 +1,11 @@
-import { MOCK_COURSE_PROGRESS, type Exercise, type TodayWorkoutSummary } from "@/entities/course";
+import {
+  isCourseCompleted,
+  MOCK_COURSE_PROGRESS,
+  type Exercise,
+  type TodayWorkoutSummary,
+} from "@/entities/course";
 import { CTAButton } from "@/shared/ui/button";
+import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { AlarmIcon, FireIcon, HumanIcon } from "@/shared/ui/icons";
 import { SequenceItem } from "@/shared/ui/sequence-item";
 import { SummaryCard, type SummaryCardChip } from "@/shared/ui/summary-card";
@@ -66,8 +72,7 @@ const MOCK_EXERCISES: Exercise[] = [
 ];
 
 export function DailyRoutinePage() {
-  // 완료 여부는 별도 flag가 아니라 코스 진행도에서 파생시킨다 (홈 화면과 동일한 규칙).
-  const isCompleted = MOCK_COURSE_PROGRESS.current >= MOCK_COURSE_PROGRESS.total;
+  const isCompleted = isCourseCompleted(MOCK_COURSE_PROGRESS);
 
   const chips: SummaryCardChip[] = [
     { icon: <HumanIcon />, label: `${MOCK_WORKOUT.exerciseCount}개 운동` },
@@ -83,21 +88,7 @@ export function DailyRoutinePage() {
       <h1 className="mt-[3rem] w-full typo-title-2-5-emphasized text-black">{MOCK_POSE_TITLE}</h1>
 
       <div className="relative mt-[2rem] h-[30rem] w-full overflow-hidden rounded-[4rem] bg-gray-97">
-        {/* TODO: yoga-1.png 원본이 인물 주위에 여백이 커서 트리밍 박스(416,223,650x828 / 1369x1149) 기준으로 확대·이동해 Figma 크롭 비율(182.7x224.1)에 맞췄다. 실제 API 이미지로 교체 시 제거 */}
-        <div className="absolute left-1/2 top-1/2 h-[22.41rem] w-[18.27rem] -translate-x-1/2 -translate-y-1/2 overflow-hidden">
-          <img
-            src={MOCK_WORKOUT.imageSrc}
-            alt=""
-            style={{
-              position: "absolute",
-              left: -112.59,
-              top: -60.35,
-              width: 370.52,
-              height: 310.94,
-              maxWidth: "none",
-            }}
-          />
-        </div>
+        <CroppedWorkoutImage src={MOCK_WORKOUT.imageSrc} />
         <SummaryCard
           minutes={MOCK_WORKOUT.minutes}
           chips={chips}
