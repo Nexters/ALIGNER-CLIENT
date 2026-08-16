@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router";
 import type { PoseChallenge } from "@/entities/pose";
 import { Button } from "@/shared/ui/button";
 import { ProgressRingItem } from "@/shared/ui/progress-ring-item";
+import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import yogaImage from "@/shared/assets/images/yoga-1.png";
 
 // TODO: 실제 API 연동 전까지의 목데이터. entities/pose 타입에 맞춰 추후 fetch 훅으로 교체한다.
@@ -43,6 +45,7 @@ function groupByBodyPart(poses: PoseChallenge[]) {
 }
 
 export function PoseChallengePage() {
+  const navigate = useNavigate();
   const [filter, setFilter] = useState<PoseFilter>("all");
 
   const inProgressCount = useMemo(
@@ -68,8 +71,7 @@ export function PoseChallengePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center pb-[8rem]">
-      {/* TODO: 뒤로가기 헤더(TopNavBar) 나중에 연결. 지금은 자리만 표시 */}
-      <p className="w-full typo-body-emphasized text-black">header</p>
+      <TopNavBar onBack={() => navigate(-1)} className="w-full" />
 
       <div
         className="mt-[3rem] flex w-full gap-[0.8rem]"
