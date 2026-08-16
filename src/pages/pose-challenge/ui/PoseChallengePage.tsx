@@ -71,7 +71,11 @@ export function PoseChallengePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center pb-[8rem]">
-      <TopNavBar onBack={() => navigate(-1)} className="w-full" />
+      <TopNavBar
+        onBack={() => navigate(-1)}
+        className="w-full"
+        children={<span className="typo-headline-emphasized text-black">자세 도전 현황</span>}
+      />
 
       <div
         className="mt-[3rem] flex w-full gap-[0.8rem]"

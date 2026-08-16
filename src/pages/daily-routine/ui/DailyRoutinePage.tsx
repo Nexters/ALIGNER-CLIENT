@@ -36,7 +36,11 @@ export function DailyRoutinePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center pb-[10rem]">
-      <TopNavBar onBack={() => navigate(-1)} className="w-full" />
+      <TopNavBar
+        onBack={() => navigate(-1)}
+        className="w-full"
+        children={<span className="typo-headline-emphasized text-black">데일리 루틴</span>}
+      />
 
       <h1 className="mt-[3rem] w-full typo-title-2-5-emphasized text-black">{MOCK_POSE_TITLE}</h1>
 
