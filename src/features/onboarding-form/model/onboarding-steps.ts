@@ -2,8 +2,8 @@ import { createStepPath, ROUTES } from "@/shared/config/routes";
 import { onboardingFormSchema, type OnboardingFormValues } from "./schema";
 
 export const ONBOARDING_STEPS = [
-  "height-weight",
   "experience-level",
+  "height-weight",
   "usual-posture",
   "difficult-posture",
 ] as const;

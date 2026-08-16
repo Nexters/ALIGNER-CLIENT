@@ -18,6 +18,7 @@ export default function ExperienceLevelStep() {
             color="secondary"
             isSelected={experienceLevel === option.value}
             onClick={() => updateExperienceLevel(option.value)}
+            className="py-[2.2rem] px-[4.1rem]"
           >
             {option.label}
           </Button>

@@ -23,11 +23,13 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     paths: [
       { path: ROUTES.home, element: <HomePage /> },
       { path: ROUTES.my, element: <MyPage /> },
-      { path: ROUTES.onboarding, element: <OnboardingPage /> },
     ],
   },
   bare: {
     layout: undefined,
-    paths: [{ path: ROUTES.login, element: <Login /> }],
+    paths: [
+      { path: ROUTES.login, element: <Login /> },
+      { path: ROUTES.onboarding, element: <OnboardingPage /> },
+    ],
   },
 };
