@@ -20,14 +20,14 @@ export default function PoseGrid({ selectedIds, excludedIds = [], onToggle }: Po
               imageSrc={pose.image}
               alt={pose.name}
               selected={isSelected}
-              disabled={!onToggle || isExcluded}
+              disabled={isExcluded}
               onClick={() => onToggle?.(pose.id, isSelected)}
               className="h-[10.3rem] w-[10.3rem]"
             />
             <span
               className={cn(
                 "typo-subheadline-emphasized text-gray-10",
-                (!onToggle || isExcluded) && "text-gray-95",
+                isExcluded && "text-gray-95",
               )}
             >
               {pose.name}

@@ -1,6 +1,8 @@
 import { Navigate, useNavigate } from "react-router";
 import { CTAButton } from "@/shared/ui/button";
-import { useOnboardingStepParam } from "../hooks/useOnboardingParam";
+import { Indicator } from "@/shared/ui/indicator";
+import { TopNavBar } from "@/shared/ui/top-nav-bar";
+import { useOnboardingStepParam } from "../hooks/useOnboardingStepParam";
 import { useOnboardingForm } from "../model/use-onboarding-form";
 import {
   findFirstIncompleteStep,
@@ -46,8 +48,10 @@ export function Layout({ onComplete }: LayoutProps) {
   };
 
   return (
-    <main className="overflow-hidden relative flex w-full h-screen flex-col justify-start bg-tertiary-50">
-      <nav className="absolute top-0 left-0 right-0 p-4">header</nav>
+    <main className="overflow-hidden relative flex w-full h-screen flex-col justify-start bg-tertiary-50  px-[2rem]">
+      <TopNavBar onBack={() => navigate(-1)} className="shrink-0 mt-[3.6rem]">
+        <Indicator total={ONBOARDING_STEPS.length} current={ONBOARDING_STEPS.indexOf(step) + 1} />
+      </TopNavBar>
       <StepRouter />
       <CTAButton fixed>
         <CTAButton.Single onClick={handleNext} disabled={isNextDisabled}>

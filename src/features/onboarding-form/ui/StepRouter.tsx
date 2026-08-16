@@ -1,5 +1,5 @@
 import { Navigate } from "react-router";
-import { useOnboardingStepParam } from "../hooks/useOnboardingParam";
+import { useOnboardingStepParam } from "../hooks/useOnboardingStepParam";
 import { isOnboardingStep, ONBOARDING_STEPS, onboardingStepPath } from "../model/onboarding-steps";
 import { STEP_COMPONENTS } from "./step-components";
 

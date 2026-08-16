@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/cn";
 import { useOnboardingForm } from "../model/use-onboarding-form";
 import { MIN_MAX_FIELDS } from "../constants/form-fields";
@@ -31,7 +30,6 @@ type StepLayoutPostureProps = {
 };
 
 function StepLayoutPosture({ title, field }: StepLayoutPostureProps) {
-  const [hasEntered, setHasEntered] = useState(false);
   const {
     compatibleErrors,
     compatibleHandlers: { getPostureSelection, updateEasyPose, updateHardPose },
@@ -40,19 +38,8 @@ function StepLayoutPosture({ title, field }: StepLayoutPostureProps) {
   const onToggle = field === "easyPoseIds" ? updateEasyPose : updateHardPose;
   const error = compatibleErrors[field];
 
-  // 마운트 시점엔 화면 오른쪽 바깥에 두고, 다음 프레임에 0으로 옮겨서 슬라이드 인 되게 한다
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => setHasEntered(true));
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
   return (
-    <StepLayoutRoot
-      className={cn(
-        "transition-transform duration-500 ease-out",
-        !hasEntered && "translate-x-full",
-      )}
-    >
+    <StepLayoutRoot>
       <div className="flex items-end justify-between">
         <h1 className="typo-title-emphasized whitespace-pre-line">{title}</h1>
         <span className="text-end typo-subheadline-regular text-gray-70">
