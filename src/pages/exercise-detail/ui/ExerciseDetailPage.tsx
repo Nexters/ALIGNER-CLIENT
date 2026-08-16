@@ -28,7 +28,7 @@ export function ExerciseDetailPage() {
         <span className="typo-headline-emphasized text-black">데일리 루틴</span>
       </TopNavBar>
 
-      <div className="mt-[3rem] flex w-full flex-col items-start gap-[0.8rem]">
+      <div className="mt-[2rem] flex w-full flex-col items-start gap-[0.8rem]">
         <p className="typo-subheadline-regular text-gray-50">
           {exerciseIndex + 1}/{MOCK_EXERCISES.length} ·난이도 {exercise.difficulty}
         </p>
