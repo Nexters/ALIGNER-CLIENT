@@ -46,8 +46,11 @@ export function HomePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center pb-[8rem]">
-      <header className="flex h-[5.6rem] w-full items-center pl-[1.6rem] pr-[1.6rem]">
-        <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
+      <header className="flex h-[5.6rem] w-full pl-[1.25rem] pr-[1.6rem]">
+        <Logo
+          className="h-[2.4rem] w-auto shrink-0 text-black"
+          style={{ marginTop: "27px", marginBottom: "24px" }}
+        />
       </header>
 
       <TodayCourseCard
