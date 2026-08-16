@@ -1,3 +1,10 @@
-export type { CourseProgress, TodayWorkoutSummary, PoseTip, Exercise } from "./model/types";
-export { MOCK_COURSE_PROGRESS } from "./model/mock";
-export { isCourseCompleted } from "./model/lib";
+export type {
+  CourseProgress,
+  TodayWorkoutSummary,
+  PoseTip,
+  Exercise,
+  ExerciseBodyPart,
+  ExerciseGuide,
+} from "./model/types";
+export { MOCK_COURSE_PROGRESS, MOCK_EXERCISES } from "./model/mock";
+export { isCourseCompleted, getMuscleDiagramZoom } from "./model/lib";
