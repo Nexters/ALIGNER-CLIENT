@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import PoseGrid from "../components/PoseGrid";
 import StepLayout from "../components/StepLayout";
+import { useStepChrome } from "../hooks/useStepChrome";
 
 const INTRO_DURATION_MS = 2000;
 
 export default function UsualPostureStep() {
   const [showIntro, setShowIntro] = useState(true);
+  const { setIsCTAHidden } = useStepChrome();
 
   useEffect(() => {
     const timer = setTimeout(() => setShowIntro(false), INTRO_DURATION_MS);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    setIsCTAHidden(showIntro);
+    return () => setIsCTAHidden(false);
+  }, [showIntro, setIsCTAHidden]);
 
   if (showIntro) {
     return (
