@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getMuscleDiagramZoom, MOCK_EXERCISES, type ExerciseBodyPart } from "@/entities/course";
 import { Button, CTAButton } from "@/shared/ui/button";
+import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { MuscleDiagram } from "@/shared/ui/muscle-diagram";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 
@@ -36,7 +37,7 @@ export function ExerciseDetailPage() {
       </div>
 
       <div className="relative mt-[1.6rem] h-[28rem] w-full overflow-hidden rounded-[2.8rem] bg-gray-97">
-        <img src={exercise.imageSrc} alt={exercise.name} className="size-full object-cover" />
+        <CroppedWorkoutImage src={exercise.imageSrc} alt={exercise.name} />
       </div>
 
       <h2 className="mt-[4.8rem] w-full typo-headline-emphasized text-black">운동 가이드</h2>
