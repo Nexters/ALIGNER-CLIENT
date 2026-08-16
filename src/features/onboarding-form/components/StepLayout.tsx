@@ -1,4 +1,3 @@
-import { cn } from "@/shared/lib/cn";
 import { useOnboardingForm } from "../model/use-onboarding-form";
 import { MIN_MAX_FIELDS } from "../constants/form-fields";
 import ErrorMessage from "./ErrorMessage";
@@ -6,18 +5,12 @@ import PoseGrid from "./PoseGrid";
 
 type StepLayoutRootProps = {
   title?: string;
-  className?: string;
   children: React.ReactNode;
 };
 
-function StepLayoutRoot({ title, className, children }: StepLayoutRootProps) {
+function StepLayoutRoot({ title, children }: StepLayoutRootProps) {
   return (
-    <div
-      className={cn(
-        "flex w-full h-full flex-col gap-[3.2rem] mt-[3.2rem] typo-title-2-5-emphasized",
-        className,
-      )}
-    >
+    <div className="flex w-full h-full flex-col gap-[3.2rem] mt-[3.2rem] typo-title-2-5-emphasized">
       {title && <h1 className="typo-title-emphasized whitespace-pre-line">{title}</h1>}
       {children}
     </div>
