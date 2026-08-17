@@ -46,7 +46,7 @@ export function HomePage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
-      <header className="flex h-[5.6rem] w-full items-center pl-[1.25rem] pr-[1.6rem] pt-[1.6875rem] pb-[1.5rem]">
+      <header className="flex w-full items-center pr-[1.6rem] pt-[2.7rem] pb-[2.4rem]">
         <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
       </header>
 
@@ -54,7 +54,6 @@ export function HomePage() {
         workout={MOCK_WORKOUT}
         isCompleted={isCompleted}
         onStart={() => navigate(ROUTES.dailyRoutine)}
-        className="mt-[2rem]"
       />
 
       <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">
