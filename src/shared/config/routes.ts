@@ -1,5 +1,6 @@
 export const ROUTES = {
   home: "/",
+  onboarding: "/onboarding",
   login: "/login",
   my: "my",
   dailyRoutine: "/daily-routine",
@@ -11,4 +12,8 @@ export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];
 
 export function toDailyRoutineExercisePath(exerciseId: string) {
   return `/daily-routine/${exerciseId}`;
+}
+
+export function createStepPath<Step extends string>(basePath: RoutePath) {
+  return (step: Step) => `${basePath}?step=${step}`;
 }

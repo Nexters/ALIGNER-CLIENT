@@ -36,7 +36,7 @@ export default function Button({
         BUTTON_SIZE[size],
         BUTTON_COLOR[color].base,
         isSelected && BUTTON_COLOR[color].selected,
-        disabled && BUTTON_DISABLED,
+        disabled && (BUTTON_COLOR[color].disabled ?? BUTTON_DISABLED),
         className,
       )}
       disabled={disabled}
