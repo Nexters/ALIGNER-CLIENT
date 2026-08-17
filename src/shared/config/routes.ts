@@ -3,6 +3,7 @@ export const ROUTES = {
   onboarding: "/onboarding",
   login: "/login",
   my: "my",
+  courseRecommendation: "/course-recommendation",
 } as const;
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];

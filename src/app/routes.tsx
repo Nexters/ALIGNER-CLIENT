@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CourseRecommendationPage } from "@/pages/course-recommendation";
 import { HomePage } from "@/pages/home";
 import { OnboardingPage } from "@/pages/onboarding";
 import { ROUTES, type RoutePath } from "@/shared/config/routes";
@@ -30,6 +31,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     paths: [
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
+      { path: ROUTES.courseRecommendation, element: <CourseRecommendationPage /> },
     ],
   },
 };
