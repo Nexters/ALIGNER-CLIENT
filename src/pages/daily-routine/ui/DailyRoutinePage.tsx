@@ -35,7 +35,7 @@ export function DailyRoutinePage() {
   ];
 
   return (
-    <main className="relative flex min-h-screen flex-col items-center pb-[10rem]">
+    <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[10rem]">
       <TopNavBar
         onBack={() => navigate(-1)}
         className="w-full"
