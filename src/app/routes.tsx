@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 import { HomePage } from "@/pages/home";
+import { Login, LoginCallback } from "@/pages/login";
 import { OnboardingPage } from "@/pages/onboarding";
 import { ROUTES, type RoutePath } from "@/shared/config/routes";
 import { TabLayout } from "./layouts/TabLayout";
 
-import { Login } from "@/pages/login/ui/Login";
 import { MyPage } from "@/pages/my";
 
 type AppRoute = {
@@ -29,6 +29,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     layout: undefined,
     paths: [
       { path: ROUTES.login, element: <Login /> },
+      { path: ROUTES.loginCallback, element: <LoginCallback /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
     ],
   },

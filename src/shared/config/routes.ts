@@ -2,6 +2,7 @@ export const ROUTES = {
   home: "/",
   onboarding: "/onboarding",
   login: "/login",
+  loginCallback: "/login/callback",
   my: "my",
 } as const;
 
