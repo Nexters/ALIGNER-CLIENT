@@ -3,7 +3,8 @@ import { Auth } from "./generated/Auth";
 import { HttpClient } from "./generated/http-client";
 import { Members } from "./generated/Members";
 
-const customFetch: typeof fetch = (input, init) => apiClient(input as string, init);
+const generatedClientFetch = apiClient.extend({ throwHttpErrors: false });
+const customFetch: typeof fetch = (input, init) => generatedClientFetch(input as string, init);
 
 const http = new HttpClient({
   baseUrl: "",

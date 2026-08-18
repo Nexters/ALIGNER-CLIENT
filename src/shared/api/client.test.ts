@@ -3,10 +3,10 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { apiClient } from "./client";
 import { ROUTES } from "@/shared/config/routes";
 import { stubFetch } from "@/shared/lib/test/stub-fetch";
-import { clearAccessToken, getAccessToken, setAccessToken } from "./token";
+import { getAccessToken, setAccessToken } from "./access-token";
 
 afterEach(() => {
-  clearAccessToken();
+  setAccessToken(null);
   vi.unstubAllGlobals();
 });
 
@@ -41,7 +41,7 @@ describe("apiClient", () => {
     const locationStub = { href: "" } as Location;
     Object.defineProperty(window, "location", { value: locationStub, configurable: true });
 
-    await apiClient.get("members/me");
+    await expect(apiClient.get("members/me")).rejects.toThrow();
 
     expect(getAccessToken()).toBeNull();
     expect(window.location.href).toBe(ROUTES.login);
@@ -62,7 +62,9 @@ describe("apiClient", () => {
     );
     const originalHref = window.location.href;
 
-    await apiClient.post("auth/kakao", { json: { authorizationCode: "code" } });
+    await expect(
+      apiClient.post("auth/kakao", { json: { authorizationCode: "code" } }),
+    ).rejects.toThrow();
 
     expect(getAccessToken()).toBe("test-token");
     expect(window.location.href).toBe(originalHref);

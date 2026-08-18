@@ -1,4 +1,4 @@
-import { login } from "@/entities/auth";
+import { setAccessToken } from "@/shared/api";
 import { authApi } from "@/shared/api/http";
 import type { ApiErrorResponse } from "@/shared/api/generated/data-contracts";
 
@@ -14,7 +14,7 @@ export async function loginWithKakaoCode(
     if (!accessToken) {
       return { success: false, code: "UNKNOWN", message: "로그인에 실패했습니다." };
     }
-    login(accessToken);
+    setAccessToken(accessToken);
     return { success: true };
   } catch (err) {
     const apiError = (err as { error?: ApiErrorResponse }).error;

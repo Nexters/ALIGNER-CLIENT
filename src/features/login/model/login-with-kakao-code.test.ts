@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { isAuthenticated, logout } from "@/entities/auth";
+import { isAuthenticated, setAccessToken } from "@/shared/api";
 import { stubFetch } from "@/shared/lib/test/stub-fetch";
 import { loginWithKakaoCode } from "./login-with-kakao-code";
 
 afterEach(() => {
-  logout();
+  setAccessToken(null);
   vi.unstubAllGlobals();
 });
 

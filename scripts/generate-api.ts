@@ -4,7 +4,7 @@ import { dirname, extname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { format, resolveConfig } from "prettier";
 
-const SWAGGER_SPEC_URL = "http://121.78.183.194/v3/api-docs";
+const SWAGGER_SPEC_URL = "https://api.aligneryoga.com/v3/api-docs";
 
 const HTTP_CLIENT_VALUE_EXPORTS = new Set(["ContentType", "HttpClient"]);
 
