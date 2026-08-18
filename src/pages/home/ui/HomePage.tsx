@@ -1,7 +1,7 @@
 import { isHTTPError } from "ky";
 import { useNavigate } from "react-router";
 import { normalizePoseName, type PoseTip } from "@/entities/course";
-import { ROUTES } from "@/shared/config/routes";
+import { ROUTES, toDailyRoutinePath } from "@/shared/config/routes";
 import { Logo } from "@/shared/ui/icons";
 import { useTodayCourse } from "../api/use-today-course";
 import { mapTodayCourseResponse } from "../api/map-today-course";
@@ -55,7 +55,9 @@ export function HomePage() {
       <TodayCourseCard
         workout={view?.workout ?? null}
         isCompleted={view?.completed ?? false}
-        onStart={() => navigate(view ? ROUTES.dailyRoutine : ROUTES.courseRecommendation)}
+        onStart={() =>
+          navigate(data ? toDailyRoutinePath(data.courseId) : ROUTES.courseRecommendation)
+        }
       />
 
       <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">

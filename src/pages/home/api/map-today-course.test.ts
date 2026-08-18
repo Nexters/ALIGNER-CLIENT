@@ -35,10 +35,10 @@ describe("mapTodayCourseResponse", () => {
     expect(view.workout.minutes).toBe(15);
   });
 
-  test("예상 시간이 없으면(null) 0분으로 표기한다", () => {
+  test("예상 시간이 없으면(null) minutes도 null로 남긴다", () => {
     const view = mapTodayCourseResponse({ ...BASE_RESPONSE, estimatedDurationSeconds: null });
 
-    expect(view.workout.minutes).toBe(0);
+    expect(view.workout.minutes).toBeNull();
   });
 
   test("예상 칼로리가 없으면(null) kcal도 null로 남긴다", () => {

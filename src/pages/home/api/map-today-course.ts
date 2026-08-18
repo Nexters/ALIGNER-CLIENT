@@ -15,11 +15,10 @@ export function mapTodayCourseResponse(response: TodayCourseResponse): TodayCour
       total: response.totalStepCount,
     },
     workout: {
-      // DurationBadge는 숫자 링 UI라 "-" 표기를 지원하지 않는다. 예상 시간이 없으면 0분(빈 링)으로 그린다.
       minutes:
         response.estimatedDurationSeconds != null
           ? Math.round(response.estimatedDurationSeconds / 60)
-          : 0,
+          : null,
       exerciseCount: response.exerciseCount,
       setCount: response.totalSetCount,
       kcal: response.estimatedKcal,
