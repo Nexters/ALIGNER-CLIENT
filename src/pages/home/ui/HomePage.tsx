@@ -6,7 +6,7 @@ import {
   type TodayWorkoutSummary,
 } from "@/entities/course";
 import { ROUTES } from "@/shared/config/routes";
-import { Logo } from "@/shared/ui/icons";
+import { LogoIcon } from "@/shared/ui/icons";
 import yogaImage from "@/shared/assets/images/yoga-1.png";
 import CourseProgressCard from "./CourseProgressCard";
 import PoseChallengeRow from "./PoseChallengeRow";
@@ -47,7 +47,7 @@ export function HomePage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
       <header className="flex w-full items-center pr-[1.6rem] pt-[2.7rem] pb-[2.4rem]">
-        <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
+        <LogoIcon className="h-[2.4rem] w-auto shrink-0 text-black" />
       </header>
 
       <TodayCourseCard
