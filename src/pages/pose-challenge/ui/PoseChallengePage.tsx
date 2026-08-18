@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import type { PoseChallengeStatus } from "@/entities/pose";
 import { Button } from "@/shared/ui/button";
 import { ProgressRingItem, type ProgressRingItemProps } from "@/shared/ui/progress-ring-item";
+import { Skeleton } from "@/shared/ui/skeleton";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { mapPoseChallengeProgress } from "../api/map-pose-challenge";
 import { useBodyParts, useTargetPoseProgress } from "../api/use-pose-challenge-progress";
@@ -23,11 +24,30 @@ export function PoseChallengePage() {
   const progressQuery = useTargetPoseProgress();
 
   if (bodyPartsQuery.isPending || progressQuery.isPending) {
-    return null;
+    return (
+      <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
+        <TopNavBar
+          onBack={() => navigate(-1)}
+          className="w-full"
+          children={<span className="typo-headline-emphasized text-black">자세 도전 현황</span>}
+        />
+        <div className="mt-[2.4rem] grid w-full grid-cols-3 gap-x-[1.45rem] gap-y-[1.6rem]">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Skeleton key={index} className="aspect-square w-full rounded-full" />
+          ))}
+        </div>
+      </main>
+    );
   }
 
-  if (!bodyPartsQuery.data || !progressQuery.data) {
-    return null;
+  if (bodyPartsQuery.error || progressQuery.error || !bodyPartsQuery.data || !progressQuery.data) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center px-[2rem]">
+        <p className="typo-body-regular text-gray-50">
+          정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
+        </p>
+      </main>
+    );
   }
 
   const view = mapPoseChallengeProgress(progressQuery.data, bodyPartsQuery.data);

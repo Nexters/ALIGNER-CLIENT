@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { normalizePoseName, type PoseTip } from "@/entities/course";
 import { ROUTES, toDailyRoutinePath } from "@/shared/config/routes";
 import { Logo } from "@/shared/ui/icons";
+import { Skeleton } from "@/shared/ui/skeleton";
 import { useTodayCourse } from "../api/use-today-course";
 import { mapTodayCourseResponse } from "../api/map-today-course";
 import CourseProgressCard from "./CourseProgressCard";
@@ -39,8 +40,29 @@ export function HomePage() {
   // 화면 구조는 그대로 두고 수치만 "-"로 표기한다(카드 컴포넌트들이 null을 받아 처리).
   const isNotFound = isHTTPError(error) && error.response.status === 404;
 
-  if (isPending || (!data && !isNotFound)) {
-    return null;
+  if (isPending) {
+    return (
+      <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
+        <header className="flex w-full items-center pr-[1.6rem] pt-[2.7rem] pb-[2.4rem]">
+          <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
+        </header>
+        <Skeleton className="h-[20rem] w-full rounded-[3.2rem]" />
+        <div className="mt-[1.6rem] flex w-full gap-[1.6rem]">
+          <Skeleton className="h-[10rem] flex-1 rounded-[2.4rem]" />
+          <Skeleton className="h-[10rem] flex-1 rounded-[2.4rem]" />
+        </div>
+      </main>
+    );
+  }
+
+  if (error && !isNotFound) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center px-[2rem]">
+        <p className="typo-body-regular text-gray-50">
+          정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
+        </p>
+      </main>
+    );
   }
 
   const view = data ? mapTodayCourseResponse(data) : null;
