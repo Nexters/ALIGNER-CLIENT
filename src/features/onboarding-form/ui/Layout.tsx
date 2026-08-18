@@ -2,6 +2,7 @@ import { Navigate, useNavigate } from "react-router";
 import { CTAButton } from "@/shared/ui/button";
 import { Indicator } from "@/shared/ui/indicator";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
+import ErrorMessage from "../components/ErrorMessage";
 import { useOnboardingStepParam } from "../hooks/useOnboardingStepParam";
 import { useStepChrome } from "../hooks/useStepChrome";
 import { useOnboardingForm } from "../model/use-onboarding-form";
@@ -35,6 +36,8 @@ function LayoutContent({ onComplete }: LayoutProps) {
   const {
     compatibleFormData,
     compatibleHandlers: { handleSubmitForm },
+    isSubmitting,
+    submitError,
   } = useOnboardingForm();
   const { isCTAHidden } = useStepChrome();
 
@@ -48,7 +51,7 @@ function LayoutContent({ onComplete }: LayoutProps) {
   }
 
   const nextStep = getNextStep(step);
-  const isNextDisabled = !isStepComplete(step, compatibleFormData);
+  const isNextDisabled = !isStepComplete(step, compatibleFormData) || isSubmitting;
 
   const handleNext = () => {
     if (nextStep) {
@@ -66,6 +69,7 @@ function LayoutContent({ onComplete }: LayoutProps) {
       <StepRouter />
       {!isCTAHidden && (
         <CTAButton fixed>
+          {submitError && <ErrorMessage message={submitError} />}
           <CTAButton.Single onClick={handleNext} disabled={isNextDisabled}>
             다음
           </CTAButton.Single>

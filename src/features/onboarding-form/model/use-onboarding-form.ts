@@ -1,4 +1,5 @@
 import { useFormContext, useWatch } from "react-hook-form";
+import { useUpdateMemberProfile } from "@/entities/member";
 import type { OnboardingFormValues } from "./schema";
 import { ERROR_MESSAGES, EXPERIENCE_LEVELS, MIN_MAX_FIELDS } from "../constants/form-fields";
 
@@ -11,6 +12,8 @@ export function useOnboardingForm() {
     handleSubmit,
     formState: { errors },
   } = useFormContext<OnboardingFormValues>();
+
+  const updateMemberProfile = useUpdateMemberProfile();
 
   const [heightCm, weightKg, experienceLevel, easyPoseIds, hardPoseIds] = useWatch({
     control,
@@ -75,9 +78,17 @@ export function useOnboardingForm() {
   };
 
   const handleSubmitForm = async (onSuccess: (data: OnboardingFormValues) => void) => {
-    await handleSubmit((data) => {
-      //TODO: server post
-      onSuccess(data);
+    await handleSubmit(async (data) => {
+      try {
+        await updateMemberProfile.mutateAsync({
+          heightCm: data.heightCm,
+          weightKg: data.weightKg,
+          experienceLevel: data.experienceLevel,
+        });
+        onSuccess(data);
+      } catch {
+        // 에러 메시지는 updateMemberProfile.error로 노출된다
+      }
     })();
   };
 
@@ -107,10 +118,17 @@ export function useOnboardingForm() {
     handleSubmitForm,
   };
 
+  const submitError = updateMemberProfile.isError
+    ? ((updateMemberProfile.error as { error?: { message?: string } })?.error?.message ??
+      "프로필 저장에 실패했습니다.")
+    : undefined;
+
   return {
     compatibleFormData,
     compatibleErrors,
     compatibleHandlers,
     trigger,
+    isSubmitting: updateMemberProfile.isPending,
+    submitError,
   };
 }

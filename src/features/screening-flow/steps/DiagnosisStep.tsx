@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { CTAButton } from "@/shared/ui/button";
+import { getBodyParts, getLatestScreeningResult } from "../api/screening-api";
 import ScanningMannequin from "../components/ScanningMannequin";
 import { deriveWeakBodyParts } from "../lib/derive-weak-body-parts";
 import { withMinDelay } from "../lib/with-min-delay";
-import { mockGetBodyParts, mockGetLatestScreeningResult } from "../mocks/screening-mocks";
 import type { DiagnosisStatus } from "../model/diagnosis-status";
 import { screeningStepPath } from "../model/screening-steps";
 
@@ -17,10 +17,7 @@ export default function DiagnosisStep() {
   useEffect(() => {
     let cancelled = false;
 
-    withMinDelay(
-      Promise.all([mockGetLatestScreeningResult(), mockGetBodyParts()]),
-      MIN_ANALYZING_MS,
-    )
+    withMinDelay(Promise.all([getLatestScreeningResult(), getBodyParts()]), MIN_ANALYZING_MS)
       .then(([result, bodyParts]) => {
         if (cancelled) return;
         setStatus({ kind: "result", result, bodyParts });

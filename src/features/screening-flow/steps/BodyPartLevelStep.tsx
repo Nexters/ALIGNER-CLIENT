@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { ROUTES } from "@/shared/config/routes";
 import { MannequinScanIcon } from "@/shared/ui/icons";
+import { recommendCourse } from "../api/screening-api";
 import type {
   BodyPart,
   CourseLevel,
@@ -12,7 +13,6 @@ import type {
 import BodyPartMarker from "../components/BodyPartMarker";
 import type { BodyPartCode } from "../constants/body-parts";
 import { LEVEL_OPTIONS } from "../constants/level-options";
-import { mockRecommendCourse } from "../mocks/screening-mocks";
 import { screeningStepPath } from "../model/screening-steps";
 import { Select } from "@/shared/ui/select";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
@@ -35,7 +35,7 @@ export default function BodyPartLevelStep() {
     unknown,
     RecommendCourseRequest
   >({
-    mutationFn: mockRecommendCourse,
+    mutationFn: recommendCourse,
     onSuccess: () => navigate(ROUTES.home, { replace: true }),
   });
 

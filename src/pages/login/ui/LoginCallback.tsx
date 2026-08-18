@@ -23,7 +23,7 @@ export function LoginCallback() {
 
     loginWithKakaoCode(code).then((result) => {
       if (result.success) {
-        navigate(ROUTES.home, { replace: true });
+        navigate(ROUTES.onboarding, { replace: true });
       } else {
         navigate(ROUTES.login, { replace: true, state: { error: result.message } });
       }
