@@ -49,10 +49,16 @@ export interface ProgressRingItemProps extends ComponentProps<"div"> {
   alt: string;
   /** 원 아래에 붙는 이름 */
   label: string;
-  /** 현재 단계. 0이면 미시작이라 링과 배지를 그리지 않는다 */
+  /** 현재 단계 */
   current: number;
   /** 전체 단계 수 */
   total: number;
+  /**
+   * 링 상태. 시작 전(idle)인지, 도전 중(progress)인지, 완성(complete)인지를 직접 받는다 —
+   * current===0으로 idle을 추론하면 "도전 시작은 했지만 도장을 아직 못 모은" 경우(current 0인 채로
+   * 진행 중)까지 미시작으로 잘못 표시된다.
+   */
+  status: RingState;
   /** 배지 문구. 문구 조립은 쓰는 쪽 책임이다 (ADR-0002) */
   badgeLabel?: string;
 }
@@ -63,6 +69,7 @@ export default function ProgressRingItem({
   label,
   current,
   total,
+  status,
   badgeLabel,
   className,
   ...props
@@ -70,7 +77,7 @@ export default function ProgressRingItem({
   // 0 이하가 들어오면 비율 계산이 NaN이 되어 아크가 깨지므로 최소 1로 잡는다.
   const safeTotal = Math.max(total, 1);
   const filled = Math.min(Math.max(current, 0), safeTotal);
-  const state: RingState = filled === 0 ? "idle" : filled === safeTotal ? "complete" : "progress";
+  const state = status;
 
   return (
     <div className={cn("flex w-[10.2rem] flex-col items-center gap-3", className)} {...props}>

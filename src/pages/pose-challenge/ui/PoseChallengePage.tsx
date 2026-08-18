@@ -2,12 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import type { PoseChallengeStatus } from "@/entities/pose";
 import { Button } from "@/shared/ui/button";
-import { ProgressRingItem } from "@/shared/ui/progress-ring-item";
+import { ProgressRingItem, type ProgressRingItemProps } from "@/shared/ui/progress-ring-item";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { mapPoseChallengeProgress } from "../api/map-pose-challenge";
 import { useBodyParts, useTargetPoseProgress } from "../api/use-pose-challenge-progress";
 
 type PoseFilter = "all" | Exclude<PoseChallengeStatus, "idle">;
+
+const RING_STATUS: Record<PoseChallengeStatus, ProgressRingItemProps["status"]> = {
+  idle: "idle",
+  inProgress: "progress",
+  completed: "complete",
+};
 
 export function PoseChallengePage() {
   const navigate = useNavigate();
@@ -83,6 +89,7 @@ export function PoseChallengePage() {
                   label={pose.name}
                   current={pose.current}
                   total={pose.total}
+                  status={RING_STATUS[pose.status]}
                   badgeLabel={
                     pose.status === "idle"
                       ? undefined
