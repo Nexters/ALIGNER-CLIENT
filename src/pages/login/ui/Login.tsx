@@ -3,6 +3,7 @@ import { requestKakaoLogin } from "@/features/login";
 import { CTAButton } from "@/shared/ui/button";
 import { ROUTES } from "@/shared/config/routes";
 import { KakaoIcon, MannequinIcon } from "@/shared/ui/icons";
+import 메인 from "@/shared/assets/imgs/main.png";
 
 export function Login() {
   const location = useLocation();
@@ -13,7 +14,10 @@ export function Login() {
   };
 
   return (
-    <main className="relative flex h-screen flex-col items-center justify-between">
+    <main
+      className="relative flex h-screen flex-col items-center justify-between bg-cover bg-center"
+      style={{ backgroundImage: `url(${메인})` }}
+    >
       {/* TODO: 로고 */}
 
       <MannequinIcon className="absolute w-[21rem] bottom-0" />
