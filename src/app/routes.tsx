@@ -4,9 +4,14 @@ import { TabLayout } from "./layouts/TabLayout";
 
 import { HomePage } from "@/pages/home";
 import { OnboardingPage } from "@/pages/onboarding";
-import { CompletePage } from "@/pages/complete";
+import { CourseRecommendationPage } from "@/pages/course-recommendation";
+import { DailyRoutinePage } from "@/pages/daily-routine";
+import { ExerciseDetailPage } from "@/pages/exercise-detail";
 import { Login } from "@/pages/login/ui/Login";
+import { PoseChallengePage } from "@/pages/pose-challenge";
+import { ScreeningPage } from "@/pages/screening";
 import { MyPage } from "@/pages/my";
+import { CompletePage } from "@/pages/complete";
 
 type AppRoute = {
   path: RoutePath;
@@ -31,6 +36,11 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     paths: [
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
+      { path: ROUTES.courseRecommendation, element: <CourseRecommendationPage /> },
+      { path: ROUTES.screening, element: <ScreeningPage /> },
+      { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
+      { path: ROUTES.dailyRoutineExercise, element: <ExerciseDetailPage /> },
+      { path: ROUTES.poseChallenge, element: <PoseChallengePage /> },
       { path: ROUTES.complete, element: <CompletePage /> },
     ],
   },
