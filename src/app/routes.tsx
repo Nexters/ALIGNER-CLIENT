@@ -1,13 +1,15 @@
 import type { ReactNode } from "react";
-import { HomePage } from "@/pages/home";
-import { Login, LoginCallback } from "@/pages/login";
-import { OnboardingPage } from "@/pages/onboarding";
-import { ROUTES, type RoutePath } from "@/shared/config/routes";
-import { TabLayout } from "./layouts/TabLayout";
+import { CourseRecommendationPage } from "@/pages/course-recommendation";
 import { DailyRoutinePage } from "@/pages/daily-routine";
 import { ExerciseDetailPage } from "@/pages/exercise-detail";
+import { HomePage } from "@/pages/home";
+import { Login, LoginCallback } from "@/pages/login";
 import { MyPage } from "@/pages/my";
+import { OnboardingPage } from "@/pages/onboarding";
 import { PoseChallengePage } from "@/pages/pose-challenge";
+import { ScreeningPage } from "@/pages/screening";
+import { ROUTES, type RoutePath } from "@/shared/config/routes";
+import { TabLayout } from "./layouts/TabLayout";
 
 type AppRoute = {
   path: RoutePath;
@@ -33,6 +35,8 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.loginCallback, element: <LoginCallback /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
+      { path: ROUTES.courseRecommendation, element: <CourseRecommendationPage /> },
+      { path: ROUTES.screening, element: <ScreeningPage /> },
       { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
       { path: ROUTES.dailyRoutineExercise, element: <ExerciseDetailPage /> },
       { path: ROUTES.poseChallenge, element: <PoseChallengePage /> },

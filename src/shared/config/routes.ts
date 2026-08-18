@@ -4,6 +4,8 @@ export const ROUTES = {
   login: "/login",
   loginCallback: "/oauth/kakao",
   my: "my",
+  courseRecommendation: "/course-recommendation",
+  screening: "/screening",
   dailyRoutine: "/daily-routine",
   dailyRoutineExercise: "/daily-routine/:exerciseId",
   poseChallenge: "/pose-challenge",
