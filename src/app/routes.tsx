@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { CourseRecommendationPage } from "@/pages/course-recommendation";
 import { DailyRoutinePage } from "@/pages/daily-routine";
 import { ExerciseDetailPage } from "@/pages/exercise-detail";
 import { HomePage } from "@/pages/home";
@@ -33,6 +34,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     paths: [
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
+      { path: ROUTES.courseRecommendation, element: <CourseRecommendationPage /> },
       { path: ROUTES.screening, element: <ScreeningPage /> },
       { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
       { path: ROUTES.dailyRoutineExercise, element: <ExerciseDetailPage /> },
