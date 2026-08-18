@@ -12,7 +12,7 @@ const CTA_LABEL = {
 
 export interface TodayCourseCardProps {
   workout: TodayWorkoutSummary;
-  /** 코스 진행도(current===total)가 다 찼는지. 호출부가 CourseProgress에서 계산해 넘긴다 */
+  /** 오늘 이 코스를 완주했는지. 서버 응답의 completed 값을 그대로 전달한다 */
   isCompleted: boolean;
   onStart?: () => void;
   className?: string;
@@ -27,7 +27,7 @@ export default function TodayCourseCard({
   const chips: SummaryCardChip[] = [
     { icon: <HumanIcon />, label: `${workout.exerciseCount}개 운동` },
     { icon: <AlarmIcon />, label: `${workout.setCount}개 세트` },
-    { icon: <FireIcon />, label: `${workout.kcal}kcal` },
+    { icon: <FireIcon />, label: `${workout.kcal ?? "-"}kcal` },
   ];
   const ctaLabel = isCompleted ? CTA_LABEL.completed : CTA_LABEL.incomplete;
 
