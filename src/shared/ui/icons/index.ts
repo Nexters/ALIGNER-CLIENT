@@ -9,6 +9,7 @@ export { default as HumanIcon } from "./mono/HumanIcon";
 export { default as KakaoIcon } from "./mono/KakaoIcon";
 export { default as Logo } from "./Logo";
 export { default as MannequinIcon } from "./mono/MannequinIcon";
+export { default as MannequinScanIcon } from "./multicolor/MannequinScanIcon";
 export { default as NextIcon } from "./mono/NextIcon";
 export { default as PreviousIcon } from "./mono/PreviousIcon";
 export { default as RightArrowIcon } from "./mono/RightArrowIcon";

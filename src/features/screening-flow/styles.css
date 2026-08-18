@@ -1,0 +1,46 @@
+/* 스크리닝 분석 중 화면 — 실루엣을 위에서 아래로 훑는 스캔 라인 */
+@keyframes screening-scan-line {
+  0% {
+    top: -18.2rem;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@utility animate-scan-line {
+  animation: screening-scan-line 3s ease-in-out infinite;
+}
+
+/* 텍스트 전환 / CTA 버튼 등장 공용 */
+@keyframes screening-fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.8rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes screening-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-fade-in {
+  animation: screening-fade-in 0.5s ease-out both;
+}

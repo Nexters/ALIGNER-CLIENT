@@ -3,6 +3,7 @@ export const ROUTES = {
   onboarding: "/onboarding",
   login: "/login",
   my: "my",
+  screening: "/screening",
   dailyRoutine: "/daily-routine",
   dailyRoutineExercise: "/daily-routine/:exerciseId",
   poseChallenge: "/pose-challenge",
