@@ -1,5 +1,4 @@
 import { isHTTPError } from "ky";
-import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { normalizePoseName, type PoseTip } from "@/entities/course";
 import { ROUTES } from "@/shared/config/routes";
@@ -7,6 +6,7 @@ import { Logo } from "@/shared/ui/icons";
 import { useTodayCourse } from "../api/use-today-course";
 import { mapTodayCourseResponse } from "../api/map-today-course";
 import CourseProgressCard from "./CourseProgressCard";
+import HomeEmptyCourseCard from "./HomeEmptyCourseCard";
 import PoseChallengeRow from "./PoseChallengeRow";
 import PoseTipCard from "./PoseTipCard";
 import TodayCourseCard from "./TodayCourseCard";
@@ -36,21 +36,16 @@ export function HomePage() {
   const navigate = useNavigate();
   const { data, error, isPending } = useTodayCourse();
 
-  // 진행 중인 코스도, 오늘 완주한 코스도 없으면(404 IN_PROGRESS_COURSE_NOT_FOUND) 추천으로 보낸다.
+  // 진행 중인 코스도, 오늘 완주한 코스도 없다(404 IN_PROGRESS_COURSE_NOT_FOUND).
+  // 리다이렉트하지 않고 홈 화면 자체에 빈 상태로 보여준다.
   const isNotFound = isHTTPError(error) && error.response.status === 404;
 
-  useEffect(() => {
-    if (isNotFound) {
-      navigate(ROUTES.courseRecommendation, { replace: true });
-    }
-  }, [isNotFound, navigate]);
-
-  if (isPending || isNotFound || !data) {
+  if (isPending || (!data && !isNotFound)) {
     return null;
   }
 
-  const { progress, workout, completed } = mapTodayCourseResponse(data);
-  const tip = getPoseTip(data.targetPoseName);
+  const view = data ? mapTodayCourseResponse(data) : undefined;
+  const tip = data ? getPoseTip(data.targetPoseName) : undefined;
 
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
@@ -58,16 +53,22 @@ export function HomePage() {
         <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
       </header>
 
-      <TodayCourseCard
-        workout={workout}
-        isCompleted={completed}
-        onStart={() => navigate(ROUTES.dailyRoutine)}
-      />
+      {view ? (
+        <TodayCourseCard
+          workout={view.workout}
+          isCompleted={view.completed}
+          onStart={() => navigate(ROUTES.dailyRoutine)}
+        />
+      ) : (
+        <HomeEmptyCourseCard onRecommend={() => navigate(ROUTES.courseRecommendation)} />
+      )}
 
-      <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">
-        <CourseProgressCard progress={progress} className="min-w-[13rem] flex-1" />
-        <PoseTipCard tip={tip} className="min-w-[16.3rem] flex-1" />
-      </div>
+      {view && (
+        <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">
+          <CourseProgressCard progress={view.progress} className="min-w-[13rem] flex-1" />
+          {tip && <PoseTipCard tip={tip} className="min-w-[16.3rem] flex-1" />}
+        </div>
+      )}
 
       <PoseChallengeRow onClick={() => navigate(ROUTES.poseChallenge)} className="mt-[4rem]" />
     </main>

@@ -20,9 +20,11 @@
 
 실제 `assetKey` 값과 명명 규칙이 확인되면(로그인 후 `/catalog/target-poses` 조회 등) 이 매핑을 `assetKey` 기준으로 옮기는 걸 재검토한다.
 
-### 2. `/courses/today` 404는 코스 추천 페이지로 리다이렉트한다
+### 2. `/courses/today` 404는 리다이렉트하지 않고 홈 화면 자체에 빈 상태로 보여준다
 
-스웨거 설명("화면은 추천으로 보낸다")을 그대로 따른다. 홈 화면에서 자체 빈 상태(empty state) UI를 새로 만들지 않고 `navigate(ROUTES.courseRecommendation, { replace: true })`로 위임한다.
+처음엔 스웨거 설명("화면은 추천으로 보낸다")을 그대로 따라 `courseRecommendation`으로 즉시 리다이렉트했다. 실제 서버로 붙여서 테스트해 보니(진행 중인 코스가 없는 테스트 계정), 사용자가 홈 화면 자체에 접근하지 못하고 계속 추천 화면으로 튕기는 게 오히려 테스트/개발 흐름을 막는다는 걸 확인해 뒤집었다.
+
+`HomeEmptyCourseCard`(`pages/home/ui/HomeEmptyCourseCard.tsx`)를 새로 만들어 `TodayCourseCard` 자리에 조건부로 렌더링한다. `CourseProgressCard`/`PoseTipCard`는 코스 데이터가 있을 때만 보이고, `PoseChallengeRow`는 코스 유무와 무관하게 항상 보인다. 이 빈 상태는 Figma 디자인이 없어 임시로 카드 크기만 맞추고 만들었다 — 실제 디자인이 나오면 교체한다.
 
 ### 3. `estimatedDurationSeconds`/`estimatedKcal`이 `null`이면 칩에 `-` 플레이스홀더를 표시한다
 
@@ -39,5 +41,5 @@
 ## 결과
 
 - `entities/course`에 `targetPoseName → 이미지 asset` 매핑 테이블이 새로 생긴다. 매핑되지 않은 이름은 폴백 이미지로 처리한다.
-- 홈 화면은 진행 중/오늘 완주 코스가 없으면 코스 추천으로 리다이렉트되므로, 코스가 전혀 없는 상태에서 홈 화면 자체를 볼 수 없다.
+- 홈 화면은 진행 중/오늘 완주 코스가 없어도 `HomeEmptyCourseCard`로 접근 가능하다. 추천 화면 이동은 그 카드의 CTA를 눌러야 일어난다(자동 리다이렉트 없음).
 - `targetPoseImageAssetKey` 실값 확인 및 매핑 기준 전환은 후속 이슈로 남는다.
