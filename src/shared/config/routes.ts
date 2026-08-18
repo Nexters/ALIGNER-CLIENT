@@ -1,14 +1,16 @@
 export const ROUTES = {
   home: "/",
   onboarding: "/onboarding",
-  login: "/login",
   loginCallback: "/oauth/kakao",
-  my: "my",
   courseRecommendation: "/course-recommendation",
   screening: "/screening",
   dailyRoutine: "/daily-routine",
   dailyRoutineExercise: "/daily-routine/:exerciseId",
   poseChallenge: "/pose-challenge",
+  login: "/login",
+  my: "my",
+  complete: "complete/:sessionId",
+  myEdit: "/my/edit",
 } as const;
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];
