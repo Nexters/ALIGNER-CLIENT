@@ -5,12 +5,12 @@ import 보트 from "@/shared/assets/imgs/보트.png";
 import 브릿지 from "@/shared/assets/imgs/브릿지.png";
 import 사이드플랭크 from "@/shared/assets/imgs/사이드플랭크.png";
 import 파이어로그 from "@/shared/assets/imgs/파이어로그.png";
-import 업독 from "@/shared/assets/imgs/업독.png";
+import 활 from "@/shared/assets/imgs/활.png";
 import 휠 from "@/shared/assets/imgs/휠.png";
 
 export const POSES = [
   { id: 1, name: "낙타", image: 낙타 },
-  { id: 2, name: "업독", image: 업독 },
+  { id: 2, name: "활", image: 활 },
   { id: 3, name: "휠", image: 휠 },
   { id: 4, name: "보트", image: 보트 },
   { id: 5, name: "사이드플랭크", image: 사이드플랭크 },

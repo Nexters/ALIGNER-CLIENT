@@ -1,13 +1,13 @@
 import fallbackImage from "@/shared/assets/images/yoga-1.png";
-import upwardDogImage from "@/shared/assets/imgs/업독.png";
-import wheelImage from "@/shared/assets/imgs/휠.png";
-import camelImage from "@/shared/assets/imgs/낙타.png";
-import boatImage from "@/shared/assets/imgs/보트.png";
-import halfBoatImage from "@/shared/assets/imgs/반보트.png";
-import bridgeImage from "@/shared/assets/imgs/브릿지.png";
-import malasanaImage from "@/shared/assets/imgs/말라사나.png";
-import fireLogImage from "@/shared/assets/imgs/파이어로그.png";
-import sidePlankImage from "@/shared/assets/imgs/사이드플랭크.png";
+import upwardDogImage from "@/shared/assets/imgs/target-pose/업독.png";
+import wheelImage from "@/shared/assets/imgs/target-pose/휠.png";
+import camelImage from "@/shared/assets/imgs/target-pose/낙타.png";
+import boatImage from "@/shared/assets/imgs/target-pose/보트.png";
+import halfBoatImage from "@/shared/assets/imgs/target-pose/반보트.png";
+import bridgeImage from "@/shared/assets/imgs/target-pose/브릿지.png";
+import malasanaImage from "@/shared/assets/imgs/target-pose/말라사나.png";
+import fireLogImage from "@/shared/assets/imgs/target-pose/파이어로그.png";
+import sidePlankImage from "@/shared/assets/imgs/target-pose/사이드플랭크.png";
 
 export const FALLBACK_POSE_IMAGE = fallbackImage;
 
