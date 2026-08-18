@@ -5,12 +5,23 @@ import {
   type MuscleDiagramView,
   type MuscleName,
 } from "@/shared/ui/muscle-diagram";
-import type { BodyPartCode, ExerciseDetailResponse, MuscleResponse } from "./types";
+import type {
+  BodyPartCode,
+  ExerciseDetailResponse,
+  ExerciseDifficulty,
+  MuscleResponse,
+} from "./types";
 
 const BODY_PART_LABELS: Record<BodyPartCode, string> = {
   BACK: "등",
   ABDOMEN: "복부",
   PELVIS: "골반",
+};
+
+const DIFFICULTY_LABELS: Record<ExerciseDifficulty, string> = {
+  EASY: "하",
+  MEDIUM: "중",
+  HARD: "상",
 };
 
 const BODY_PART_ORDER: BodyPartCode[] = ["BACK", "ABDOMEN", "PELVIS"];
@@ -46,17 +57,31 @@ export interface ExerciseGuideGroupView {
   view: MuscleDiagramView;
 }
 
+export interface ExerciseStepView {
+  current: number;
+  total: number;
+}
+
 export interface ExerciseDetailView {
   exerciseId: number;
   name: string;
   difficulty: string;
   imageSrc: string;
   guideGroups: ExerciseGuideGroupView[];
-  tip: string | null;
+  tip: string;
+  step: ExerciseStepView | null;
 }
 
+// muscles가 비어 있어도(백엔드 작업 중) 운동 가이드 UI 자체는 항상 보여준다 — 이 경우
+// 하이라이트 없는 기본 다이어그램 탭 하나를 보여준다.
+const DEFAULT_GUIDE_GROUP: ExerciseGuideGroupView = {
+  bodyPart: "전신",
+  highlightedMuscles: [],
+  view: "front",
+};
+
 function groupMuscles(muscles: MuscleResponse[]): ExerciseGuideGroupView[] {
-  return BODY_PART_ORDER.filter((code) =>
+  const groups = BODY_PART_ORDER.filter((code) =>
     muscles.some((muscle) => muscle.bodyPartCode === code),
   ).map((code) => {
     const highlightedMuscles = muscles
@@ -70,16 +95,27 @@ function groupMuscles(muscles: MuscleResponse[]): ExerciseGuideGroupView[] {
       view: resolveView(highlightedMuscles),
     };
   });
+
+  return groups.length > 0 ? groups : [DEFAULT_GUIDE_GROUP];
+}
+
+function resolveStep(response: ExerciseDetailResponse): ExerciseStepView | null {
+  if (response.stepOrder === null || response.totalStepCount === null) return null;
+  return { current: response.stepOrder, total: response.totalStepCount };
 }
 
 export function mapExerciseDetailResponse(response: ExerciseDetailResponse): ExerciseDetailView {
   return {
     exerciseId: response.exerciseId,
     name: response.name,
-    difficulty: response.difficulty ?? "-",
+    difficulty: response.difficulty ? DIFFICULTY_LABELS[response.difficulty] : "-",
     // 운동 이미지는 target-pose/* 매핑 테이블에 없는 exercise/* 네임스페이스라 지금은 항상 폴백으로 빠진다.
     imageSrc: getPoseImageSrc(response.imageAssetKey),
     guideGroups: groupMuscles(response.muscles),
-    tip: response.cautionNote,
+    // TODO(소정): 핵심 동작 설명은 추후 muscles[].instruction 필드로 내려줄 예정.
+    // 아직 스펙에 없어 임시로 cautionNote를 쓰고, 없으면 "-"로 표기한다.
+    tip: response.cautionNote ?? "-",
+    // TODO(소정): stepOrder/totalStepCount는 아직 스웨거 스펙에 없는 임시 필드명이다.
+    step: resolveStep(response),
   };
 }

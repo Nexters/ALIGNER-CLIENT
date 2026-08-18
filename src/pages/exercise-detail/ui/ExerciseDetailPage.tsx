@@ -32,7 +32,10 @@ export function ExerciseDetailPage() {
       </TopNavBar>
 
       <div className="mt-[2rem] flex w-full flex-col items-start gap-[0.8rem]">
-        <p className="typo-subheadline-regular text-gray-50">난이도 {exercise.difficulty}</p>
+        <p className="typo-subheadline-regular text-gray-50">
+          {exercise.step && `${exercise.step.current}/${exercise.step.total} `}난이도{" "}
+          {exercise.difficulty}
+        </p>
         <h1 className="typo-title-2-5-emphasized text-black">{exercise.name}</h1>
       </div>
 
@@ -73,20 +76,18 @@ export function ExerciseDetailPage() {
                 aria-label={`${guide.bodyPart} 근육 다이어그램`}
               />
             </div>
-            {exercise.tip && (
-              <div className="flex h-[20.4rem] flex-1 flex-col gap-[1.6rem] rounded-[2.4rem] bg-white p-[1.6rem]">
-                <span
-                  aria-hidden="true"
-                  className="flex size-[3.2rem] shrink-0 items-center justify-center rounded-full bg-primary-500"
-                >
-                  <span className="size-[0.6rem] rounded-full bg-gray-10" />
-                </span>
-                <div className="flex flex-col gap-[0.8rem]">
-                  <p className="typo-headline-emphasized text-gray-10">핵심 동작</p>
-                  <p className="typo-body-regular text-gray-30">{exercise.tip}</p>
-                </div>
+            <div className="flex min-h-[20.4rem] flex-1 flex-col gap-[1.6rem] rounded-[2.4rem] bg-white p-[1.6rem]">
+              <span
+                aria-hidden="true"
+                className="flex size-[3.2rem] shrink-0 items-center justify-center rounded-full bg-primary-500"
+              >
+                <span className="size-[0.6rem] rounded-full bg-gray-10" />
+              </span>
+              <div className="flex flex-col gap-[0.8rem]">
+                <p className="typo-headline-emphasized text-gray-10">핵심 동작</p>
+                <p className="typo-body-regular text-gray-30">{exercise.tip}</p>
               </div>
-            )}
+            </div>
           </div>
         </>
       )}
