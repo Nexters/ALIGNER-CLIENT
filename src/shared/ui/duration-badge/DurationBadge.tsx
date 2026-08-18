@@ -25,22 +25,23 @@ function describeArc(startAngle: number, endAngle: number) {
 }
 
 type DurationBadgeProps = {
-  minutes: number;
+  /** 예상 시간을 알 수 없으면 null. 링은 빈 상태로, 텍스트는 "-"로 표기한다 */
+  minutes: number | null;
   className?: string;
 };
 
 export default function DurationBadge({ minutes, className }: DurationBadgeProps) {
-  if (minutes > MAX_MINUTES) {
+  if (minutes !== null && minutes > MAX_MINUTES) {
     throw new Error(
       `DurationBadge: minutes는 ${MAX_MINUTES} 이하여야 합니다 (받은 값: ${minutes})`,
     );
   }
 
   // minutes 반올림
-  const displayMinutes = Math.round(minutes);
+  const displayMinutes = minutes !== null ? Math.round(minutes) : null;
 
   // 파란 아크 길이는 minutes/60에 비례
-  const fraction = Math.max(displayMinutes, 0) / MAX_MINUTES;
+  const fraction = displayMinutes !== null ? Math.max(displayMinutes, 0) / MAX_MINUTES : 0;
   const sweepDeg = fraction * 360;
   const bluePathLength = fraction * 100;
   const grayPathLength = 100 - bluePathLength;
@@ -94,7 +95,7 @@ export default function DurationBadge({ minutes, className }: DurationBadgeProps
         </svg>
         <div className="absolute inset-0 flex items-center justify-center px-[1rem] py-[1.4rem] leading-none text-white">
           <span className="flex items-baseline">
-            <span className="typo-title-2-5-regular">{displayMinutes}</span>
+            <span className="typo-title-2-5-regular">{displayMinutes ?? "-"}</span>
             <span className="typo-headline-regular">분</span>
           </span>
         </div>

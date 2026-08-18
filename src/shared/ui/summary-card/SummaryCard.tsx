@@ -9,8 +9,8 @@ export interface SummaryCardChip {
 }
 
 export interface SummaryCardProps extends Omit<ComponentProps<"div">, "children"> {
-  /** 좌상단 DurationBadge에 전달되는 분 단위 시간 */
-  minutes: number;
+  /** 좌상단 DurationBadge에 전달되는 분 단위 시간. 알 수 없으면 null */
+  minutes: number | null;
   /** 하단에 나열할 정보 카드 목록 */
   chips: SummaryCardChip[];
   /** 정보 카드 아래에 놓일 영역 (예: CTA 버튼). 문구/동작은 호출부 책임 */
