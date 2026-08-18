@@ -1,27 +1,29 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { getMuscleDiagramZoom, MOCK_EXERCISES, type ExerciseBodyPart } from "@/entities/course";
 import { Button, CTAButton } from "@/shared/ui/button";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { MuscleDiagram } from "@/shared/ui/muscle-diagram";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
-
-const BODY_PARTS: ExerciseBodyPart[] = ["가슴", "코어", "허리", "골반"];
+import { mapExerciseDetailResponse } from "../api/map-exercise";
+import { useExercise } from "../api/use-exercise";
 
 export function ExerciseDetailPage() {
   const navigate = useNavigate();
-  const { exerciseId } = useParams();
-  const [selectedBodyPart, setSelectedBodyPart] = useState<ExerciseBodyPart>(BODY_PARTS[0]);
+  const params = useParams();
+  const exerciseId = params.exerciseId ? Number(params.exerciseId) : null;
+  const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(null);
 
-  const exerciseIndex = MOCK_EXERCISES.findIndex((exercise) => exercise.id === exerciseId);
-  const exercise = MOCK_EXERCISES[exerciseIndex];
+  const { data, isPending } = useExercise(exerciseId);
 
-  if (!exercise) return null;
+  if (exerciseId === null || isPending || !data) {
+    return null;
+  }
 
-  // TODO: 가슴 외 신체 부위 가이드는 아직 디자인이 없어 없으면 첫 번째 가이드로 대체한다.
+  const exercise = mapExerciseDetailResponse(data);
+  const activeBodyPart = selectedBodyPart ?? exercise.guideGroups[0]?.bodyPart ?? null;
   const guide =
-    exercise.guides.find((candidate) => candidate.bodyPart === selectedBodyPart) ??
-    exercise.guides[0];
+    exercise.guideGroups.find((group) => group.bodyPart === activeBodyPart) ??
+    exercise.guideGroups[0];
 
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[10rem]">
@@ -30,9 +32,7 @@ export function ExerciseDetailPage() {
       </TopNavBar>
 
       <div className="mt-[2rem] flex w-full flex-col items-start gap-[0.8rem]">
-        <p className="typo-subheadline-regular text-gray-50">
-          {exerciseIndex + 1}/{MOCK_EXERCISES.length} ·난이도 {exercise.difficulty}
-        </p>
+        <p className="typo-subheadline-regular text-gray-50">난이도 {exercise.difficulty}</p>
         <h1 className="typo-title-2-5-emphasized text-black">{exercise.name}</h1>
       </div>
 
@@ -40,50 +40,56 @@ export function ExerciseDetailPage() {
         <CroppedWorkoutImage src={exercise.imageSrc} alt={exercise.name} />
       </div>
 
-      <h2 className="mt-[4.8rem] w-full typo-headline-emphasized text-black">운동 가이드</h2>
+      {guide && (
+        <>
+          <h2 className="mt-[4.8rem] w-full typo-headline-emphasized text-black">운동 가이드</h2>
 
-      <div
-        className="mt-[1rem] flex w-full items-center gap-[1.2rem]"
-        role="tablist"
-        aria-label="신체 부위"
-      >
-        {BODY_PARTS.map((bodyPart) => (
-          <Button
-            key={bodyPart}
-            role="tab"
-            aria-selected={selectedBodyPart === bodyPart}
-            color="white"
-            size="small"
-            isSelected={selectedBodyPart === bodyPart}
-            onClick={() => setSelectedBodyPart(bodyPart)}
+          <div
+            className="mt-[1rem] flex w-full items-center gap-[1.2rem]"
+            role="tablist"
+            aria-label="신체 부위"
           >
-            {bodyPart}
-          </Button>
-        ))}
-      </div>
-
-      <div className="mt-[2.5rem] flex w-full items-stretch gap-[1.2rem]">
-        <div className="relative flex h-[20.4rem] w-[19rem] shrink-0 items-center justify-center overflow-hidden rounded-[2.4rem] bg-gray-10">
-          <MuscleDiagram
-            highlightedMuscles={guide.highlightedMuscles}
-            zoom={getMuscleDiagramZoom(guide.bodyPart)}
-            role="img"
-            aria-label={`${guide.bodyPart} 근육 다이어그램`}
-          />
-        </div>
-        <div className="flex h-[20.4rem] flex-1 flex-col gap-[1.6rem] rounded-[2.4rem] bg-white p-[1.6rem]">
-          <span
-            aria-hidden="true"
-            className="flex size-[3.2rem] shrink-0 items-center justify-center rounded-full bg-primary-500"
-          >
-            <span className="size-[0.6rem] rounded-full bg-gray-10" />
-          </span>
-          <div className="flex flex-col gap-[0.8rem]">
-            <p className="typo-headline-emphasized text-gray-10">핵심 동작</p>
-            <p className="typo-body-regular text-gray-30">{guide.tip}</p>
+            {exercise.guideGroups.map((group) => (
+              <Button
+                key={group.bodyPart}
+                role="tab"
+                aria-selected={activeBodyPart === group.bodyPart}
+                color="white"
+                size="small"
+                isSelected={activeBodyPart === group.bodyPart}
+                onClick={() => setSelectedBodyPart(group.bodyPart)}
+              >
+                {group.bodyPart}
+              </Button>
+            ))}
           </div>
-        </div>
-      </div>
+
+          <div className="mt-[2.5rem] flex w-full items-stretch gap-[1.2rem]">
+            <div className="relative flex h-[20.4rem] w-[19rem] shrink-0 items-center justify-center overflow-hidden rounded-[2.4rem] bg-gray-10">
+              <MuscleDiagram
+                highlightedMuscles={guide.highlightedMuscles}
+                view={guide.view}
+                role="img"
+                aria-label={`${guide.bodyPart} 근육 다이어그램`}
+              />
+            </div>
+            {exercise.tip && (
+              <div className="flex h-[20.4rem] flex-1 flex-col gap-[1.6rem] rounded-[2.4rem] bg-white p-[1.6rem]">
+                <span
+                  aria-hidden="true"
+                  className="flex size-[3.2rem] shrink-0 items-center justify-center rounded-full bg-primary-500"
+                >
+                  <span className="size-[0.6rem] rounded-full bg-gray-10" />
+                </span>
+                <div className="flex flex-col gap-[0.8rem]">
+                  <p className="typo-headline-emphasized text-gray-10">핵심 동작</p>
+                  <p className="typo-body-regular text-gray-30">{exercise.tip}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      )}
 
       <CTAButton>
         <CTAButton.Single
