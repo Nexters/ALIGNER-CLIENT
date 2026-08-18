@@ -7,6 +7,7 @@ export { default as HomeFilledIcon } from "./mono/HomeFilledIcon";
 export { default as HomeOutlineIcon } from "./mono/HomeOutlineIcon";
 export { default as HumanIcon } from "./mono/HumanIcon";
 export { default as KakaoIcon } from "./mono/KakaoIcon";
+export { default as Logo } from "./Logo";
 export { default as MannequinIcon } from "./mono/MannequinIcon";
 export { default as NextIcon } from "./mono/NextIcon";
 export { default as PreviousIcon } from "./mono/PreviousIcon";

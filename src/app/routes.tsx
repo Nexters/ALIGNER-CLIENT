@@ -4,8 +4,10 @@ import { Login, LoginCallback } from "@/pages/login";
 import { OnboardingPage } from "@/pages/onboarding";
 import { ROUTES, type RoutePath } from "@/shared/config/routes";
 import { TabLayout } from "./layouts/TabLayout";
-
+import { DailyRoutinePage } from "@/pages/daily-routine";
+import { ExerciseDetailPage } from "@/pages/exercise-detail";
 import { MyPage } from "@/pages/my";
+import { PoseChallengePage } from "@/pages/pose-challenge";
 
 type AppRoute = {
   path: RoutePath;
@@ -31,6 +33,9 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
       { path: ROUTES.login, element: <Login /> },
       { path: ROUTES.loginCallback, element: <LoginCallback /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
+      { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
+      { path: ROUTES.dailyRoutineExercise, element: <ExerciseDetailPage /> },
+      { path: ROUTES.poseChallenge, element: <PoseChallengePage /> },
     ],
   },
 };
