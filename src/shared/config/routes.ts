@@ -9,6 +9,7 @@ export const ROUTES = {
   login: "/login",
   my: "my",
   complete: "complete/:sessionId",
+  myEdit: "/my/edit",
 } as const;
 
 export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];

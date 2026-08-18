@@ -12,6 +12,7 @@ import { PoseChallengePage } from "@/pages/pose-challenge";
 import { ScreeningPage } from "@/pages/screening";
 import { MyPage } from "@/pages/my";
 import { CompletePage } from "@/pages/complete";
+import { MyEditPage } from "@/pages/my-edit";
 
 type AppRoute = {
   path: RoutePath;
@@ -42,6 +43,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
       { path: ROUTES.dailyRoutineExercise, element: <ExerciseDetailPage /> },
       { path: ROUTES.poseChallenge, element: <PoseChallengePage /> },
       { path: ROUTES.complete, element: <CompletePage /> },
+      { path: ROUTES.myEdit, element: <MyEditPage /> },
     ],
   },
 };
