@@ -25,8 +25,8 @@ export default function StarIcon({ className, ...props }: SVGProps<SVGSVGElement
           y2={30.5}
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#80CEE9" />
-          <stop offset={1} stopColor="#DFE954" />
+          <stop stopColor="#00BDFF" />
+          <stop offset={1} stopColor="#ECFF3F" />
         </linearGradient>
       </defs>
     </svg>
