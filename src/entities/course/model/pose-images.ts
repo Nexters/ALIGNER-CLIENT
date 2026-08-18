@@ -1,4 +1,6 @@
 import fallbackImage from "@/shared/assets/images/yoga-1.png";
+
+export const FALLBACK_POSE_IMAGE = fallbackImage;
 import bowImage from "@/shared/assets/imgs/활.png";
 import wheelImage from "@/shared/assets/imgs/휠.png";
 import camelImage from "@/shared/assets/imgs/낙타.png";
