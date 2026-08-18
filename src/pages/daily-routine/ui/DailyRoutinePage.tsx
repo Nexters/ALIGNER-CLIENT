@@ -56,7 +56,16 @@ export function DailyRoutinePage() {
             <button
               key={row.exercise.exerciseId}
               type="button"
-              onClick={() => navigate(toDailyRoutineExercisePath(String(row.exercise.exerciseId)))}
+              onClick={() =>
+                navigate(toDailyRoutineExercisePath(String(row.exercise.exerciseId)), {
+                  // 상세 API가 느려서, 코스 순서에서 이미 알고 있는 값으로 먼저 그린다.
+                  state: {
+                    name: row.exercise.name,
+                    imageSrc: row.exercise.imageSrc,
+                    step: { current: index + 1, total: exercises.length },
+                  },
+                })
+              }
               className="w-full text-left"
             >
               <SequenceItem
