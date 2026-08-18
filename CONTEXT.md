@@ -11,4 +11,8 @@
 | NumberField | 숫자를 크게 표시하며 입력받는 단일 라인 입력 필드. suffix로 단위 표시, error로 에러 상태 외부 제어 | `shared/ui/number-field` |
 | ProgressRingItem | 원형 이미지 둘레를 진행 비율만큼 링으로 칠하고, 아래에 이름과 배지를 붙이는 아이템. `current=0`은 미시작(링·배지 없음), `current=total`은 완료 강조 | `shared/ui/progress-ring-item`. 단계 수는 `total`로 가변, 배지 문구는 외부 주입 |
 | SequenceItem | 좌측 순번 배지 + 점선 연결선, 우측 정보 카드로 이루어진 목록 한 줄. 순서가 있는 항목을 세로로 나열할 때 쓴다 | `shared/ui/sequence-item`. 마지막 줄은 `isLast`로 연결선을 숨긴다 |
-
+| 목표 자세 | 코스가 최종적으로 완성을 노리는 자세 | |
+| 코스 (Course) | 목표 자세 1개를 위해 구성된 동작 묶음 | |
+| 세션 (Session) | 코스를 처음부터 끝까지 한 번 실행하는 단위. 완료 후에도 재조회 가능한 리소스다 | |
+| 동작 (Exercise) | 코스를 구성하는 개별 운동 | |
+| 완료 리포트 | 세션 완료 직후 노출되는 결과 화면 | 세션-7 |
