@@ -7,7 +7,7 @@ const BASE_RESPONSE: TodayCourseResponse = {
   courseId: 20,
   targetPoseId: 3,
   targetPoseName: "낙타 자세",
-  targetPoseImageAssetKey: null,
+  targetPoseImageAssetKey: "target-pose/camel",
   targetPoseLevel: 1,
   name: "낙타자세 정복하기",
   recommendationReason: null,
@@ -47,10 +47,16 @@ describe("mapTodayCourseResponse", () => {
     expect(view.workout.kcal).toBeNull();
   });
 
-  test("자세명으로 이미지를 매핑한다", () => {
+  test("imageAssetKey로 이미지를 매핑한다", () => {
     const view = mapTodayCourseResponse(BASE_RESPONSE);
 
-    expect(view.workout.imageSrc).toBe(getPoseImageSrc("낙타 자세"));
+    expect(view.workout.imageSrc).toBe(getPoseImageSrc("target-pose/camel"));
+  });
+
+  test("imageAssetKey가 없으면(null) 폴백 이미지를 쓴다", () => {
+    const view = mapTodayCourseResponse({ ...BASE_RESPONSE, targetPoseImageAssetKey: null });
+
+    expect(view.workout.imageSrc).toBe(getPoseImageSrc(null));
   });
 
   test("완료 여부와 자세명을 그대로 전달한다", () => {

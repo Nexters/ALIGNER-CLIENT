@@ -1,7 +1,4 @@
 import fallbackImage from "@/shared/assets/images/yoga-1.png";
-
-export const FALLBACK_POSE_IMAGE = fallbackImage;
-import bowImage from "@/shared/assets/imgs/활.png";
 import wheelImage from "@/shared/assets/imgs/휠.png";
 import camelImage from "@/shared/assets/imgs/낙타.png";
 import boatImage from "@/shared/assets/imgs/보트.png";
@@ -11,24 +8,23 @@ import malasanaImage from "@/shared/assets/imgs/말라사나.png";
 import fireLogImage from "@/shared/assets/imgs/파이어로그.png";
 import sidePlankImage from "@/shared/assets/imgs/사이드플랭크.png";
 
-// TODO: 실제 targetPoseImageAssetKey 값과 명명 규칙을 확인하면(ADR-0004) 이 매핑을 assetKey 기준으로 옮긴다.
+export const FALLBACK_POSE_IMAGE = fallbackImage;
+
+// dev 카탈로그(GET /catalog/target-poses)로 확인한 실제 imageAssetKey 값이다(ADR-0004 후속).
+// "활"(bow) 로컬 파일은 실제 카탈로그의 9개 목표 자세(업독/낙타자세/휠/반 보트/보트자세/
+// 사이드 플랭크/브릿지/말라사나/파이어로그)에 없어 매핑하지 않는다 — 업독은 로컬 이미지가 없다.
 const POSE_IMAGES: Record<string, string> = {
-  활: bowImage,
-  휠: wheelImage,
-  낙타: camelImage,
-  보트: boatImage,
-  반보트: halfBoatImage,
-  브릿지: bridgeImage,
-  말라사나: malasanaImage,
-  파이어로그: fireLogImage,
-  사이드플랭크: sidePlankImage,
+  "target-pose/wheel": wheelImage,
+  "target-pose/camel": camelImage,
+  "target-pose/boat": boatImage,
+  "target-pose/half-boat": halfBoatImage,
+  "target-pose/bridge": bridgeImage,
+  "target-pose/malasana": malasanaImage,
+  "target-pose/fire-log": fireLogImage,
+  "target-pose/side-plank": sidePlankImage,
 };
 
-// API가 "휠"/"휠 자세" 중 어느 형태로 내려줄지 확정되지 않아 접미사를 떼고 매핑한다.
-export function normalizePoseName(targetPoseName: string): string {
-  return targetPoseName.replace(/\s*자세$/, "").trim();
-}
-
-export function getPoseImageSrc(targetPoseName: string): string {
-  return POSE_IMAGES[normalizePoseName(targetPoseName)] ?? fallbackImage;
+export function getPoseImageSrc(imageAssetKey: string | null): string {
+  if (imageAssetKey === null) return fallbackImage;
+  return POSE_IMAGES[imageAssetKey] ?? fallbackImage;
 }

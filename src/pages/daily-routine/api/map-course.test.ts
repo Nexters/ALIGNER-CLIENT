@@ -7,7 +7,7 @@ const BASE_RESPONSE: CourseDetailResponse = {
   courseId: 20,
   targetPoseId: 3,
   targetPoseName: "낙타 자세",
-  targetPoseImageAssetKey: null,
+  targetPoseImageAssetKey: "target-pose/camel",
   name: "낙타자세 정복하기",
   recommendationReason: null,
   completedStepCount: 1,
@@ -87,7 +87,7 @@ describe("mapCourseDetailResponse", () => {
       exerciseCount: 4,
       setCount: 4,
       kcal: 69,
-      imageSrc: getPoseImageSrc("낙타 자세"),
+      imageSrc: getPoseImageSrc("target-pose/camel"),
     });
   });
 
@@ -119,6 +119,8 @@ describe("mapCourseDetailResponse", () => {
       category: "가동성 웜업",
       setInfo: "1세트/2분",
       kcal: 6,
+      // exercise/* 네임스페이스는 target-pose/* 매핑 테이블에 없어 폴백으로 빠진다.
+      imageSrc: getPoseImageSrc("exercise/cat-cow"),
     });
   });
 

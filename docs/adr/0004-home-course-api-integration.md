@@ -14,11 +14,13 @@
 
 ## 결정
 
-### 1. 이미지 매핑 키는 `targetPoseImageAssetKey`가 아니라 `targetPoseName`(한글 자세명)을 쓴다
+### 1. ~~이미지 매핑 키는 `targetPoseImageAssetKey`가 아니라 `targetPoseName`(한글 자세명)을 쓴다~~ → **후속: `imageAssetKey` 기준으로 전환**
 
-`assetKey`는 nullable인 데다 실제 값 형식을 검증할 수 없었다. 반면 `targetPoseName`은 응답에서 항상 내려오는 필수 문자열이고, 기존 `POSE_TIP_MESSAGES` 테이블도 이미 같은 한글 자세명을 키로 쓰고 있어 `src/shared/assets/imgs/*.png` 파일명과 그대로 맞아떨어진다. `entities/course`에 자세명 → 이미지 매핑 테이블을 새로 만들고, 매핑에 없는 자세명은 폴백 이미지(`yoga-1.png`)를 쓴다.
+처음엔 `assetKey` 실값을 확인할 수 없어 `targetPoseName`(한글 자세명)을 키로 썼다. 이후 테스트 토큰으로 `GET /catalog/target-poses`(dev)를 직접 조회해 실값을 확인했다 — `"target-pose/camel"`처럼 `target-pose/` 접두사가 붙은 영문 슬러그였고, 9개 목표 자세 모두 값이 채워져 있었다. 반면 이름 기반 매핑은 실제로 깨졌다: 카탈로그의 진짜 이름은 `"반 보트"`/`"사이드 플랭크"`처럼 중간에 띄어쓰기가 들어가는데, 로컬 매핑 테이블 키(`반보트`/`사이드플랭크`)와 자세 접미사만 떼는 정규화로는 이 띄어쓰기를 못 잡아서 폴백 이미지로 빠졌다.
 
-실제 `assetKey` 값과 명명 규칙이 확인되면(로그인 후 `/catalog/target-poses` 조회 등) 이 매핑을 `assetKey` 기준으로 옮기는 걸 재검토한다.
+그래서 `entities/course`의 `getPoseImageSrc`를 `imageAssetKey: string | null`을 받는 함수로 바꾸고, 매핑 테이블도 확인된 9개 `target-pose/*` 키 기준으로 다시 만들었다(`pose-images.ts`). 로컬에 없는 `업독`(`target-pose/upward-facing-dog`)과, 카탈로그에 없는 기존 `활` 이미지 파일은 매핑에서 뺐다(파일 자체는 지우지 않았다).
+
+`PoseTipCard` 문구 조회(`normalizePoseName`)는 여전히 이름 기반이라 `entities/course/model/lib.ts`로 옮기고, 접미사 제거에 더해 중간 띄어쓰기도 제거하도록 넓혔다 — 같은 띄어쓰기 문제가 문구 조회에도 있었기 때문이다.
 
 ### 2. `/courses/today` 404는 리다이렉트하지 않고, 홈 화면 구조는 그대로 두고 값만 `-`로 표기한다
 
@@ -43,6 +45,6 @@
 
 ## 결과
 
-- `entities/course`에 `targetPoseName → 이미지 asset` 매핑 테이블이 새로 생긴다. 매핑되지 않은 이름은 폴백 이미지로 처리한다.
+- `entities/course`에 `imageAssetKey → 이미지 asset` 매핑 테이블이 있다. 매핑되지 않은 키(또는 `null`)는 폴백 이미지로 처리한다. 홈/데일리 루틴/자세 도전 현황 모두 이 함수를 공유한다.
 - 홈 화면은 진행 중/오늘 완주 코스가 없어도 동일한 레이아웃으로 접근 가능하다. 자동 리다이렉트 없이, `TodayCourseCard`의 CTA를 눌러야 추천 화면으로 이동한다.
-- `targetPoseImageAssetKey` 실값 확인 및 매핑 기준 전환은 후속 이슈로 남는다.
+- 운동(exercise) 이미지는 `exercise/*` 네임스페이스라 이 매핑 테이블(`target-pose/*`)에 없어 항상 폴백으로 빠진다 — 운동 이미지 에셋이 생기면 별도 테이블로 분리한다.

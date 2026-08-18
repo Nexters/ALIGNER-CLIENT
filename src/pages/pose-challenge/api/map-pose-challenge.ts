@@ -28,7 +28,7 @@ function toPoseChallenge(item: TargetPoseProgressItem): PoseChallenge {
     // 아직 시작하지 않았으면 null이지만, "current=0은 미시작" 관례와 맞아떨어져 0으로 둔다.
     current: item.acquiredStampCount ?? 0,
     total: item.requiredStampCount,
-    imageSrc: getPoseImageSrc(item.targetPoseName),
+    imageSrc: getPoseImageSrc(item.targetPoseImageAssetKey),
     status: deriveStatus(item),
   };
 }

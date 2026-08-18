@@ -13,7 +13,7 @@ function item(overrides: Partial<TargetPoseProgressItem>): TargetPoseProgressIte
   return {
     targetPoseId: 1,
     targetPoseName: "낙타 자세",
-    targetPoseImageAssetKey: null,
+    targetPoseImageAssetKey: "target-pose/camel",
     bodyPartCode: "BACK",
     level: 1,
     courseId: null,
@@ -67,12 +67,12 @@ describe("mapPoseChallengeProgress", () => {
     expect(view.groups[0].poses[0]).toMatchObject({ status: "completed", current: 4 });
   });
 
-  test("자세명으로 이미지를 매핑하고, id는 targetPoseId 문자열이다", () => {
+  test("imageAssetKey로 이미지를 매핑하고, id는 targetPoseId 문자열이다", () => {
     const view = mapPoseChallengeProgress(response([item({ targetPoseId: 42 })]), BODY_PARTS);
 
     expect(view.groups[0].poses[0]).toMatchObject({
       id: "42",
-      imageSrc: getPoseImageSrc("낙타 자세"),
+      imageSrc: getPoseImageSrc("target-pose/camel"),
     });
   });
 

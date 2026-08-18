@@ -42,7 +42,8 @@ function mapExercise(exercise: CourseStepExerciseResponse): DailyRoutineExercise
     category: exercise.category ?? "-",
     setInfo: buildSetInfo(exercise),
     kcal: exercise.estimatedKcal,
-    imageSrc: getPoseImageSrc(exercise.name),
+    // 운동 이미지는 target-pose/* 매핑 테이블에 없는 exercise/* 네임스페이스라 지금은 항상 폴백으로 빠진다.
+    imageSrc: getPoseImageSrc(exercise.imageAssetKey),
   };
 }
 
@@ -80,7 +81,7 @@ export function mapCourseDetailResponse(response: CourseDetailResponse): CourseD
       exerciseCount: response.exerciseCount,
       setCount: response.totalSetCount,
       kcal: response.estimatedKcal,
-      imageSrc: getPoseImageSrc(response.targetPoseName),
+      imageSrc: getPoseImageSrc(response.targetPoseImageAssetKey),
     },
     completed: isCourseCompleted({
       current: response.completedStepCount,

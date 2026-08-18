@@ -22,7 +22,7 @@ export function mapTodayCourseResponse(response: TodayCourseResponse): TodayCour
       exerciseCount: response.exerciseCount,
       setCount: response.totalSetCount,
       kcal: response.estimatedKcal,
-      imageSrc: getPoseImageSrc(response.targetPoseName),
+      imageSrc: getPoseImageSrc(response.targetPoseImageAssetKey),
     },
     targetPoseName: response.targetPoseName,
     completed: response.completed,
