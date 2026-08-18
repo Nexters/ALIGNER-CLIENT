@@ -2,7 +2,7 @@ export const ROUTES = {
   home: "/",
   onboarding: "/onboarding",
   login: "/login",
-  loginCallback: "/login/callback",
+  loginCallback: "/oauth/kakao",
   my: "my",
   dailyRoutine: "/daily-routine",
   dailyRoutineExercise: "/daily-routine/:exerciseId",
