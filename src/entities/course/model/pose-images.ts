@@ -28,3 +28,11 @@ export function getPoseImageSrc(imageAssetKey: string | null): string {
   if (imageAssetKey === null) return fallbackImage;
   return POSE_IMAGES[imageAssetKey] ?? fallbackImage;
 }
+
+// API가 내려주는 썸네일 URL이 있으면 그대로 쓰고, 없으면 기존 asset key 매핑으로 폴백한다.
+export function resolveThumbnailSrc(
+  thumbnailUrl: string | null | undefined,
+  imageAssetKey: string | null,
+): string {
+  return thumbnailUrl ?? getPoseImageSrc(imageAssetKey);
+}

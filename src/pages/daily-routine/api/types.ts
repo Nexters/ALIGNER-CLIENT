@@ -4,6 +4,7 @@ export interface CourseStepExerciseResponse {
   exerciseId: number;
   name: string;
   imageAssetKey: string | null;
+  thumbnailUrl: string | null;
   category: string | null;
   displayOrder: number;
   durationSeconds: number | null;
@@ -24,6 +25,7 @@ export interface CourseDetailResponse {
   targetPoseId: number;
   targetPoseName: string;
   targetPoseImageAssetKey: string | null;
+  targetPoseThumbnailUrl: string | null;
   name: string;
   recommendationReason: string | null;
   completedStepCount: number;

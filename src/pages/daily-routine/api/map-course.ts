@@ -1,4 +1,9 @@
-import { getPoseImageSrc, isCourseCompleted, type TodayWorkoutSummary } from "@/entities/course";
+import {
+  getPoseImageSrc,
+  isCourseCompleted,
+  resolveThumbnailSrc,
+  type TodayWorkoutSummary,
+} from "@/entities/course";
 import type { CourseDetailResponse, CourseStepExerciseResponse } from "./types";
 
 export interface DailyRoutineExerciseView {
@@ -42,8 +47,7 @@ function mapExercise(exercise: CourseStepExerciseResponse): DailyRoutineExercise
     category: exercise.category ?? "-",
     setInfo: buildSetInfo(exercise),
     kcal: exercise.estimatedKcal,
-    // 운동 이미지는 target-pose/* 매핑 테이블에 없는 exercise/* 네임스페이스라 지금은 항상 폴백으로 빠진다.
-    imageSrc: getPoseImageSrc(exercise.imageAssetKey),
+    imageSrc: resolveThumbnailSrc(exercise.thumbnailUrl, exercise.imageAssetKey),
   };
 }
 
