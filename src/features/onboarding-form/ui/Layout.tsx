@@ -2,9 +2,11 @@ import { Navigate, useNavigate } from "react-router";
 import { CTAButton } from "@/shared/ui/button";
 import { Indicator } from "@/shared/ui/indicator";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
+import ErrorMessage from "../components/ErrorMessage";
 import { useOnboardingStepParam } from "../hooks/useOnboardingStepParam";
 import { useStepChrome } from "../hooks/useStepChrome";
 import { useOnboardingForm } from "../model/use-onboarding-form";
+import { useTargetPoses } from "../model/use-target-poses";
 import {
   findFirstIncompleteStep,
   getNextStep,
@@ -35,8 +37,11 @@ function LayoutContent({ onComplete }: LayoutProps) {
   const {
     compatibleFormData,
     compatibleHandlers: { handleSubmitForm },
+    isSubmitting,
+    submitError,
   } = useOnboardingForm();
   const { isCTAHidden } = useStepChrome();
+  useTargetPoses();
 
   // 앞 스텝을 채우지 않고 파라미터로 뒤 스텝에 바로 접근한 경우, 아직 안 채운 첫 스텝으로 되돌린다
   const firstIncompleteStep = findFirstIncompleteStep(compatibleFormData);
@@ -48,7 +53,7 @@ function LayoutContent({ onComplete }: LayoutProps) {
   }
 
   const nextStep = getNextStep(step);
-  const isNextDisabled = !isStepComplete(step, compatibleFormData);
+  const isNextDisabled = !isStepComplete(step, compatibleFormData) || isSubmitting;
 
   const handleNext = () => {
     if (nextStep) {
@@ -66,6 +71,7 @@ function LayoutContent({ onComplete }: LayoutProps) {
       <StepRouter />
       {!isCTAHidden && (
         <CTAButton fixed>
+          {submitError && <ErrorMessage message={submitError} />}
           <CTAButton.Single onClick={handleNext} disabled={isNextDisabled}>
             다음
           </CTAButton.Single>

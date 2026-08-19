@@ -1,8 +1,7 @@
-// TODO: API 연동 시, 삭제
-/** Swagger `CourseDetailResponse`(`GET /courses/{courseId}`)의 필드명을 그대로 따른다. API 호출은 하지 않는다 */
+/** `GET /courses/{courseId}`(`CourseDetailResponse`)를 화면이 쓰기 좋은 모양으로 옮긴 도메인 타입 */
 export type CourseStepExercise = {
   name: string;
-  /** 운동 이미지 asset 키. URL이 아니다. 없으면 플레이스홀더로 그린다 */
+  /** 운동 썸네일. 로컬 이미지 라이브러리가 없어 아직 항상 null이다. 없으면 플레이스홀더로 그린다 */
   imageAssetKey: string | null;
   category: string | null;
 };
@@ -14,7 +13,7 @@ export type CourseStep = {
 
 export type Course = {
   targetPoseName: string;
-  /** 목표 자세 이미지 asset 키. 히어로 카드 배경에 쓴다. URL이 아니다 */
+  /** 히어로 카드 배경 이미지. 로컬 자세 이미지로 이미 해석된 값이다 */
   targetPoseImageAssetKey: string | null;
   totalStepCount: number;
   exerciseCount: number;

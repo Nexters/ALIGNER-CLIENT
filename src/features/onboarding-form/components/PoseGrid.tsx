@@ -1,17 +1,23 @@
 import { OptionItem } from "@/shared/ui/option-item";
-import { POSES } from "../constants/poses";
 import { cn } from "@/shared/lib/cn";
+import type { TargetPose } from "../model/use-target-poses";
 
 type PoseGridProps = {
+  poses: TargetPose[];
   selectedIds: number[];
   excludedIds?: number[];
   onToggle?: (id: number, isSelected: boolean) => void;
 };
 
-export default function PoseGrid({ selectedIds, excludedIds = [], onToggle }: PoseGridProps) {
+export default function PoseGrid({
+  poses,
+  selectedIds,
+  excludedIds = [],
+  onToggle,
+}: PoseGridProps) {
   return (
     <div className="grid grid-cols-3 gap-x-[1.3rem] gap-y-[1.6rem]">
-      {POSES.map((pose) => {
+      {poses.map((pose) => {
         const isSelected = selectedIds.includes(pose.id);
         const isExcluded = excludedIds.includes(pose.id);
         return (

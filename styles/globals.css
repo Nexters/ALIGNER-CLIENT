@@ -9,4 +9,5 @@
 
 /* feature/공용 UI 전용 애니메이션. 소유권은 각 폴더에 두고 여기서는 빌드 진입점으로만 import한다 */
 @import "../src/features/screening-flow/styles.css";
+@import "../src/features/onboarding-form/styles.css";
 @import "../src/shared/ui/skeleton/styles.css";

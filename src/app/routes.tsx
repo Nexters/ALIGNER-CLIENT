@@ -2,17 +2,17 @@ import type { ReactNode } from "react";
 import { ROUTES, type RoutePath } from "@/shared/config/routes";
 import { TabLayout } from "./layouts/TabLayout";
 
-import { HomePage } from "@/pages/home";
-import { OnboardingPage } from "@/pages/onboarding";
+import { CompletePage } from "@/pages/complete";
 import { CourseRecommendationPage } from "@/pages/course-recommendation";
 import { DailyRoutinePage } from "@/pages/daily-routine";
 import { ExerciseDetailPage } from "@/pages/exercise-detail";
-import { Login } from "@/pages/login/ui/Login";
+import { HomePage } from "@/pages/home";
+import { Login, LoginCallback } from "@/pages/login";
+import { MyPage } from "@/pages/my";
+import { MyEditPage } from "@/pages/my-edit";
+import { OnboardingPage } from "@/pages/onboarding";
 import { PoseChallengePage } from "@/pages/pose-challenge";
 import { ScreeningPage } from "@/pages/screening";
-import { MyPage } from "@/pages/my";
-import { CompletePage } from "@/pages/complete";
-import { MyEditPage } from "@/pages/my-edit";
 
 type AppRoute = {
   path: RoutePath;
@@ -36,6 +36,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
     layout: undefined,
     paths: [
       { path: ROUTES.login, element: <Login /> },
+      { path: ROUTES.loginCallback, element: <LoginCallback /> },
       { path: ROUTES.onboarding, element: <OnboardingPage /> },
       { path: ROUTES.courseRecommendation, element: <CourseRecommendationPage /> },
       { path: ROUTES.screening, element: <ScreeningPage /> },

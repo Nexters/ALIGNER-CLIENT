@@ -1,11 +1,5 @@
 import type { BodyPartCode } from "../constants/body-parts";
 
-//TODO: Swagger type 및 전역 type으로 교체 예정
-export type ApiErrorResponse = {
-  code: string;
-  message: string;
-};
-
 export type ScreeningCause = {
   causeCode: string;
   name: string;

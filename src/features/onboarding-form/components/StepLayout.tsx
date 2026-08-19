@@ -1,4 +1,5 @@
 import { useOnboardingForm } from "../model/use-onboarding-form";
+import { useTargetPoses } from "../model/use-target-poses";
 import { MIN_MAX_FIELDS } from "../constants/form-fields";
 import ErrorMessage from "./ErrorMessage";
 import PoseGrid from "./PoseGrid";
@@ -27,6 +28,7 @@ function StepLayoutPosture({ title, field }: StepLayoutPostureProps) {
     compatibleErrors,
     compatibleHandlers: { getPostureSelection, updateEasyPose, updateHardPose },
   } = useOnboardingForm();
+  const { poses } = useTargetPoses();
   const { selectedIds, excludedIds } = getPostureSelection(field);
   const onToggle = field === "easyPoseIds" ? updateEasyPose : updateHardPose;
   const error = compatibleErrors[field];
@@ -39,7 +41,12 @@ function StepLayoutPosture({ title, field }: StepLayoutPostureProps) {
           {selectedIds?.length ?? 0}/{MIN_MAX_FIELDS.poses.max}
         </span>
       </div>
-      <PoseGrid selectedIds={selectedIds ?? []} excludedIds={excludedIds} onToggle={onToggle} />
+      <PoseGrid
+        poses={poses}
+        selectedIds={selectedIds ?? []}
+        excludedIds={excludedIds}
+        onToggle={onToggle}
+      />
       {error && <ErrorMessage message={error} />}
     </StepLayoutRoot>
   );

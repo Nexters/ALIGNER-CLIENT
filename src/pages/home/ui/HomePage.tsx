@@ -2,7 +2,7 @@ import { isHTTPError } from "ky";
 import { useNavigate } from "react-router";
 import { normalizePoseName, type PoseTip } from "@/entities/course";
 import { ROUTES, toDailyRoutinePath } from "@/shared/config/routes";
-import { Logo } from "@/shared/ui/icons";
+import { LogoIcon } from "@/shared/ui/icons";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { useTodayCourse } from "../api/use-today-course";
 import { mapTodayCourseResponse } from "../api/map-today-course";
@@ -44,7 +44,7 @@ export function HomePage() {
     return (
       <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
         <header className="flex w-full items-center pr-[1.6rem] pt-[2.7rem] pb-[2.4rem]">
-          <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
+          <LogoIcon className="h-[2.4rem] w-auto shrink-0 text-black" />
         </header>
         <Skeleton className="h-[20rem] w-full rounded-[3.2rem]" />
         <div className="mt-[1.6rem] flex w-full gap-[1.6rem]">
@@ -71,15 +71,13 @@ export function HomePage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
       <header className="flex w-full items-center pr-[1.6rem] pt-[2.7rem] pb-[2.4rem]">
-        <Logo className="h-[2.4rem] w-auto shrink-0 text-black" />
+        <LogoIcon className="h-[2.4rem] w-auto shrink-0 text-black" />
       </header>
 
       <TodayCourseCard
         workout={view?.workout ?? null}
         isCompleted={view?.completed ?? false}
-        onStart={() =>
-          navigate(data ? toDailyRoutinePath(data.courseId) : ROUTES.courseRecommendation)
-        }
+        onStart={() => navigate(data ? toDailyRoutinePath(data.courseId) : ROUTES.screening)}
       />
 
       <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">

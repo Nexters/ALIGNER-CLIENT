@@ -1,6 +1,17 @@
+import { useMutation } from "@tanstack/react-query";
 import { useFormContext, useWatch } from "react-hook-form";
+import { useUpdateMemberProfile } from "@/entities/member";
+import { parseApiError, screeningApi } from "@/shared/api";
+import type { ScreeningAnswerRequest } from "@/shared/api/generated/data-contracts";
 import type { OnboardingFormValues } from "./schema";
 import { ERROR_MESSAGES, EXPERIENCE_LEVELS, MIN_MAX_FIELDS } from "../constants/form-fields";
+
+function toScreeningAnswers(
+  poseIds: number[],
+  perceivedDifficulty: ScreeningAnswerRequest["perceivedDifficulty"],
+): ScreeningAnswerRequest[] {
+  return poseIds.map((targetPoseId) => ({ targetPoseId, perceivedDifficulty }));
+}
 
 export function useOnboardingForm() {
   const {
@@ -11,6 +22,11 @@ export function useOnboardingForm() {
     handleSubmit,
     formState: { errors },
   } = useFormContext<OnboardingFormValues>();
+
+  const updateMemberProfile = useUpdateMemberProfile();
+  const submitScreening = useMutation({
+    mutationFn: (answers: ScreeningAnswerRequest[]) => screeningApi.submit({ answers }),
+  });
 
   const [heightCm, weightKg, experienceLevel, easyPoseIds, hardPoseIds] = useWatch({
     control,
@@ -75,9 +91,23 @@ export function useOnboardingForm() {
   };
 
   const handleSubmitForm = async (onSuccess: (data: OnboardingFormValues) => void) => {
-    await handleSubmit((data) => {
-      //TODO: server post
-      onSuccess(data);
+    await handleSubmit(async (data) => {
+      try {
+        await Promise.all([
+          updateMemberProfile.mutateAsync({
+            heightCm: data.heightCm,
+            weightKg: data.weightKg,
+            experienceLevel: data.experienceLevel,
+          }),
+          submitScreening.mutateAsync([
+            ...toScreeningAnswers(data.easyPoseIds, "EASY"),
+            ...toScreeningAnswers(data.hardPoseIds, "HARD"),
+          ]),
+        ]);
+        onSuccess(data);
+      } catch {
+        // 에러 메시지는 updateMemberProfile.error / submitScreening.error로 노출된다
+      }
     })();
   };
 
@@ -107,10 +137,18 @@ export function useOnboardingForm() {
     handleSubmitForm,
   };
 
+  const submitError = updateMemberProfile.isError
+    ? (parseApiError(updateMemberProfile.error)?.message ?? "프로필 저장에 실패했습니다.")
+    : submitScreening.isError
+      ? (parseApiError(submitScreening.error)?.message ?? "진단 제출에 실패했습니다.")
+      : undefined;
+
   return {
     compatibleFormData,
     compatibleErrors,
     compatibleHandlers,
     trigger,
+    isSubmitting: updateMemberProfile.isPending || submitScreening.isPending,
+    submitError,
   };
 }

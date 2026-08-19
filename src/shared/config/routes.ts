@@ -1,7 +1,8 @@
 export const ROUTES = {
   home: "/",
   onboarding: "/onboarding",
-  courseRecommendation: "/course-recommendation",
+  loginCallback: "/oauth/kakao",
+  courseRecommendation: "/course-recommendation/:courseId",
   screening: "/screening",
   dailyRoutine: "/daily-routine",
   dailyRoutineExercise: "/daily-routine/:exerciseId",
@@ -16,6 +17,10 @@ export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];
 
 export function toDailyRoutineExercisePath(exerciseId: string) {
   return `/daily-routine/${exerciseId}`;
+}
+
+export function toCourseRecommendationPath(courseId: number) {
+  return `/course-recommendation/${courseId}`;
 }
 
 // courseId는 경로가 아니라 쿼리로 넘긴다 — "/daily-routine/:exerciseId"(운동 상세) 경로와 겹치지 않기 위해서다.
