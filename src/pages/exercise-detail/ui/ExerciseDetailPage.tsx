@@ -59,7 +59,7 @@ export function ExerciseDetailPage() {
       </div>
 
       <div className="relative mt-[1.6rem] h-[28rem] w-full overflow-hidden rounded-[2.8rem] bg-gray-97">
-        <CroppedWorkoutImage src={imageSrc} alt={name} />
+        <CroppedWorkoutImage src={imageSrc} alt={name} imageClassName="object-cover" />
       </div>
 
       <h2 className="mt-[4.8rem] w-full typo-headline-emphasized text-black">운동 가이드</h2>

@@ -1,4 +1,4 @@
-import { getPoseImageSrc } from "@/entities/course";
+import { resolveThumbnailSrc } from "@/entities/course";
 import {
   BACK_MUSCLE_NAMES,
   MUSCLE_NAMES,
@@ -109,8 +109,7 @@ export function mapExerciseDetailResponse(response: ExerciseDetailResponse): Exe
     exerciseId: response.exerciseId,
     name: response.name,
     difficulty: response.difficulty ? DIFFICULTY_LABELS[response.difficulty] : "-",
-    // 운동 이미지는 target-pose/* 매핑 테이블에 없는 exercise/* 네임스페이스라 지금은 항상 폴백으로 빠진다.
-    imageSrc: getPoseImageSrc(response.imageAssetKey),
+    imageSrc: resolveThumbnailSrc(response.thumbnailUrl, response.imageAssetKey),
     guideGroups: groupMuscles(response.muscles),
     // TODO(소정): 핵심 동작 설명은 추후 muscles[].instruction 필드로 내려줄 예정.
     // 아직 스펙에 없어 임시로 cautionNote를 쓰고, 없으면 "-"로 표기한다.
