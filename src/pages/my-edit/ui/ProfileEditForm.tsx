@@ -9,37 +9,64 @@ import { TopNavBar } from "@/shared/ui/top-nav-bar";
 type ProfileEditFormProps = {
   nickname: string;
   onNicknameChange: (value: string) => void;
+  onNicknameBlur?: () => void;
+  nicknameError?: string;
   experienceLevel: ExperienceLevel;
   onEditExperience: () => void;
   heightCm: string;
   onHeightChange: (value: string) => void;
+  onHeightBlur?: () => void;
+  heightError?: string;
   weightKg: string;
   onWeightChange: (value: string) => void;
+  onWeightBlur?: () => void;
+  weightError?: string;
   onBack: () => void;
   onSave: () => void;
+  isSaving?: boolean;
+  canSave: boolean;
 };
 
 export function ProfileEditForm({
   nickname,
   onNicknameChange,
+  onNicknameBlur,
+  nicknameError,
   experienceLevel,
   onEditExperience,
   heightCm,
   onHeightChange,
+  onHeightBlur,
+  heightError,
   weightKg,
   onWeightChange,
+  onWeightBlur,
+  weightError,
   onBack,
   onSave,
+  isSaving = false,
+  canSave,
 }: ProfileEditFormProps) {
   return (
-    <main className="flex min-h-screen flex-col bg-gray-98 px-6">
+    <>
       <TopNavBar onBack={onBack}>
         <h1 className="typo-headline-emphasized text-ink-strong">프로필 편집</h1>
       </TopNavBar>
 
       <div className="flex flex-col gap-6 pt-2">
         <Field label="닉네임" htmlFor="nickname-field">
-          <TextField id="nickname-field" value={nickname} onValueChange={onNicknameChange} />
+          <div className="flex flex-col gap-2">
+            <TextField
+              id="nickname-field"
+              value={nickname}
+              onValueChange={onNicknameChange}
+              onBlur={onNicknameBlur}
+              error={Boolean(nicknameError)}
+            />
+            {nicknameError && (
+              <p className="typo-caption-1-emphasized text-ink-error">{nicknameError}</p>
+            )}
+          </div>
         </Field>
 
         <Field label="운동 경력">
@@ -57,30 +84,46 @@ export function ProfileEditForm({
 
         <div className="flex gap-4">
           <Field label="키" htmlFor="height-field" className="flex-1">
-            <NumberField
-              id="height-field"
-              placeholder="160"
-              suffix="cm"
-              value={heightCm}
-              onValueChange={onHeightChange}
-            />
+            <div className="flex flex-col gap-2">
+              <NumberField
+                id="height-field"
+                placeholder="160"
+                suffix="cm"
+                value={heightCm}
+                onValueChange={onHeightChange}
+                onBlur={onHeightBlur}
+                error={Boolean(heightError)}
+              />
+              {heightError && (
+                <p className="typo-caption-1-emphasized text-ink-error">{heightError}</p>
+              )}
+            </div>
           </Field>
           <Field label="몸무게" htmlFor="weight-field" className="flex-1">
-            <NumberField
-              id="weight-field"
-              placeholder="50"
-              suffix="kg"
-              value={weightKg}
-              onValueChange={onWeightChange}
-            />
+            <div className="flex flex-col gap-2">
+              <NumberField
+                id="weight-field"
+                placeholder="50"
+                suffix="kg"
+                value={weightKg}
+                onValueChange={onWeightChange}
+                onBlur={onWeightBlur}
+                error={Boolean(weightError)}
+              />
+              {weightError && (
+                <p className="typo-caption-1-emphasized text-ink-error">{weightError}</p>
+              )}
+            </div>
           </Field>
         </div>
       </div>
 
       <CTAButton>
-        <CTAButton.Single onClick={onSave}>저장</CTAButton.Single>
+        <CTAButton.Single onClick={onSave} disabled={isSaving || !canSave} isLoading={isSaving}>
+          저장
+        </CTAButton.Single>
       </CTAButton>
-    </main>
+    </>
   );
 }
 
