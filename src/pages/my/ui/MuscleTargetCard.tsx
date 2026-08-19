@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useMemberProfile } from "@/entities/member";
+// TODO: 이 컴포넌트는 pages/my-edit처럼 features로 옮기는 게 맞아 보이지만, features/screening-flow를  직접 참조하고 있어 features 간 참조가 된다(레포 규칙 위반). BODY_PART_MARKER_POSITION/BODY_PART_NAMES/LEVEL_OPTIONS는 도메인 상수라 entities(예: entities/pose)로 옮기면 되지만, screeningStepPath는 screening-flow 자체의 라우팅 로직이라 entities로 옮기기 애매하다 — features로 승격할 때 같이 정리할 것.
 import {
   BODY_PART_MARKER_POSITION,
   BODY_PART_NAMES,
