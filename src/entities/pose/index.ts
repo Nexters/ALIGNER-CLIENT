@@ -1,1 +1,1 @@
-export type { PoseChallenge } from "./model/types";
+export type { PoseChallenge, PoseChallengeStatus } from "./model/types";

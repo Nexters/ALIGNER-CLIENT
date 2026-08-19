@@ -19,6 +19,7 @@ export function CourseRecommendationPage() {
       course={course}
       heroImageSrc={course.targetPoseImageAssetKey ?? undefined}
       onBack={() => navigate(-1)}
+      onStart={() => navigate(ROUTES.home, { replace: true })}
     />
   );
 }

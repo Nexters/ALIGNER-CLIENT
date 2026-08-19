@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { resolvePoseImage } from "@/entities/target-pose";
+import { getPoseImageSrc } from "@/entities/course";
 import { catalogApi } from "@/shared/api";
 import type { TargetPoseSummaryResponse } from "@/shared/api/generated/data-contracts";
 
@@ -13,7 +13,7 @@ function toTargetPose(response: TargetPoseSummaryResponse): TargetPose {
   return {
     id: response.targetPoseId!,
     name: response.name!,
-    image: resolvePoseImage(response.targetPoseId),
+    image: getPoseImageSrc(response.imageAssetKey ?? null),
   };
 }
 

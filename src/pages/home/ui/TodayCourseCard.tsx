@@ -1,5 +1,5 @@
 import { cn } from "@/shared/lib/cn";
-import type { TodayWorkoutSummary } from "@/entities/course";
+import { FALLBACK_POSE_IMAGE, type TodayWorkoutSummary } from "@/entities/course";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { AlarmIcon, FireIcon, HumanIcon, RightArrowIcon } from "@/shared/ui/icons";
 import { SummaryCard, type SummaryCardChip } from "@/shared/ui/summary-card";
@@ -11,8 +11,9 @@ const CTA_LABEL = {
 } as const;
 
 export interface TodayCourseCardProps {
-  workout: TodayWorkoutSummary;
-  /** 코스 진행도(current===total)가 다 찼는지. 호출부가 CourseProgress에서 계산해 넘긴다 */
+  /** 진행 중인 코스가 없으면 null. UI 구조는 그대로 두고 수치·이미지만 "-"/폴백으로 표기한다 */
+  workout: TodayWorkoutSummary | null;
+  /** 오늘 이 코스를 완주했는지. 서버 응답의 completed 값을 그대로 전달한다 */
   isCompleted: boolean;
   onStart?: () => void;
   className?: string;
@@ -25,9 +26,9 @@ export default function TodayCourseCard({
   className,
 }: TodayCourseCardProps) {
   const chips: SummaryCardChip[] = [
-    { icon: <HumanIcon />, label: `${workout.exerciseCount}개 운동` },
-    { icon: <AlarmIcon />, label: `${workout.setCount}개 세트` },
-    { icon: <FireIcon />, label: `${workout.kcal}kcal` },
+    { icon: <HumanIcon />, label: `${workout?.exerciseCount ?? "-"}개 운동` },
+    { icon: <AlarmIcon />, label: `${workout?.setCount ?? "-"}개 세트` },
+    { icon: <FireIcon />, label: `${workout?.kcal ?? "-"}kcal` },
   ];
   const ctaLabel = isCompleted ? CTA_LABEL.completed : CTA_LABEL.incomplete;
 
@@ -38,9 +39,9 @@ export default function TodayCourseCard({
         className,
       )}
     >
-      <CroppedWorkoutImage src={workout.imageSrc} />
+      <CroppedWorkoutImage src={workout?.imageSrc ?? FALLBACK_POSE_IMAGE} />
       <SummaryCard
-        minutes={workout.minutes}
+        minutes={workout?.minutes ?? null}
         chips={chips}
         isCompleted={isCompleted}
         className="absolute inset-0 size-full"
