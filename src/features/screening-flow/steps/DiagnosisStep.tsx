@@ -69,7 +69,7 @@ export default function DiagnosisStep() {
           <CTAButton.Single
             onClick={() =>
               navigate(screeningStepPath("body-part"), {
-                state: { bodyParts: status.bodyParts },
+                state: { bodyParts: weakBodyParts },
                 replace: true,
               })
             }
