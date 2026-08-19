@@ -46,7 +46,7 @@ export interface CourseProgressResponse {
    */
   courseCompleted?: boolean;
   /**
-   * 이 호출로 이번 회차의 도장이 새로 붙었는지. 재시도에서는 false 다
+   * 이 세션의 완료로 이번 회차의 도장을 획득했는지. 완료 리포트에 저장되는 스냅샷 값이므로 재조회에서도 동일하다.
    * @example false
    */
   stampAcquired?: boolean;
@@ -647,6 +647,11 @@ export interface CourseDetailResponse {
   /** 목표 자세 이미지 asset 키. 개요 상단 히어로에 쓴다. URL 이 아니다 */
   targetPoseImageAssetKey?: string | null;
   /**
+   * 자세 영상의 포스터 프레임 URL. **위 asset 키와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/1b58affc-...?library=clean"
+   */
+  targetPoseThumbnailUrl?: string | null;
+  /**
    * 코스 이름
    * @example "낙타자세 정복하기"
    */
@@ -718,6 +723,11 @@ export interface CourseStepExerciseResponse {
    */
   imageAssetKey?: string | null;
   /**
+   * 영상 포스터 프레임 URL. **imageAssetKey 와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다. 재생 URL 과 달리 만료가 없어 YMove 장애와 무관하게 값이 있다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/df1bcf35-11a2-4836-a9b5-f7da273f46cb?library=clean"
+   */
+  thumbnailUrl?: string | null;
+  /**
    * 분류. 값 집합이 아직 고정되지 않았다
    * @example "가동성 웜업"
    */
@@ -757,11 +767,17 @@ export interface CourseStepResponse {
    */
   courseStepId?: number;
   /**
-   * 스텝 순서. 1 부터다
+   * 스텝 순서. 1 부터다. 화면의 `1 / 6` 중 앞 숫자다
    * @format int32
    * @example 1
    */
   stepOrder?: number;
+  /**
+   * 코스의 전체 스텝 수. 화면의 `1 / 6` 중 뒤 숫자다. 코스 전체 값이라 스텝마다 같다
+   * @format int32
+   * @example 6
+   */
+  totalStepCount?: number;
   /**
    * 완료 여부
    * @example false
@@ -797,6 +813,11 @@ export interface TodayCourseResponse {
   targetPoseName?: string;
   /** 목표 자세 이미지 asset 키. URL 이 아니다 */
   targetPoseImageAssetKey?: string | null;
+  /**
+   * 자세 영상의 포스터 프레임 URL. **위 asset 키와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/1b58affc-...?library=clean"
+   */
+  targetPoseThumbnailUrl?: string | null;
   /**
    * 목표 자세 레벨. 회원이 고른 난이도와 같다. catalog 에서 자세를 찾지 못하면 null 이다
    * @format int32
@@ -876,6 +897,11 @@ export interface TomorrowCoursePreviewResponse {
   /** 목표 자세 이미지 asset 키. URL 이 아니다 */
   targetPoseImageAssetKey?: string | null;
   /**
+   * 자세 영상의 포스터 프레임 URL. **위 asset 키와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/1b58affc-...?library=clean"
+   */
+  targetPoseThumbnailUrl?: string | null;
+  /**
    * 이 자세의 부위. 오늘의 코스와 같은 부위다. **코스 추천 호출에 그대로 쓴다**
    * @example "BACK"
    */
@@ -940,6 +966,11 @@ export interface TargetPoseProgressItem {
   targetPoseName?: string;
   /** 목표 자세 이미지 asset 키 */
   targetPoseImageAssetKey?: string | null;
+  /**
+   * 자세 영상의 포스터 프레임 URL. **위 asset 키와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/1b58affc-...?library=clean"
+   */
+  targetPoseThumbnailUrl?: string | null;
   /**
    * 이 자세가 속한 부위. 화면의 섹션 구분이다
    * @example "BACK"
@@ -1031,6 +1062,11 @@ export interface TargetPoseSummaryResponse {
    */
   imageAssetKey?: string | null;
   /**
+   * 영상 포스터 프레임 URL. **imageAssetKey 와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/1b58affc-...?library=clean"
+   */
+  thumbnailUrl?: string | null;
+  /**
    * 이 자세가 겨냥하는 부위 코드
    * @example "BACK"
    */
@@ -1081,6 +1117,11 @@ export interface MuscleResponse {
    * @example 1
    */
   displayOrder?: number;
+  /**
+   * 운동 가이드의 「핵심 동작」 한 문장. 이 운동에서 그 근육을 어떻게 쓰는지다. **자세 상세에서는 항상 null 이다** — 자세를 그리는 화면이 없어 문구를 적재하지 않았다
+   * @example "명치를 끌어올리듯 배에 힘을 주어 상체를 지탱하세요."
+   */
+  description?: string | null;
 }
 
 /** 목표 자세 상세 */
@@ -1101,6 +1142,11 @@ export interface TargetPoseDetailResponse {
    * @example "pose/down_dog"
    */
   imageAssetKey?: string | null;
+  /**
+   * 영상 포스터 프레임 URL. **imageAssetKey 와 달리 URL 그대로 쓴다** — YMove 자산이라 파일을 프론트가 갖지 않는다
+   * @example "https://exercise-api.ymove.app/api/v2/thumbnail/1b58affc-...?library=clean"
+   */
+  thumbnailUrl?: string | null;
   /**
    * 이 자세가 겨냥하는 부위 코드. screening 소유 어휘다
    * @example "BACK"

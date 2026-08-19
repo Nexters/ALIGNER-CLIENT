@@ -69,7 +69,7 @@ export class Sessions<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description 수행 결과를 저장하고 **코스 진행도에 반영한다.** 응답의 `courseProgress` 가 반영 결과다. 요청에 없는 운동은 수행하지 않은 것으로 남는다 — 부분 완료가 정상이다. **멱등하다.** 같은 요청이 재시도돼도 진행도가 두 번 오르지 않고 도장도 한 번만 붙는다. 재시도로 들어온 호출에서는 `stampAcquired` 가 false 다. `courseProgress` 에 완료 리포트가 쓰는 값이 다 들어 있다 — 헤더의 자세 이름·부위·난이도와 **파이어로그 `acquiredStampCount / requiredStampCount`**(그 자세를 완주한 횟수)까지다. 자세를 방금 완성했는지는 `targetPoseCompleted && stampAcquired` 로 판단한다.
+   * @description 수행 결과를 저장하고 **코스 진행도에 반영한다.** 응답의 `courseProgress` 가 반영 결과다. 요청에 없는 운동은 수행하지 않은 것으로 남는다 — 부분 완료가 정상이다. **멱등하다.** 같은 요청이 재시도돼도 진행도가 두 번 오르지 않고 도장도 한 번만 붙는다. `stampAcquired` 는 이 세션의 완료로 도장을 획득했는지를 나타내는 완료 리포트 스냅샷이며, 재시도나 사후 세션 조회에서도 동일하게 유지된다. `courseProgress` 에 완료 리포트가 쓰는 값이 다 들어 있다 — 헤더의 자세 이름·부위·난이도와 **파이어로그 `acquiredStampCount / requiredStampCount`**(그 자세를 완주한 횟수)까지다. 자세를 방금 완성했는지는 `targetPoseCompleted && stampAcquired` 로 판단한다.
    *
    * @tags 세션
    * @name Complete
@@ -87,7 +87,7 @@ export class Sessions<SecurityDataType = unknown> {
       ...params,
     });
   /**
-   * @description 세션 복구에 쓴다. 앱이 죽었다 돌아오면 이 API 로 현재 상태를 다시 그린다. 응답 형태가 시작·완료와 같다.
+   * @description 세션 복구에 쓴다. 앱이 죽었다 돌아오면 이 API 로 현재 상태를 다시 그린다. 진행 중인 세션은 플레이어 화면 복구용으로 `courseProgress = null` 이며, 완료된 세션은 완료 리포트 화면 복구용으로 완료 시점의 `courseProgress` 스냅샷이 실린다.
    *
    * @tags 세션
    * @name GetSession
