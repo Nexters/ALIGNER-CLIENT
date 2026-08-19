@@ -1,12 +1,33 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { useMemberProfile, useWithdrawMember } from "@/entities/member";
+import { setAccessToken } from "@/shared/api";
 import { ROUTES } from "@/shared/config/routes";
 import { BackArrowIcon } from "@/shared/ui/icons";
 import { MuscleTargetCard } from "./MuscleTargetCard";
 
-// TODO: 실제 유저 프로필 API 연동 전까지의 목데이터
-const MOCK_NICKNAME = "한두살차이";
-
 export function MyPage() {
+  const navigate = useNavigate();
+  const { data: member } = useMemberProfile();
+  const withdrawMember = useWithdrawMember();
+
+  // TODO: window.confirm 대신 shared/ui 확인 모달 컴포넌트로 교체
+  const handleLogout = () => {
+    if (!window.confirm("로그아웃 하시겠습니까?")) return;
+    setAccessToken(null);
+    navigate(ROUTES.login);
+  };
+
+  // TODO: window.confirm 대신 shared/ui 확인 모달 컴포넌트로 교체
+  const handleWithdraw = () => {
+    if (!window.confirm("회원탈퇴 하시겠습니까?")) return;
+    withdrawMember.mutate(undefined, {
+      onSuccess: () => {
+        setAccessToken(null);
+        navigate(ROUTES.login);
+      },
+    });
+  };
+
   return (
     <main className="flex min-h-screen flex-col bg-gray-97">
       <div className="flex flex-1 flex-col gap-[36px] px-6 pt-5">
@@ -19,7 +40,7 @@ export function MyPage() {
               className="flex items-center gap-[14px] rounded-[18px] bg-gray-99 px-6 py-5"
             >
               <span className="flex-1 typo-headline-emphasized text-[#4a4a4a]">
-                {MOCK_NICKNAME}님
+                {member?.nickname ? `${member.nickname}님` : ""}
               </span>
               <span className="typo-caption-1-regular text-ink-muted">편집 ›</span>
             </Link>
@@ -29,10 +50,12 @@ export function MyPage() {
         </div>
 
         <div className="flex flex-col gap-2">
-          {/* TODO: 확인 모달 및 로그아웃 처리 */}
-          <MyMenuRow label="로그아웃" />
-          {/* TODO: 확인 모달 및 회원탈퇴 처리 */}
-          <MyMenuRow label="회원탈퇴" />
+          <MyMenuRow label="로그아웃" onClick={handleLogout} />
+          <MyMenuRow
+            label="회원탈퇴"
+            onClick={handleWithdraw}
+            disabled={withdrawMember.isPending}
+          />
         </div>
       </div>
 
@@ -47,11 +70,21 @@ export function MyPage() {
   );
 }
 
-function MyMenuRow({ label }: { label: string }) {
+function MyMenuRow({
+  label,
+  onClick,
+  disabled,
+}: {
+  label: string;
+  onClick: () => void;
+  disabled?: boolean;
+}) {
   return (
     <button
       type="button"
-      className="flex items-center justify-between py-4 text-left typo-body-regular text-ink-base"
+      onClick={onClick}
+      disabled={disabled}
+      className="flex items-center justify-between py-4 text-left typo-body-regular text-ink-base disabled:opacity-40"
     >
       {label}
       <BackArrowIcon className="size-7 -scale-x-100 text-ink-base" />
