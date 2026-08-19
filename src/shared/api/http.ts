@@ -1,5 +1,6 @@
 import { apiClient } from "./client";
 import { Auth } from "./generated/Auth";
+import { Catalog } from "./generated/Catalog";
 import { Courses } from "./generated/Courses";
 import { HttpClient } from "./generated/http-client";
 import { Members } from "./generated/Members";
@@ -24,3 +25,4 @@ export const authApi = new Auth(http);
 export const membersApi = new Members(http);
 export const screeningApi = new Screening(http);
 export const coursesApi = new Courses(http);
+export const catalogApi = new Catalog(http);

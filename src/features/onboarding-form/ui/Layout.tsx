@@ -6,6 +6,7 @@ import ErrorMessage from "../components/ErrorMessage";
 import { useOnboardingStepParam } from "../hooks/useOnboardingStepParam";
 import { useStepChrome } from "../hooks/useStepChrome";
 import { useOnboardingForm } from "../model/use-onboarding-form";
+import { useTargetPoses } from "../model/use-target-poses";
 import {
   findFirstIncompleteStep,
   getNextStep,
@@ -40,6 +41,7 @@ function LayoutContent({ onComplete }: LayoutProps) {
     submitError,
   } = useOnboardingForm();
   const { isCTAHidden } = useStepChrome();
+  useTargetPoses();
 
   // 앞 스텝을 채우지 않고 파라미터로 뒤 스텝에 바로 접근한 경우, 아직 안 채운 첫 스텝으로 되돌린다
   const firstIncompleteStep = findFirstIncompleteStep(compatibleFormData);

@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
-import { ROUTES } from "@/shared/config/routes";
+import { useUpdateMemberProfile } from "@/entities/member";
+import { toCourseRecommendationPath } from "@/shared/config/routes";
 import { MannequinScanIcon } from "@/shared/ui/icons";
 import { recommendCourse } from "../api/screening-api";
 import type {
@@ -29,14 +30,24 @@ export default function BodyPartLevelStep() {
   const navigate = useNavigate();
   const location = useLocation();
   const [expandedBodyPartCode, setExpandedBodyPartCode] = useState<BodyPartCode>();
+  const updateMemberProfile = useUpdateMemberProfile();
 
   const { mutate, isPending } = useMutation<
     RecommendCourseResponse,
     unknown,
     RecommendCourseRequest
   >({
-    mutationFn: recommendCourse,
-    onSuccess: () => navigate(ROUTES.home, { replace: true }),
+    mutationFn: async (request) => {
+      const [course] = await Promise.all([
+        recommendCourse(request),
+        updateMemberProfile.mutateAsync({
+          reinforcementBodyPartCode: request.bodyPartCode,
+          reinforcementLevel: request.level,
+        }),
+      ]);
+      return course;
+    },
+    onSuccess: (course) => navigate(toCourseRecommendationPath(course.courseId), { replace: true }),
   });
 
   if (!isBodyPartLevelStepLocationState(location.state)) {

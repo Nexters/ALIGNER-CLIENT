@@ -2,7 +2,7 @@ export const ROUTES = {
   home: "/",
   onboarding: "/onboarding",
   loginCallback: "/oauth/kakao",
-  courseRecommendation: "/course-recommendation",
+  courseRecommendation: "/course-recommendation/:courseId",
   screening: "/screening",
   dailyRoutine: "/daily-routine",
   dailyRoutineExercise: "/daily-routine/:exerciseId",
@@ -17,6 +17,10 @@ export type RoutePath = (typeof ROUTES)[keyof typeof ROUTES];
 
 export function toDailyRoutineExercisePath(exerciseId: string) {
   return `/daily-routine/${exerciseId}`;
+}
+
+export function toCourseRecommendationPath(courseId: number) {
+  return `/course-recommendation/${courseId}`;
 }
 
 export function createStepPath<Step extends string>(basePath: RoutePath) {

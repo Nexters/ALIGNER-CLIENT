@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useMemberProfile } from "@/entities/member";
+import { ROUTES } from "@/shared/config/routes";
 import { CTAButton } from "@/shared/ui/button";
 import { getBodyParts, getLatestScreeningResult } from "../api/screening-api";
 import ScanningMannequin from "../components/ScanningMannequin";
@@ -13,6 +15,8 @@ const MIN_ANALYZING_MS = 3000;
 export default function DiagnosisStep() {
   const navigate = useNavigate();
   const [status, setStatus] = useState<DiagnosisStatus>({ kind: "loading" });
+  const { data: member } = useMemberProfile();
+  const nickname = member?.nickname ?? "";
 
   useEffect(() => {
     let cancelled = false;
@@ -25,8 +29,8 @@ export default function DiagnosisStep() {
       .catch(() => {
         if (cancelled) return;
 
-        // TODO: 실제 API 연동 시 parseApiError로 code/message를 읽어
-        // 404 SCREENING_RESULT_NOT_FOUND면 ROUTES.onboarding으로 리다이렉트
+        // 진단 이력이 없으면(404) 서버가 결과를 못 내려준다 — 온보딩부터 다시 시키면 진단이 제출된다.
+        navigate(ROUTES.onboarding, { replace: true });
       });
 
     return () => {
@@ -43,13 +47,13 @@ export default function DiagnosisStep() {
         <span key={status.kind} className="animate-fade-in block">
           {status.kind === "result" ? (
             <>
-              ~님은 {weakBodyParts.map((part) => part.name).join(", ")} 근육이
+              {nickname}님은 {weakBodyParts.map((part) => part.name).join(", ")} 근육이
               <br />
               약한것으로 분석돼요
             </>
           ) : (
             <>
-              ~님의 근육 상태를
+              {nickname}님의 근육 상태를
               <br />
               분석중이에요
             </>
