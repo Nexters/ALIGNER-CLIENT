@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { membersApi } from "@/shared/api/http";
+import { membersApi } from "@/shared/api";
 import { memberQueryKeys, type Member } from "./member";
 
 export function useMemberProfile() {

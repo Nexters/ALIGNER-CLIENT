@@ -1,5 +1,6 @@
 import { useFormContext, useWatch } from "react-hook-form";
 import { useUpdateMemberProfile } from "@/entities/member";
+import { parseApiError } from "@/shared/api";
 import type { OnboardingFormValues } from "./schema";
 import { ERROR_MESSAGES, EXPERIENCE_LEVELS, MIN_MAX_FIELDS } from "../constants/form-fields";
 
@@ -119,8 +120,7 @@ export function useOnboardingForm() {
   };
 
   const submitError = updateMemberProfile.isError
-    ? ((updateMemberProfile.error as { error?: { message?: string } })?.error?.message ??
-      "프로필 저장에 실패했습니다.")
+    ? (parseApiError(updateMemberProfile.error)?.message ?? "프로필 저장에 실패했습니다.")
     : undefined;
 
   return {

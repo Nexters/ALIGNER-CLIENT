@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { membersApi } from "@/shared/api/http";
+import { membersApi } from "@/shared/api";
 import type { UpdateMemberProfileRequest } from "@/shared/api/generated/data-contracts";
 import { memberQueryKeys, type Member } from "./member";
 

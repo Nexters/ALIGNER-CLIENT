@@ -1,4 +1,4 @@
-import { coursesApi, screeningApi } from "@/shared/api/http";
+import { coursesApi, screeningApi } from "@/shared/api";
 import type {
   BodyPartResponse,
   ScreeningCauseResponse,
