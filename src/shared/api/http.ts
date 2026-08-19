@@ -5,6 +5,7 @@ import { Courses } from "./generated/Courses";
 import { HttpClient } from "./generated/http-client";
 import { Members } from "./generated/Members";
 import { Screening } from "./generated/Screening";
+import { Sessions } from "./generated/Sessions";
 
 const generatedClientFetch = apiClient.extend({ throwHttpErrors: false });
 const customFetch: typeof fetch = (input, init) => generatedClientFetch(input as string, init);
@@ -26,3 +27,4 @@ export const membersApi = new Members(http);
 export const screeningApi = new Screening(http);
 export const coursesApi = new Courses(http);
 export const catalogApi = new Catalog(http);
+export const sessionsApi = new Sessions(http);

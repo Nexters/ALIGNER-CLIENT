@@ -9,3 +9,5 @@
 ## 후속 결정: public API에 태그별 클라이언트도 노출한다
 
 [0003](./0003-ky-http-client-design.md)의 결정 5는 `shared/api` 바깥에 `api.get/post/...`만 노출하기로 했었다. 그런데 `entities/member`, `features/login`, `features/screening-flow`처럼 이미 정해진 요청/응답 타입이 있는 도메인 자원은 `api.get<T>("members/me")`보다 생성된 `membersApi.getMyProfile()` 쪽이 타입도 안전하고 스펙 변경에도 자동으로 맞는다. 그래서 `shared/api/index.ts`가 `authApi`/`membersApi`/`screeningApi`/`coursesApi`(그리고 공용 에러 파서 `parseApiError`)도 함께 노출하도록 넓혔다. `api.*` 헬퍼는 생성된 클라이언트가 없는 임시/일회성 호출에 계속 쓴다.
+
+이후 같은 이유로 `catalogApi`, `sessionsApi`(세션·완료 리포트 연동, [0007](./0007-session-complete-report-integration.md))도 추가됐다. 새 도메인의 생성 클라이언트를 쓰기 시작할 때마다 이 목록을 갱신한다 — 목록이 실제 `shared/api/index.ts`보다 뒤처지면 다음 사람이 뭘 써야 하는지 잘못 판단하게 된다.

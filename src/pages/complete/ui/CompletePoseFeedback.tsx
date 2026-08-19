@@ -1,27 +1,36 @@
 import { Button } from "@/shared/ui/button";
+import { useExercise } from "../api/use-exercise";
+import { useRecordPerceivedResult } from "../api/use-record-perceived-result";
+import { ANSWER_OPTIONS } from "../constants/answer-options";
 
-// TODO: type 파일로 이동
-type PoseAnswer = "SUCCEEDED" | "STILL_HARD" | "TOO_HARD";
+interface CompletePoseFeedbackProps {
+  sessionId: number;
+  poseName: string;
+  pinPoseExerciseId: number | null;
+}
 
-const ANSWER_OPTIONS: { value: PoseAnswer; label: string }[] = [
-  { value: "SUCCEEDED", label: "잘됐어요" },
-  { value: "STILL_HARD", label: "아직 어려워요" },
-  { value: "TOO_HARD", label: "안될 거 같아요" },
-];
-
-export function CompletePoseFeedback() {
-  // TODO: 핀포즈 캡처 이미지, 자세 이름을 세션 상태에서 받아오도록 연동
-  const poseName = "낙타자세";
-
-  // TODO: 선택 결과에 따라 다음 자세로 진행하거나 자세를 교체하는 로직 연동
-  const handleAnswer = (answer: PoseAnswer) => {
-    void answer;
-  };
+export function CompletePoseFeedback({
+  sessionId,
+  poseName,
+  pinPoseExerciseId,
+}: CompletePoseFeedbackProps) {
+  const { mutate, isPending } = useRecordPerceivedResult(sessionId);
+  const { data: exercise } = useExercise(pinPoseExerciseId);
 
   return (
     <main className="flex min-h-screen flex-col gap-7 bg-bg-inverse pt-8 px-6">
-      {/* TODO: 비디오로 교체 */}
-      <div className="h-112 w-full rounded-[2.8rem] bg-media-placeholder" />
+      {exercise?.videoUrl ? (
+        <video
+          src={exercise.videoUrl}
+          className="h-112 w-full rounded-[2.8rem] object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      ) : (
+        <div className="h-112 w-full rounded-[2.8rem] bg-bg-muted" />
+      )}
 
       <div className="flex flex-col gap-7">
         <div className="flex flex-col gap-4">
@@ -36,7 +45,7 @@ export function CompletePoseFeedback() {
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-3">
             {ANSWER_OPTIONS.map(({ value, label }) => (
-              <Button key={value} color="black" onClick={() => handleAnswer(value)}>
+              <Button key={value} color="black" disabled={isPending} onClick={() => mutate(value)}>
                 {label}
               </Button>
             ))}
