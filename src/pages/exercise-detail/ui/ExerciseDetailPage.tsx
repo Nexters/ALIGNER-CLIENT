@@ -59,7 +59,7 @@ export function ExerciseDetailPage() {
       </div>
 
       <div className="relative mt-[1.6rem] h-[28rem] w-full overflow-hidden rounded-[2.8rem] bg-gray-97">
-        <CroppedWorkoutImage src={imageSrc} alt={name} />
+        <CroppedWorkoutImage src={imageSrc} alt={name} imageClassName="object-cover" />
       </div>
 
       <h2 className="mt-[4.8rem] w-full typo-headline-emphasized text-black">운동 가이드</h2>
@@ -104,7 +104,7 @@ export function ExerciseDetailPage() {
               </span>
               <div className="flex flex-col gap-[0.8rem]">
                 <p className="typo-headline-emphasized text-gray-10">핵심 동작</p>
-                <p className="typo-body-regular text-gray-30">{exercise.tip}</p>
+                <p className="typo-body-regular whitespace-pre-line text-gray-30">{guide.tip}</p>
               </div>
             </div>
           </div>
