@@ -1,38 +1,75 @@
 import { useNavigate } from "react-router";
+import type { AchievementResponse } from "@/shared/api/generated/data-contracts";
+import { useSession } from "@/entities/session";
 import { cn } from "@/shared/lib/cn";
 import { toWeekdayLabel } from "@/shared/lib/date";
+import { ROUTES } from "@/shared/config/routes";
 import { CTAButton } from "@/shared/ui/button";
 import { CheckMarkGroup } from "@/shared/ui/check-mark";
 import { CheckBoldIcon } from "@/shared/ui/icons";
-import { ROUTES } from "@/shared/config/routes";
+import { mapSessionReport, type SessionReportView } from "../api/map-session";
+import { useAchievements } from "../api/use-achievements";
 
-function formatDuration(durationSeconds: number): string {
-  const minutes = Math.floor(durationSeconds / 60);
-  const seconds = durationSeconds % 60;
-  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+interface CompleteReportProps {
+  sessionId: number;
 }
 
-export function CompleteReport() {
+export function CompleteReport({ sessionId }: CompleteReportProps) {
+  return (
+    <main className="flex min-h-screen flex-col gap-6 pt-8 pb-10 bg-bg-base h-full px-6">
+      <CompleteReportContent sessionId={sessionId} />
+    </main>
+  );
+}
+
+function CompleteReportContent({ sessionId }: CompleteReportProps) {
   const navigate = useNavigate();
 
-  const days = [
-    { date: "2026-08-10", achieved: true },
-    { date: "2026-08-11", achieved: true },
-    { date: "2026-08-12", achieved: true },
-    { date: "2026-08-13", achieved: true },
-    { date: "2026-08-14", achieved: true },
-    { date: "2026-08-15", achieved: false },
-    { date: "2026-08-16", achieved: false },
-  ];
+  const { data: session, error: sessionError, isPending: isSessionPending } = useSession(sessionId);
+  const {
+    data: achievements,
+    error: achievementsError,
+    isPending: isAchievementsPending,
+  } = useAchievements();
 
+  if (isSessionPending || isAchievementsPending) {
+    return null;
+  }
+
+  // TODO: 에러 메시지 통일
+  if (sessionError || !session || achievementsError || !achievements) {
+    return (
+      <p className="typo-body-regular text-gray-50 m-auto">
+        정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
+      </p>
+    );
+  }
+
+  return (
+    <ReportBody
+      report={mapSessionReport(session)}
+      achievements={achievements}
+      onGoHome={() => navigate(ROUTES.home)}
+    />
+  );
+}
+
+interface ReportBodyProps {
+  report: SessionReportView;
+  achievements: AchievementResponse;
+  onGoHome: () => void;
+}
+
+function ReportBody({ report, achievements, onGoHome }: ReportBodyProps) {
+  const { stamp } = report;
   const sessionStats = [
-    { label: "운동 시간", value: formatDuration(1214) },
-    { label: "완료 동작", value: "8개" },
-    { label: "소모 칼로리", value: "63kcal" },
+    { label: "운동 시간", value: report.durationLabel },
+    { label: "완료 동작", value: report.completedExerciseLabel },
+    { label: "소모 칼로리", value: report.kcalLabel },
   ];
 
   return (
-    <main className="flex min-h-screen flex-col gap-6 pt-8 pb-10 bg-bg-base h-full px-6">
+    <>
       <div className="flex flex-col items-center justify-center gap-4 rounded-[28px] bg-white p-7 h-[240px]">
         <div
           className="flex size-[56px] items-center justify-center rounded-full bg-accent-base"
@@ -42,32 +79,34 @@ export function CompleteReport() {
         </div>
         <div className="flex flex-col gap-2 text-center">
           <h1 className="typo-title-2-emphasized text-ink-strong">오늘의 운동을 마쳤어요</h1>
-          <p className="typo-subheadline-emphasized text-gray-60">
-            골반 난이도 상 · 파이어로그 로드맵
-          </p>
+          <p className="typo-subheadline-emphasized text-gray-60">{report.subtitle}</p>
         </div>
       </div>
 
       <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-5 rounded-[20px] bg-white p-6">
-          <div className="flex items-center gap-3">
-            <p className="flex-1 typo-body-emphasized text-ink-strong">파이어로그 해냈어요!</p>
-            <span className="rounded-full bg-primary-200 px-[10px] py-2 typo-subheadline-emphasized text-accent-strong">
-              1 / 4회
-            </span>
+        {stamp && (
+          <div className="flex flex-col gap-5 rounded-[20px] bg-white p-6">
+            <div className="flex items-center gap-3">
+              <p className="flex-1 typo-body-emphasized text-ink-strong">
+                {stamp.targetPoseName} 해냈어요!
+              </p>
+              <span className="rounded-full bg-primary-200 px-[10px] py-2 typo-subheadline-emphasized text-accent-strong">
+                {stamp.acquired} / {stamp.required}회
+              </span>
+            </div>
+            <div className="flex w-full gap-2" aria-hidden="true">
+              {Array.from({ length: stamp.required }, (_, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    "h-3 flex-1 rounded-[4px]",
+                    index < stamp.acquired ? "bg-accent-base" : "bg-gray-97",
+                  )}
+                />
+              ))}
+            </div>
           </div>
-          <div className="flex w-full gap-2" aria-hidden="true">
-            {Array.from({ length: 4 }, (_, index) => (
-              <div
-                key={index}
-                className={cn(
-                  "h-3 flex-1 rounded-[4px]",
-                  index < 1 ? "bg-accent-base" : "bg-gray-97",
-                )}
-              />
-            ))}
-          </div>
-        </div>
+        )}
 
         <div className="flex items-center gap-4 rounded-[20px] bg-white p-6 text-center">
           {sessionStats.map(({ label, value }) => (
@@ -80,14 +119,18 @@ export function CompleteReport() {
 
         <div className="flex flex-col gap-5 rounded-[20px] bg-white p-6">
           <div className="flex items-center gap-3">
-            <p className="flex-1 typo-body-emphasized text-ink-strong">5일 연속 달성 중</p>
-            <p className="typo-subheadline-emphasized text-gray-60">이번 주 5 / 7</p>
+            <p className="flex-1 typo-body-emphasized text-ink-strong">
+              {achievements.currentStreakDays}일 연속 달성 중
+            </p>
+            <p className="typo-subheadline-emphasized text-gray-60">
+              이번 주 {achievements.weeklyAchievedCount} / {achievements.days?.length ?? 0}
+            </p>
           </div>
           <CheckMarkGroup className="w-full">
-            {days.map(({ date, achieved }) => (
-              <CheckMarkGroup.Item key={date} isChecked={achieved} className="flex-1">
+            {(achievements.days ?? []).map(({ date, achieved }) => (
+              <CheckMarkGroup.Item key={date} isChecked={achieved ?? false} className="flex-1">
                 <CheckMarkGroup.Indicator />
-                <CheckMarkGroup.Label label={toWeekdayLabel(date)} />
+                <CheckMarkGroup.Label label={toWeekdayLabel(date ?? "")} />
               </CheckMarkGroup.Item>
             ))}
           </CheckMarkGroup>
@@ -95,8 +138,8 @@ export function CompleteReport() {
       </div>
 
       <CTAButton>
-        <CTAButton.Single onClick={() => navigate(ROUTES.home)}>홈화면으로 가기</CTAButton.Single>
+        <CTAButton.Single onClick={onGoHome}>홈화면으로 가기</CTAButton.Single>
       </CTAButton>
-    </main>
+    </>
   );
 }
