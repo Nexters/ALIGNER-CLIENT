@@ -21,18 +21,18 @@ export default function UsualPostureStep() {
     return () => setIsCTAHidden(false);
   }, [showIntro, setIsCTAHidden]);
 
-  if (showIntro) {
-    return (
-      <StepLayout title={"요가에는 아래와 같은\n 다양한 핀포즈들이 있어요"}>
-        <PoseGrid poses={poses} selectedIds={[]} />
-      </StepLayout>
-    );
-  }
-
   return (
-    <StepLayout.Posture
-      title={"이 중 평소 쉬웠던 자세\n는 어떤 동작이었나요?"}
-      field="easyPoseIds"
-    />
+    <div key={showIntro ? "intro" : "posture"} className="animate-slide-in h-full w-full">
+      {showIntro ? (
+        <StepLayout title={"요가에는 아래와 같은\n 다양한 핀포즈들이 있어요"}>
+          <PoseGrid poses={poses} selectedIds={[]} />
+        </StepLayout>
+      ) : (
+        <StepLayout.Posture
+          title={"이 중 평소 쉬웠던 자세\n는 어떤 동작이었나요?"}
+          field="easyPoseIds"
+        />
+      )}
+    </div>
   );
 }
