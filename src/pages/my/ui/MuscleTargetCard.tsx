@@ -1,11 +1,9 @@
-import { useNavigate } from "react-router";
 import { useMemberProfile } from "@/entities/member";
 // TODO: 이 컴포넌트는 pages/my-edit처럼 features로 옮기는 게 맞아 보이지만, features/screening-flow를  직접 참조하고 있어 features 간 참조가 된다(레포 규칙 위반). BODY_PART_MARKER_POSITION/BODY_PART_NAMES/LEVEL_OPTIONS는 도메인 상수라 entities(예: entities/pose)로 옮기면 되지만, screeningStepPath는 screening-flow 자체의 라우팅 로직이라 entities로 옮기기 애매하다 — features로 승격할 때 같이 정리할 것.
 import {
   BODY_PART_MARKER_POSITION,
   BODY_PART_NAMES,
   LEVEL_OPTIONS,
-  screeningStepPath,
 } from "@/features/screening-flow";
 import { cn } from "@/shared/lib/cn";
 import { MannequinScanIcon } from "@/shared/ui/icons";
@@ -17,32 +15,16 @@ import {
 } from "@/shared/ui/radio";
 
 export function MuscleTargetCard() {
-  const navigate = useNavigate();
   const { data: member } = useMemberProfile();
   const bodyPartCode = member?.reinforcementBodyPartCode;
   const difficultyLabel = LEVEL_OPTIONS.find(
     (option) => option.level === member?.reinforcementLevel,
   )?.label;
 
-  const goToScreening = () => navigate(screeningStepPath("analyzing"));
-
+  // TODO: 강화 부위/난이도 미선택 상태 UI("아직 강화 부위를 선택하지 않았어요" + 스크리닝 이동)를
+  // 다시 붙일 것. 기존 동작이 의도와 안 맞아 일단 빼놨다 — 올바른 동작 정하고 재구현할 것.
   if (!bodyPartCode || !difficultyLabel) {
-    return (
-      <div className="relative flex h-[252px] w-full flex-col justify-between overflow-hidden rounded-[24px] bg-gradient-to-b from-primary-50 from-15% to-primary-200 p-6 shadow-[inset_0_0_8px_4px_var(--color-gray-98)]">
-        <p className="typo-title-3-emphasized text-gray-40">
-          아직 강화 부위를
-          <br />
-          선택하지 않았어요
-        </p>
-        <button
-          type="button"
-          onClick={goToScreening}
-          className="typo-body-emphasized w-fit rounded-[8px] bg-tertiary-700 px-4 py-3 text-primary-200"
-        >
-          부위 선택하기
-        </button>
-      </div>
-    );
+    return null;
   }
 
   const markerPosition = BODY_PART_MARKER_POSITION[bodyPartCode];
@@ -57,9 +39,9 @@ export function MuscleTargetCard() {
           강화하고 있어요
         </p>
 
+        {/* TODO: 클릭 동작 없음 — 난이도 조정(스크리닝) 플로우로 이동하는 동작을 다시 붙일 것 */}
         <button
           type="button"
-          onClick={goToScreening}
           className="typo-body-emphasized relative z-10 w-fit rounded-[8px] bg-tertiary-700 px-4 py-3 text-primary-200"
         >
           난이도 조정하기
