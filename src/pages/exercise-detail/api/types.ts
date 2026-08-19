@@ -11,6 +11,7 @@ export interface MuscleResponse {
   backHighlightAssetKey: string | null;
   role: MuscleRole;
   displayOrder: number;
+  description: string | null;
 }
 
 export interface VoiceCueResponse {

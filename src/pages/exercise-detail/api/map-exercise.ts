@@ -55,6 +55,7 @@ export interface ExerciseGuideGroupView {
   bodyPart: string;
   highlightedMuscles: MuscleName[];
   view: MuscleDiagramView;
+  tip: string;
 }
 
 export interface ExerciseStepView {
@@ -68,7 +69,6 @@ export interface ExerciseDetailView {
   difficulty: string;
   imageSrc: string;
   guideGroups: ExerciseGuideGroupView[];
-  tip: string;
   step: ExerciseStepView | null;
 }
 
@@ -78,14 +78,25 @@ const DEFAULT_GUIDE_GROUP: ExerciseGuideGroupView = {
   bodyPart: "전신",
   highlightedMuscles: [],
   view: "front",
+  tip: "-",
 };
+
+function buildTip(muscles: MuscleResponse[]): string {
+  const descriptions = muscles
+    .slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .map((muscle) => muscle.description)
+    .filter((description): description is string => description !== null);
+
+  return descriptions.length > 0 ? descriptions.join("\n") : "-";
+}
 
 function groupMuscles(muscles: MuscleResponse[]): ExerciseGuideGroupView[] {
   const groups = BODY_PART_ORDER.filter((code) =>
     muscles.some((muscle) => muscle.bodyPartCode === code),
   ).map((code) => {
-    const highlightedMuscles = muscles
-      .filter((muscle) => muscle.bodyPartCode === code)
+    const musclesInPart = muscles.filter((muscle) => muscle.bodyPartCode === code);
+    const highlightedMuscles = musclesInPart
       .map((muscle) => toMuscleName(muscle))
       .filter((name): name is MuscleName => name !== null);
 
@@ -93,6 +104,7 @@ function groupMuscles(muscles: MuscleResponse[]): ExerciseGuideGroupView[] {
       bodyPart: BODY_PART_LABELS[code],
       highlightedMuscles,
       view: resolveView(highlightedMuscles),
+      tip: buildTip(musclesInPart),
     };
   });
 
@@ -111,9 +123,6 @@ export function mapExerciseDetailResponse(response: ExerciseDetailResponse): Exe
     difficulty: response.difficulty ? DIFFICULTY_LABELS[response.difficulty] : "-",
     imageSrc: resolveThumbnailSrc(response.thumbnailUrl, response.imageAssetKey),
     guideGroups: groupMuscles(response.muscles),
-    // TODO(소정): 핵심 동작 설명은 추후 muscles[].instruction 필드로 내려줄 예정.
-    // 아직 스펙에 없어 임시로 cautionNote를 쓰고, 없으면 "-"로 표기한다.
-    tip: response.cautionNote ?? "-",
     // TODO(소정): stepOrder/totalStepCount는 아직 스웨거 스펙에 없는 임시 필드명이다.
     step: resolveStep(response),
   };
