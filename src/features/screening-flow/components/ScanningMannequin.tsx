@@ -10,7 +10,7 @@ type ScanningMannequinProps = {
 export default function ScanningMannequin({ status, markerCodes = [] }: ScanningMannequinProps) {
   return (
     <Mannequin
-      className="flex flex-1 items-end justify-center overflow-hidden"
+      className="flex flex-1 items-end justify-center overflow-scroll"
       iconClassName="absolute bottom-0 w-[35rem]"
       markerCodes={status === "result" ? markerCodes : []}
     >
