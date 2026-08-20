@@ -15,11 +15,11 @@ export default function TabItem({ icon, label, isActive, onClick }: TabItemProps
       icon={icon}
       aria-label={label}
       onClick={onClick}
-      className={cn(
-        "flex items-center justify-center rounded-[1.6rem] px-[3.3rem] py-[1.9rem]",
-        isActive && "bg-gray-98",
+      className="relative z-10 flex flex-1 items-center justify-center rounded-[1.6rem] px-[3.3rem] py-[1.9rem]"
+      iconClassName={cn(
+        "transition-colors duration-200",
+        isActive ? "text-gray-10" : "text-gray-70",
       )}
-      iconClassName={isActive ? "text-gray-10" : "text-gray-70"}
     />
   );
 }
