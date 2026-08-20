@@ -66,6 +66,7 @@ export function SessionPlayerPage() {
     <main className="relative flex min-h-screen flex-col bg-white">
       <TopNavBar
         onBack={() => navigate(-1)}
+        className="px-[2rem]"
         // TODO: 음소거 버튼 추가
         // rightIcon={SoundIcon}
         // rightIconLabel={muted ? "음소거 해제" : "음소거"}
