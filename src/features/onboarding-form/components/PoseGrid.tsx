@@ -16,7 +16,7 @@ export default function PoseGrid({
   onToggle,
 }: PoseGridProps) {
   return (
-    <div className="grid grid-cols-3 gap-x-[1.3rem] gap-y-[1.6rem]">
+    <div className="grid grid-cols-3 gap-x-[1.3rem] gap-y-[1.6rem] overflow-x-scroll mb-[10rem]">
       {poses.map((pose) => {
         const isSelected = selectedIds.includes(pose.id);
         const isExcluded = excludedIds.includes(pose.id);
