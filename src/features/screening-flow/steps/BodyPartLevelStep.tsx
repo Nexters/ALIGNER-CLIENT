@@ -63,17 +63,17 @@ export default function BodyPartLevelStep() {
 
   return (
     <div className="flex h-full flex-col px-[2rem] w-full">
-      <TopNavBar onBack={() => navigate(-1)} className="h-[5.7rem]" />
+      <TopNavBar onBack={() => navigate(-1)} className="min-h-[5.7rem]" />
 
-      <h1 className="typo-title-2-5-emphasized text-black mt-[3.6rem] mb-[5.3rem]">
+      <h1 className="typo-title-2-5-emphasized text-black mt-[3.6rem]">
         강화하고 싶은 부위를 선택하면
         <br />
         맞춤 동작을 추천드려요
       </h1>
 
-      <div className="flex w-full items-start justify-center gap-[2.1rem]">
-        <div aria-hidden="true" className="relative w-full">
-          <MannequinScanIcon className="w-full" />
+      <div className="relative flex w-full flex-1 items-start justify-between mt-[5.3rem] overflow-x-hidden overflow-y-scroll">
+        <div aria-hidden="true" className="relative h-full">
+          <MannequinScanIcon className="h-full" />
           {bodyParts.map((bodyPart) => (
             <BodyPartMarker
               key={bodyPart.bodyPartCode}
@@ -83,11 +83,10 @@ export default function BodyPartLevelStep() {
             />
           ))}
         </div>
-        <ul className="flex flex-col gap-[1.2rem]">
+        <ul className="flex flex-col gap-[1.2rem] shrink-0 absolute top-0 right-0">
           {bodyParts.map((bodyPart) => (
             <li key={bodyPart.bodyPartCode}>
               <Select
-                className="w-full"
                 open={expandedBodyPartCode === bodyPart.bodyPartCode}
                 onOpenChange={() => {
                   if (isPending) return;
