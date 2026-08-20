@@ -12,19 +12,24 @@ export function App() {
         <ScrollToTop />
         <Layout>
           <Routes>
-            {Object.entries(APP_ROUTES).map(([key, group]) =>
-              group.layout ? (
-                <Route key={key} element={group.layout}>
-                  {group.paths.map(({ path, element }) => (
-                    <Route key={path} path={path} element={element} />
-                  ))}
+            {Object.entries(APP_ROUTES).map(([key, group]) => {
+              const paths = group.paths.map(({ path, element }) => (
+                <Route key={path} path={path} element={element} />
+              ));
+              const withLayout = group.layout ? (
+                <Route element={group.layout}>{paths}</Route>
+              ) : (
+                paths
+              );
+
+              return group.guard ? (
+                <Route key={key} element={group.guard}>
+                  {withLayout}
                 </Route>
               ) : (
-                group.paths.map(({ path, element }) => (
-                  <Route key={path} path={path} element={element} />
-                ))
-              ),
-            )}
+                withLayout
+              );
+            })}
           </Routes>
         </Layout>
       </BrowserRouter>
