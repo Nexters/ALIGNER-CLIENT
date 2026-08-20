@@ -10,8 +10,8 @@ type ScanningMannequinProps = {
 export default function ScanningMannequin({ status, markerCodes = [] }: ScanningMannequinProps) {
   return (
     <Mannequin
-      className="flex flex-1 items-end justify-center overflow-scroll"
-      iconClassName="absolute bottom-0 w-[35rem]"
+      className="flex flex-1 items-end justify-center"
+      iconClassName="absolute bottom-0 h-full"
       markerCodes={status === "result" ? markerCodes : []}
     >
       {/* 스캔: 위쪽으로 옅어지는 그라데이션 + 가로 바(리딩 엣지) — 분석 중일 때만 */}

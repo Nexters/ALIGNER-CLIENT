@@ -64,13 +64,13 @@ function LayoutContent({ onComplete }: LayoutProps) {
   };
 
   return (
-    <main className="overflow-scroll relative flex w-full h-screen flex-col justify-start bg-tertiary-50  px-[2rem]">
+    <main className="relative flex w-full h-screen flex-col justify-start bg-tertiary-50 px-[2rem] overflow-y-auto">
       <TopNavBar onBack={() => navigate(-1)} className="shrink-0 mt-[3.6rem]">
         <Indicator total={ONBOARDING_STEPS.length} current={ONBOARDING_STEPS.indexOf(step) + 1} />
       </TopNavBar>
       <StepRouter />
       {!isCTAHidden && (
-        <CTAButton fixed>
+        <CTAButton fixed className="bg-tertiary-50">
           {submitError && <ErrorMessage message={submitError} />}
           <CTAButton.Single onClick={handleNext} disabled={isNextDisabled}>
             다음

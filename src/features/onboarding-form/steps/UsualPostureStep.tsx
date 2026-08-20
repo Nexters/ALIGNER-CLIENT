@@ -22,7 +22,7 @@ export default function UsualPostureStep() {
   }, [showIntro, setIsCTAHidden]);
 
   return (
-    <div key={showIntro ? "intro" : "posture"} className="animate-slide-in h-full w-full">
+    <div key={showIntro ? "intro" : "posture"} className="animate-slide-in h-full w-full flex-1">
       {showIntro ? (
         <StepLayout title={"요가에는 아래와 같은\n 다양한 핀포즈들이 있어요"}>
           <PoseGrid poses={poses} selectedIds={[]} />
