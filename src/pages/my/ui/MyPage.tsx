@@ -3,23 +3,35 @@ import { useMemberProfile, useWithdrawMember } from "@/entities/member";
 import { setAccessToken } from "@/shared/api";
 import { ROUTES } from "@/shared/config/routes";
 import { BackArrowIcon } from "@/shared/ui/icons";
+import { useConfirmModal } from "@/shared/ui/modal";
 import { MuscleTargetCard } from "./MuscleTargetCard";
 
 export function MyPage() {
   const navigate = useNavigate();
   const { data: member } = useMemberProfile();
   const withdrawMember = useWithdrawMember();
+  const { confirm, confirmModal } = useConfirmModal();
 
-  // TODO: window.confirm 대신 shared/ui 확인 모달 컴포넌트로 교체
-  const handleLogout = () => {
-    if (!window.confirm("로그아웃 하시겠습니까?")) return;
+  const handleLogout = async () => {
+    const confirmed = await confirm({
+      title: "로그아웃",
+      description: "로그아웃 하시겠습니까?",
+      confirmLabel: "로그아웃",
+    });
+    if (!confirmed) return;
+
     setAccessToken(null);
     navigate(ROUTES.login);
   };
 
-  // TODO: window.confirm 대신 shared/ui 확인 모달 컴포넌트로 교체
-  const handleWithdraw = () => {
-    if (!window.confirm("회원탈퇴 하시겠습니까?")) return;
+  const handleWithdraw = async () => {
+    const confirmed = await confirm({
+      title: "회원탈퇴",
+      description: "회원탈퇴 하시겠습니까?",
+      confirmLabel: "회원탈퇴",
+    });
+    if (!confirmed) return;
+
     withdrawMember.mutate(undefined, {
       onSuccess: () => {
         setAccessToken(null);
@@ -66,6 +78,8 @@ export function MyPage() {
         {/* TODO: 서비스 이용약관 웹뷰 연결 */}
         <button type="button">서비스 이용약관</button>
       </footer>
+
+      {confirmModal}
     </main>
   );
 }
