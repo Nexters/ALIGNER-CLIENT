@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router";
 import { type Member, useMemberProfile, useUpdateMemberProfile } from "@/entities/member";
-import { createStepPath, ROUTES } from "@/shared/config/routes";
+import { createStepPath, ROUTES, toMyPath } from "@/shared/config/routes";
 import { useProfileEditForm } from "../model/use-profile-edit-form";
 import { ExperienceStep } from "./ExperienceStep";
 import { ProfileEditForm } from "./ProfileEditForm";
@@ -28,6 +28,7 @@ export function MyEditPage() {
           isEditingExperience={isEditingExperience}
           onNavigateBack={() => navigate(-1)}
           onEditExperience={() => navigate(editStepPath("experience"))}
+          onSaveSuccess={() => navigate(toMyPath(), { replace: true })}
         />
       )}
     </main>
@@ -39,11 +40,13 @@ function MyEditForm({
   isEditingExperience,
   onNavigateBack,
   onEditExperience,
+  onSaveSuccess,
 }: {
   member: Member;
   isEditingExperience: boolean;
   onNavigateBack: () => void;
   onEditExperience: () => void;
+  onSaveSuccess: () => void;
 }) {
   const {
     values,
@@ -67,7 +70,12 @@ function MyEditForm({
         heightCm: Number(data.heightCm),
         weightKg: Number(data.weightKg),
       },
-      { onSuccess: resetToMember },
+      {
+        onSuccess: (updated) => {
+          resetToMember(updated);
+          onSaveSuccess();
+        },
+      },
     );
   });
 

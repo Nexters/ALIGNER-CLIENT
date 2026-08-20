@@ -35,6 +35,13 @@ export function toCourseRecommendationPath(courseId: number) {
   return `/course-recommendation/${courseId}`;
 }
 
+export function toMyPath() {
+  // ROUTES.my 자체는(다른 곳들과 달리) 앞에 "/"가 없다. navigate()에 상대경로를 그대로 넘기면
+  // 현재 위치 기준으로 해석돼 엉뚱한 곳으로 이동한다 — TabLayout의 toAbsolutePath()가 막는 것과
+  // 같은 함정이라, 여기서는 절대경로로 만들어 반환한다.
+  return "/my";
+}
+
 // courseId는 경로가 아니라 쿼리로 넘긴다 — "/daily-routine/:exerciseId"(운동 상세) 경로와 겹치지 않기 위해서다.
 export function toDailyRoutinePath(courseId: number) {
   return `${ROUTES.dailyRoutine}?courseId=${courseId}`;
