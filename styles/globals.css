@@ -1,3 +1,13 @@
 @import "tailwindcss";
 
-/* 디자인 시스템 토큰이 정해지면 docs/design/design-system.md의 대응표와 함께 채운다. */
+/* Figma ↔ 코드 토큰 대응표: docs/design/design-system.md */
+@import "./layout.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/shadow.css";
+
+/* feature/공용 UI 전용 애니메이션. 소유권은 각 폴더에 두고 여기서는 빌드 진입점으로만 import한다 */
+@import "../src/features/screening-flow/styles.css";
+@import "../src/features/onboarding-form/styles.css";
+@import "../src/shared/ui/skeleton/styles.css";

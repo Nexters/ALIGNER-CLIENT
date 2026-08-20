@@ -1,0 +1,13 @@
+/* 쉬머 스켈레톤 — 그라데이션 배경을 좌우로 훑는다 */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 150% 0;
+  }
+  100% {
+    background-position: -150% 0;
+  }
+}
+
+@utility animate-shimmer {
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
