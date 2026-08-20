@@ -39,7 +39,7 @@ export function HeroSection({
         "relative mt-[3.2rem] aspect-[67/60] w-full translate-y-[52rem] transition-transform duration-[920ms]",
         EASE_OUT,
         phase !== "intro" && "translate-y-[4.9rem]",
-        isOpen && "translate-y-0 duration-[680ms]",
+        isOpen && "translate-y-0 duration-[300ms]",
       )}
     >
       <span
