@@ -1,11 +1,13 @@
 import { useMemberProfile } from "@/entities/member";
-// TODO: 이 컴포넌트는 pages/my-edit처럼 features로 옮기는 게 맞아 보이지만, features/screening-flow를  직접 참조하고 있어 features 간 참조가 된다(레포 규칙 위반). BODY_PART_MARKER_POSITION/BODY_PART_NAMES/LEVEL_OPTIONS는 도메인 상수라 entities(예: entities/pose)로 옮기면 되지만, screeningStepPath는 screening-flow 자체의 라우팅 로직이라 entities로 옮기기 애매하다 — features로 승격할 때 같이 정리할 것.
+// TODO: 이 컴포넌트는 pages/my-edit처럼 features로 옮기는 게 맞아 보이지만, features/screening-flow를  직접 참조하고 있어 features 간 참조가 된다(레포 규칙 위반). BODY_PART_MARKER_POSITION/BODY_PART_NAMES/LEVEL_OPTIONS는 도메인 상수라 entities(예: entities/pose)로 옮기면 되지만, screeningStepPath/useGoToBodyPartStep은 screening-flow 자체의 라우팅 로직이라 entities로 옮기기 애매하다 — features로 승격할 때 같이 정리할 것.
 import {
   BODY_PART_MARKER_POSITION,
   BODY_PART_NAMES,
   LEVEL_OPTIONS,
+  useGoToBodyPartStep,
 } from "@/features/screening-flow";
 import { cn } from "@/shared/lib/cn";
+import { roParticle } from "@/shared/lib/korean";
 import { MannequinScanIcon } from "@/shared/ui/icons";
 import {
   RADIO_BASE,
@@ -15,6 +17,7 @@ import {
 } from "@/shared/ui/radio";
 
 export function MuscleTargetCard() {
+  const { goToBodyPartStep, isPending } = useGoToBodyPartStep();
   const { data: member } = useMemberProfile();
   const bodyPartCode = member?.reinforcementBodyPartCode;
   const difficultyLabel = LEVEL_OPTIONS.find(
@@ -34,15 +37,17 @@ export function MuscleTargetCard() {
       <div className="flex flex-col justify-between p-6">
         <p className="relative z-10 typo-title-3-emphasized text-gray-40">
           <span className="text-tertiary-600">{BODY_PART_NAMES[bodyPartCode]}근육</span>을{" "}
-          <span className="text-tertiary-600">{difficultyLabel}</span>로
+          <span className="text-tertiary-600">{difficultyLabel}</span>
+          {roParticle(difficultyLabel)}
           <br />
           강화하고 있어요
         </p>
 
-        {/* TODO: 클릭 동작 없음 — 난이도 조정(스크리닝) 플로우로 이동하는 동작을 다시 붙일 것 */}
         <button
           type="button"
-          className="typo-body-emphasized relative z-10 w-fit rounded-[8px] bg-tertiary-700 px-4 py-3 text-primary-200"
+          onClick={goToBodyPartStep}
+          disabled={isPending}
+          className="typo-body-emphasized relative z-10 w-fit rounded-[8px] bg-tertiary-700 px-4 py-3 text-primary-200 disabled:opacity-40"
         >
           난이도 조정하기
         </button>
