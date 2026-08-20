@@ -4,7 +4,7 @@ declare global {
       init: (key: string) => void;
       isInitialized: () => boolean;
       Auth: {
-        authorize: (options: { redirectUri: string }) => void;
+        authorize: (options: { redirectUri: string; throughTalk?: boolean }) => void;
       };
     };
   }
@@ -21,5 +21,5 @@ function getInitializedKakao() {
 }
 
 export function requestKakaoLogin(redirectUri: string): void {
-  getInitializedKakao().Auth.authorize({ redirectUri });
+  getInitializedKakao().Auth.authorize({ redirectUri, throughTalk: false });
 }
