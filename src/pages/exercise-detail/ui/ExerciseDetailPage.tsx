@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { FALLBACK_POSE_IMAGE } from "@/entities/course";
+import { useStartSession } from "@/entities/session";
+import { toSessionPath } from "@/shared/config/routes";
 import { Button, CTAButton } from "@/shared/ui/button";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { MuscleDiagram } from "@/shared/ui/muscle-diagram";
@@ -11,6 +13,8 @@ import { useExercise } from "../api/use-exercise";
 
 /** 코스 순서 목록에서 이미 알고 있는 값. 상세 API 응답이 오기 전까지 이걸로 먼저 그린다. */
 export interface ExerciseDetailNavigationState {
+  courseId: number;
+  stepOrder: number;
   name: string;
   imageSrc: string;
   step: { current: number; total: number } | null;
@@ -25,6 +29,7 @@ export function ExerciseDetailPage() {
   const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(null);
 
   const { data } = useExercise(exerciseId);
+  const startSession = useStartSession();
 
   if (exerciseId === null || (!data && !preview)) {
     return null;
@@ -132,8 +137,14 @@ export function ExerciseDetailPage() {
 
       <CTAButton>
         <CTAButton.Single
-          // TODO: 운동 시작 플로우 화면 구현 후 실제 라우팅 연결
-          onClick={() => {}}
+          disabled={!preview || startSession.isPending}
+          onClick={() => {
+            if (!preview) return;
+            startSession.mutate(
+              { courseId: preview.courseId, stepOrder: preview.stepOrder },
+              { onSuccess: (session) => navigate(toSessionPath(session.sessionId as number)) },
+            );
+          }}
         >
           운동 시작하기
         </CTAButton.Single>
