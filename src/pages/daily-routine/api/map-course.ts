@@ -21,6 +21,12 @@ export interface DailyRoutineExerciseRowView {
   stepOrder: number;
   /** 이 운동이 속한 스텝의 완료 여부. 같은 스텝의 운동은 값이 모두 같다 */
   completed: boolean;
+  /**
+   * 코스 순서 목록에서 강조(활성 색상) 표시해야 하면 true.
+   * 개별 스텝의 completed 값이 아니라, completedStepCount만큼 앞에서부터 누적으로 결정된다
+   * (스텝은 순차적으로 진행된다고 가정)
+   */
+  active: boolean;
   exercise: DailyRoutineExerciseView;
 }
 
@@ -63,11 +69,12 @@ export function mapCourseDetailResponse(response: CourseDetailResponse): CourseD
           courseStepId: step.courseStepId,
           stepOrder: step.stepOrder,
           completed: step.completed,
+          active: step.stepOrder <= response.completedStepCount,
           exercise: mapExercise(exercise),
         })),
     );
 
-  const firstIncompleteIndex = exercises.findIndex((row) => !row.completed);
+  const firstIncompleteIndex = exercises.findIndex((row) => !row.active);
   const activeIndex =
     firstIncompleteIndex !== -1
       ? firstIncompleteIndex

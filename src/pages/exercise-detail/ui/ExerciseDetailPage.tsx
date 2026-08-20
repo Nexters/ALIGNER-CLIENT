@@ -109,7 +109,9 @@ export function ExerciseDetailPage() {
               </span>
               <div className="flex flex-col gap-[0.8rem]">
                 <p className="typo-headline-emphasized text-gray-10">핵심 동작</p>
-                <p className="typo-body-regular whitespace-pre-line text-gray-30">{guide.tip}</p>
+                <p className="typo-body-regular whitespace-pre-line break-keep text-gray-30">
+                  {guide.tip}
+                </p>
               </div>
             </div>
           </div>

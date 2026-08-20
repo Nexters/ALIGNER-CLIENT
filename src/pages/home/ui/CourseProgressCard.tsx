@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { cn } from "@/shared/lib/cn";
 import type { CourseProgress } from "@/entities/course";
 
@@ -16,6 +17,13 @@ export default function CourseProgressCard({ progress, className }: CourseProgre
   const isCompleted = current !== null && total !== null && current >= total;
   const label = isCompleted ? "동작 진행도" : "현재 코스 진행도";
 
+  // 마운트 시 0%로 그린 뒤 다음 프레임에 실제 값으로 바꿔야 채워지는 애니메이션이 재생된다
+  const [isVisible, setIsVisible] = useState(false);
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setIsVisible(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
   return (
     <div className={cn("flex flex-col gap-[1.5rem]", className)}>
       <p className="typo-subheadline-emphasized text-gray-10">{label}</p>
@@ -33,8 +41,8 @@ export default function CourseProgressCard({ progress, className }: CourseProgre
           className="relative h-[0.6rem] w-full overflow-hidden rounded-[10rem] bg-gray-98"
         >
           <div
-            className="absolute inset-y-0 left-0 rounded-[10rem] bg-secondary-400"
-            style={{ width: `${percent}%` }}
+            className="absolute inset-y-0 left-0 rounded-[10rem] bg-secondary-400 transition-[width] duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:duration-0"
+            style={{ width: `${isVisible ? percent : 0}%` }}
           />
         </div>
         <div className="flex items-center justify-between typo-caption-1-regular">
