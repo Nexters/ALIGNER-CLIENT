@@ -13,6 +13,7 @@ import { MyEditPage } from "@/pages/my-edit";
 import { OnboardingPage } from "@/pages/onboarding";
 import { PoseChallengePage } from "@/pages/pose-challenge";
 import { ScreeningPage } from "@/pages/screening";
+import { SessionPlayerPage } from "@/pages/session";
 
 type AppRoute = {
   path: RoutePath;
@@ -43,6 +44,7 @@ export const APP_ROUTES: Record<"tab" | "bare", RouteGroup> = {
       { path: ROUTES.dailyRoutine, element: <DailyRoutinePage /> },
       { path: ROUTES.dailyRoutineExercise, element: <ExerciseDetailPage /> },
       { path: ROUTES.poseChallenge, element: <PoseChallengePage /> },
+      { path: ROUTES.session, element: <SessionPlayerPage /> },
       { path: ROUTES.complete, element: <CompletePage /> },
       { path: ROUTES.myEdit, element: <MyEditPage /> },
     ],
