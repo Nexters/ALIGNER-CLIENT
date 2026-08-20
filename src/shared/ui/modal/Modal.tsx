@@ -1,4 +1,4 @@
-import { useEffect, useId } from "react";
+import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import { cn } from "@/shared/lib/cn";
 
@@ -27,6 +27,16 @@ export default function Modal({
   className,
 }: ModalProps) {
   const titleId = useId();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const raf = requestAnimationFrame(() => setVisible(true));
+    return () => {
+      cancelAnimationFrame(raf);
+      setVisible(false);
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -48,13 +58,21 @@ export default function Modal({
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center px-[2rem]">
-      <div aria-hidden="true" onClick={onDismiss} className="absolute inset-0 bg-overlay-dim" />
+      <div
+        aria-hidden="true"
+        onClick={onDismiss}
+        className={cn(
+          "absolute inset-0 bg-overlay-dim transition-opacity duration-200 ease-out",
+          visible ? "opacity-100" : "opacity-0",
+        )}
+      />
       <div
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         className={cn(
-          "relative flex w-full min-w-[32rem] max-w-[40rem] flex-col overflow-hidden rounded-[1.6rem] bg-bg-surface",
+          "relative flex w-full min-w-[32rem] max-w-[40rem] flex-col overflow-hidden rounded-[1.6rem] bg-bg-surface transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]",
+          visible ? "scale-100 opacity-100" : "scale-95 opacity-0",
           className,
         )}
       >
