@@ -1,6 +1,9 @@
+import type { ReactNode } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { useStartSession } from "@/entities/session";
 import { toDailyRoutineExercisePath, toSessionPath } from "@/shared/config/routes";
+import { cn } from "@/shared/lib/cn";
+import { useInView } from "@/shared/lib/use-in-view";
 import { CTAButton } from "@/shared/ui/button";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { AlarmIcon, FireIcon, HumanIcon } from "@/shared/ui/icons";
@@ -10,6 +13,24 @@ import { SummaryCard, type SummaryCardChip } from "@/shared/ui/summary-card";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { useCourse } from "../api/use-course";
 import { mapCourseDetailResponse } from "../api/map-course";
+
+/** 코스 순서 줄이 스크롤로 뷰포트에 들어올 때 은은하게 떠오르며 나타난다 */
+function RevealOnScroll({ className, children }: { className?: string; children: ReactNode }) {
+  const { ref, isInView } = useInView<HTMLDivElement>();
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-opacity",
+        isInView ? "translate-y-0 opacity-100" : "translate-y-[1.6rem] opacity-0",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  );
+}
 
 export function DailyRoutinePage() {
   const navigate = useNavigate();
@@ -85,35 +106,36 @@ export function DailyRoutinePage() {
         <h2 className="typo-title-3-emphasized text-black">코스 순서</h2>
         <div className="flex w-full flex-col items-start">
           {exercises.map((row, index) => (
-            <button
-              key={row.exercise.exerciseId}
-              type="button"
-              onClick={() =>
-                navigate(toDailyRoutineExercisePath(String(row.exercise.exerciseId)), {
-                  // 상세 API가 느려서, 코스 순서에서 이미 알고 있는 값으로 먼저 그린다.
-                  state: {
-                    courseId,
-                    stepOrder: row.stepOrder,
-                    name: row.exercise.name,
-                    imageSrc: row.exercise.imageSrc,
-                    step: { current: index + 1, total: exercises.length },
-                  },
-                })
-              }
-              className="w-full text-left"
-            >
-              <SequenceItem
-                step={index + 1}
-                active={index === activeIndex}
-                isLast={index === exercises.length - 1}
-                imageSrc={row.exercise.imageSrc}
-                alt={row.exercise.name}
-                title={row.exercise.name}
-                descriptions={[row.exercise.category, row.exercise.setInfo]}
-                captionIcon={<FireIcon />}
-                caption={`${row.exercise.kcal ?? "-"}kcal`}
-              />
-            </button>
+            <RevealOnScroll key={row.exercise.exerciseId} className="w-full">
+              <button
+                type="button"
+                onClick={() =>
+                  navigate(toDailyRoutineExercisePath(String(row.exercise.exerciseId)), {
+                    // 상세 API가 느려서, 코스 순서에서 이미 알고 있는 값으로 먼저 그린다.
+                    state: {
+                      courseId,
+                      stepOrder: row.stepOrder,
+                      name: row.exercise.name,
+                      imageSrc: row.exercise.imageSrc,
+                      step: { current: index + 1, total: exercises.length },
+                    },
+                  })
+                }
+                className="w-full text-left transition-transform duration-150 ease-out active:scale-[0.98] [@media(hover:hover)_and_(pointer:fine)]:hover:opacity-90"
+              >
+                <SequenceItem
+                  step={index + 1}
+                  active={row.active}
+                  isLast={index === exercises.length - 1}
+                  imageSrc={row.exercise.imageSrc}
+                  alt={row.exercise.name}
+                  title={row.exercise.name}
+                  descriptions={[row.exercise.category, row.exercise.setInfo]}
+                  captionIcon={<FireIcon />}
+                  caption={`${row.exercise.kcal ?? "-"}kcal`}
+                />
+              </button>
+            </RevealOnScroll>
           ))}
         </div>
       </div>
