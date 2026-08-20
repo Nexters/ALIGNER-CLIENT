@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from "react-router";
-import { toDailyRoutineExercisePath } from "@/shared/config/routes";
+import { useStartSession } from "@/entities/session";
+import { toDailyRoutineExercisePath, toSessionPath } from "@/shared/config/routes";
 import { CTAButton } from "@/shared/ui/button";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { AlarmIcon, FireIcon, HumanIcon } from "@/shared/ui/icons";
@@ -17,6 +18,7 @@ export function DailyRoutinePage() {
   const courseId = courseIdParam !== null ? Number(courseIdParam) : null;
 
   const { data, error, isPending } = useCourse(courseId);
+  const startSession = useStartSession();
 
   if (courseId === null) {
     return null;
@@ -90,6 +92,8 @@ export function DailyRoutinePage() {
                 navigate(toDailyRoutineExercisePath(String(row.exercise.exerciseId)), {
                   // 상세 API가 느려서, 코스 순서에서 이미 알고 있는 값으로 먼저 그린다.
                   state: {
+                    courseId,
+                    stepOrder: row.stepOrder,
                     name: row.exercise.name,
                     imageSrc: row.exercise.imageSrc,
                     step: { current: index + 1, total: exercises.length },
@@ -116,9 +120,14 @@ export function DailyRoutinePage() {
 
       <CTAButton>
         <CTAButton.Single
-          disabled={completed}
-          // TODO: 운동 시작 플로우 화면 구현 후 실제 라우팅 연결
-          onClick={() => {}}
+          disabled={completed || startSession.isPending}
+          onClick={() => {
+            if (activeIndex === null) return;
+            startSession.mutate(
+              { courseId, stepOrder: exercises[activeIndex].stepOrder },
+              { onSuccess: (session) => navigate(toSessionPath(session.sessionId as number)) },
+            );
+          }}
         >
           운동 시작하기
         </CTAButton.Single>
