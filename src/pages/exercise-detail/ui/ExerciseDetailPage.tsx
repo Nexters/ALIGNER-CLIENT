@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { FALLBACK_POSE_IMAGE } from "@/entities/course";
+import { useExercise } from "@/entities/exercise";
 import { useStartSession } from "@/entities/session";
 import { toSessionPath } from "@/shared/config/routes";
 import { Button, CTAButton } from "@/shared/ui/button";
@@ -9,7 +10,6 @@ import { MuscleDiagram } from "@/shared/ui/muscle-diagram";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { mapExerciseDetailResponse } from "../api/map-exercise";
-import { useExercise } from "../api/use-exercise";
 
 /** 코스 순서 목록에서 이미 알고 있는 값. 상세 API 응답이 오기 전까지 이걸로 먼저 그린다. */
 export interface ExerciseDetailNavigationState {

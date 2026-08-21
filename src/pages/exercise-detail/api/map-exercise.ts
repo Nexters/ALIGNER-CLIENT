@@ -1,16 +1,14 @@
 import { resolveThumbnailSrc } from "@/entities/course";
+import type { MuscleResponse } from "@/shared/api/generated/data-contracts";
 import {
   BACK_MUSCLE_NAMES,
   MUSCLE_NAMES,
   type MuscleDiagramView,
   type MuscleName,
 } from "@/shared/ui/muscle-diagram";
-import type {
-  BodyPartCode,
-  ExerciseDetailResponse,
-  ExerciseDifficulty,
-  MuscleResponse,
-} from "./types";
+import type { ExerciseDetailResponse } from "./types";
+
+type BodyPartCode = NonNullable<MuscleResponse["bodyPartCode"]>;
 
 const BODY_PART_LABELS: Record<BodyPartCode, string> = {
   BACK: "등",
@@ -18,7 +16,9 @@ const BODY_PART_LABELS: Record<BodyPartCode, string> = {
   PELVIS: "골반",
 };
 
-const DIFFICULTY_LABELS: Record<ExerciseDifficulty, string> = {
+// difficulty는 스웨거에서 아직 값 집합을 고정하지 않은 string이다 — 알려진 값만 라벨을 붙이고,
+// 나머지는 아래 mapExerciseDetailResponse에서 "-"로 폴백한다.
+const DIFFICULTY_LABELS: Record<string, string> = {
   EASY: "하",
   MEDIUM: "중",
   HARD: "상",
@@ -46,9 +46,10 @@ const MUSCLE_CODE_ALIASES: Partial<Record<string, MuscleName>> = {
 // 별칭 테이블에 없는 근육은 이름 문자열이 다이어그램 목록과 정확히 일치할 때만 하이라이트한다.
 // 그마저도 없으면 하이라이트 없이 그냥 넘어간다 — 목록 밖 근육이라도 탭 자체는 보여준다.
 function toMuscleName(muscle: MuscleResponse): MuscleName | null {
-  const alias = MUSCLE_CODE_ALIASES[muscle.muscleCode];
+  const alias = muscle.muscleCode ? MUSCLE_CODE_ALIASES[muscle.muscleCode] : undefined;
   if (alias) return alias;
-  return MUSCLE_NAME_SET.has(muscle.name) ? (muscle.name as MuscleName) : null;
+  const name = muscle.name ?? "";
+  return MUSCLE_NAME_SET.has(name) ? (name as MuscleName) : null;
 }
 
 export interface ExerciseGuideGroupView {
@@ -84,9 +85,9 @@ const DEFAULT_GUIDE_GROUP: ExerciseGuideGroupView = {
 function buildTip(muscles: MuscleResponse[]): string {
   const descriptions = muscles
     .slice()
-    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
     .map((muscle) => muscle.description)
-    .filter((description): description is string => description !== null);
+    .filter((description): description is string => Boolean(description));
 
   return descriptions.length > 0 ? descriptions.join("\n") : "-";
 }
@@ -112,17 +113,17 @@ function groupMuscles(muscles: MuscleResponse[]): ExerciseGuideGroupView[] {
 }
 
 function resolveStep(response: ExerciseDetailResponse): ExerciseStepView | null {
-  if (response.stepOrder === null || response.totalStepCount === null) return null;
+  if (response.stepOrder == null || response.totalStepCount == null) return null;
   return { current: response.stepOrder, total: response.totalStepCount };
 }
 
 export function mapExerciseDetailResponse(response: ExerciseDetailResponse): ExerciseDetailView {
   return {
-    exerciseId: response.exerciseId,
-    name: response.name,
-    difficulty: response.difficulty ? DIFFICULTY_LABELS[response.difficulty] : "-",
-    imageSrc: resolveThumbnailSrc(response.thumbnailUrl, response.imageAssetKey),
-    guideGroups: groupMuscles(response.muscles),
+    exerciseId: response.exerciseId!,
+    name: response.name!,
+    difficulty: response.difficulty ? (DIFFICULTY_LABELS[response.difficulty] ?? "-") : "-",
+    imageSrc: resolveThumbnailSrc(response.thumbnailUrl ?? null, response.imageAssetKey ?? null),
+    guideGroups: groupMuscles(response.muscles ?? []),
     // TODO(소정): stepOrder/totalStepCount는 아직 스웨거 스펙에 없는 임시 필드명이다.
     step: resolveStep(response),
   };
