@@ -1,7 +1,7 @@
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { NumberField } from "@/shared/ui/number-field";
 import { useOnboardingForm } from "../model/use-onboarding-form";
 import StepLayout from "../components/StepLayout";
-import ErrorMessage from "../components/ErrorMessage";
 
 export default function HeightWeightStep() {
   const {

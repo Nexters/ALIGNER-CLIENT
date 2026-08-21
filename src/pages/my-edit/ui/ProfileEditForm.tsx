@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { EXPERIENCE_LEVEL_OPTIONS, type ExperienceLevel } from "@/features/onboarding-form";
 import { cn } from "@/shared/lib/cn";
 import { CTAButton } from "@/shared/ui/button";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { NumberField } from "@/shared/ui/number-field";
 import { TextField } from "@/shared/ui/text-field";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
@@ -63,9 +64,7 @@ export function ProfileEditForm({
               onBlur={onNicknameBlur}
               error={Boolean(nicknameError)}
             />
-            {nicknameError && (
-              <p className="typo-caption-1-emphasized text-ink-error">{nicknameError}</p>
-            )}
+            {nicknameError && <ErrorMessage message={nicknameError} />}
           </div>
         </Field>
 
@@ -94,9 +93,7 @@ export function ProfileEditForm({
                 onBlur={onHeightBlur}
                 error={Boolean(heightError)}
               />
-              {heightError && (
-                <p className="typo-caption-1-emphasized text-ink-error">{heightError}</p>
-              )}
+              {heightError && <ErrorMessage message={heightError} />}
             </div>
           </Field>
           <Field label="몸무게" htmlFor="weight-field" className="flex-1">
@@ -110,9 +107,7 @@ export function ProfileEditForm({
                 onBlur={onWeightBlur}
                 error={Boolean(weightError)}
               />
-              {weightError && (
-                <p className="typo-caption-1-emphasized text-ink-error">{weightError}</p>
-              )}
+              {weightError && <ErrorMessage message={weightError} />}
             </div>
           </Field>
         </div>
