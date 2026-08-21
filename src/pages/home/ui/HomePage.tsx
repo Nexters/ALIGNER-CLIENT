@@ -2,6 +2,7 @@ import { isHTTPError } from "ky";
 import { useNavigate } from "react-router";
 import { normalizePoseName, type PoseTip } from "@/entities/course";
 import { ROUTES, toDailyRoutinePath } from "@/shared/config/routes";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { LogoIcon } from "@/shared/ui/icons";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { useTodayCourse } from "../api/use-today-course";
@@ -58,9 +59,10 @@ export function HomePage() {
   if (error && !isNotFound) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-[2rem]">
-        <p className="typo-body-regular text-gray-50">
-          정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
-        </p>
+        <ErrorMessage
+          message="정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+          className="typo-body-regular text-gray-50"
+        />
       </main>
     );
   }
