@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { useSession, type Session } from "@/entities/session";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { CompletePoseFeedback } from "./CompletePoseFeedback";
 import { CompleteReport } from "./CompleteReport";
 
@@ -24,13 +25,13 @@ export function CompletePage() {
 
   if (isPending) return null;
 
-  // TODO: 에러 메시지 통일
   if (error || !data) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-6">
-        <p className="typo-body-regular text-gray-50">
-          정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
-        </p>
+        <ErrorMessage
+          message="정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+          className="typo-body-regular text-gray-50"
+        />
       </main>
     );
   }

@@ -1,28 +1,18 @@
-import { resolveThumbnailSrc } from "@/entities/course";
+import {
+  BODY_PART_LABELS,
+  EXERCISE_DIFFICULTY_LABELS,
+  MUSCLE_CODE_ALIASES,
+  resolveThumbnailSrc,
+  type BodyPartCode,
+} from "@/entities/course";
+import type { MuscleResponse } from "@/shared/api/generated/data-contracts";
 import {
   BACK_MUSCLE_NAMES,
   MUSCLE_NAMES,
   type MuscleDiagramView,
   type MuscleName,
 } from "@/shared/ui/muscle-diagram";
-import type {
-  BodyPartCode,
-  ExerciseDetailResponse,
-  ExerciseDifficulty,
-  MuscleResponse,
-} from "./types";
-
-const BODY_PART_LABELS: Record<BodyPartCode, string> = {
-  BACK: "등",
-  ABDOMEN: "복부",
-  PELVIS: "골반",
-};
-
-const DIFFICULTY_LABELS: Record<ExerciseDifficulty, string> = {
-  EASY: "하",
-  MEDIUM: "중",
-  HARD: "상",
-};
+import type { ExerciseDetailResponse } from "./types";
 
 const BODY_PART_ORDER: BodyPartCode[] = ["BACK", "ABDOMEN", "PELVIS"];
 
@@ -35,20 +25,13 @@ function resolveView(highlightedMuscles: MuscleName[]): MuscleDiagramView {
   return highlightedMuscles.some((name) => BACK_MUSCLE_NAME_SET.has(name)) ? "back" : "front";
 }
 
-// API의 근육 표시 이름은 다이어그램 레이어 이름과 문자열이 정확히 일치하지 않을 수 있다
-// (예: API "상부 승모근" vs 다이어그램 레이어 "승모근" — 다이어그램은 승모근을 "승모근"(상부)과
-// "중 하부 승모근" 두 레이어로만 나눠뒀다). 이런 표기 차이는 muscleCode 기준 별칭으로 흡수한다.
-// 새 코드가 나오면 여기에 추가한다.
-const MUSCLE_CODE_ALIASES: Partial<Record<string, MuscleName>> = {
-  UPPER_TRAPEZIUS: "승모근",
-};
-
 // 별칭 테이블에 없는 근육은 이름 문자열이 다이어그램 목록과 정확히 일치할 때만 하이라이트한다.
 // 그마저도 없으면 하이라이트 없이 그냥 넘어간다 — 목록 밖 근육이라도 탭 자체는 보여준다.
 function toMuscleName(muscle: MuscleResponse): MuscleName | null {
-  const alias = MUSCLE_CODE_ALIASES[muscle.muscleCode];
+  const alias = muscle.muscleCode ? MUSCLE_CODE_ALIASES[muscle.muscleCode] : undefined;
   if (alias) return alias;
-  return MUSCLE_NAME_SET.has(muscle.name) ? (muscle.name as MuscleName) : null;
+  const name = muscle.name ?? "";
+  return MUSCLE_NAME_SET.has(name) ? (name as MuscleName) : null;
 }
 
 export interface ExerciseGuideGroupView {
@@ -84,9 +67,9 @@ const DEFAULT_GUIDE_GROUP: ExerciseGuideGroupView = {
 function buildTip(muscles: MuscleResponse[]): string {
   const descriptions = muscles
     .slice()
-    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
     .map((muscle) => muscle.description)
-    .filter((description): description is string => description !== null);
+    .filter((description): description is string => Boolean(description));
 
   return descriptions.length > 0 ? descriptions.join("\n") : "-";
 }
@@ -112,17 +95,19 @@ function groupMuscles(muscles: MuscleResponse[]): ExerciseGuideGroupView[] {
 }
 
 function resolveStep(response: ExerciseDetailResponse): ExerciseStepView | null {
-  if (response.stepOrder === null || response.totalStepCount === null) return null;
+  if (response.stepOrder == null || response.totalStepCount == null) return null;
   return { current: response.stepOrder, total: response.totalStepCount };
 }
 
 export function mapExerciseDetailResponse(response: ExerciseDetailResponse): ExerciseDetailView {
   return {
-    exerciseId: response.exerciseId,
-    name: response.name,
-    difficulty: response.difficulty ? DIFFICULTY_LABELS[response.difficulty] : "-",
-    imageSrc: resolveThumbnailSrc(response.thumbnailUrl, response.imageAssetKey),
-    guideGroups: groupMuscles(response.muscles),
+    exerciseId: response.exerciseId!,
+    name: response.name!,
+    difficulty: response.difficulty
+      ? (EXERCISE_DIFFICULTY_LABELS[response.difficulty] ?? "-")
+      : "-",
+    imageSrc: resolveThumbnailSrc(response.thumbnailUrl ?? null, response.imageAssetKey ?? null),
+    guideGroups: groupMuscles(response.muscles ?? []),
     // TODO(소정): stepOrder/totalStepCount는 아직 스웨거 스펙에 없는 임시 필드명이다.
     step: resolveStep(response),
   };

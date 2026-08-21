@@ -1,6 +1,6 @@
 import { cn } from "@/shared/lib/cn";
 import { SequenceItem } from "@/shared/ui/sequence-item";
-import type { CourseStep } from "../model/types";
+import type { CourseStep } from "@/entities/course";
 import { EASE_OUT } from "./animation";
 
 type StepListProps = {

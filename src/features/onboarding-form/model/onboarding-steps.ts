@@ -21,7 +21,7 @@ export function getNextStep(current: OnboardingStep): OnboardingStep | undefined
 }
 
 // "다음"을 누르기 전에 검증해야 하는 폼 필드
-export const STEP_FIELDS: Record<OnboardingStep, (keyof OnboardingFormValues)[]> = {
+const STEP_FIELDS: Record<OnboardingStep, (keyof OnboardingFormValues)[]> = {
   "height-weight": ["heightCm", "weightKg"],
   "experience-level": ["experienceLevel"],
   "usual-posture": ["easyPoseIds"],

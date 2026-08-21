@@ -1,21 +1,6 @@
-import type { CourseProgressResponse } from "@/shared/api/generated/data-contracts";
+import { BODY_PART_LABELS, COURSE_LEVEL_LABELS } from "@/entities/course";
 import type { Session } from "@/entities/session";
-
-type BodyPartCode = NonNullable<CourseProgressResponse["bodyPartCode"]>;
-
-// TODO: features/screening-flow/constants/body-parts.ts, pages/exercise-detail/api/map-exercise.ts와 부위 라벨이 중복된다. entities/course로 통합할 때 세 곳을 같이 정리한다.
-const BODY_PART_LABELS: Record<BodyPartCode, string> = {
-  BACK: "등",
-  ABDOMEN: "복부",
-  PELVIS: "골반",
-};
-
-// TODO: pages/exercise-detail/api/map-exercise.ts의 DIFFICULTY_LABELS, features/screening-flow의 LEVEL_OPTIONS와 난이도 라벨이 개념적으로 겹친다. entities/course로 통합할 때 같이 정리한다.
-const LEVEL_LABELS: Record<number, string> = {
-  1: "하",
-  2: "중",
-  3: "상",
-};
+import type { CourseProgressResponse } from "@/shared/api/generated/data-contracts";
 
 export interface SessionStampView {
   targetPoseName: string;
@@ -52,7 +37,7 @@ function resolveSubtitle(courseProgress: CourseProgressResponse | null | undefin
   }
 
   const bodyPartLabel = BODY_PART_LABELS[courseProgress.bodyPartCode];
-  const levelLabel = LEVEL_LABELS[courseProgress.level] ?? "-";
+  const levelLabel = COURSE_LEVEL_LABELS[courseProgress.level] ?? "-";
   return `${bodyPartLabel} 난이도 ${levelLabel} · 파이어로그 로드맵`;
 }
 

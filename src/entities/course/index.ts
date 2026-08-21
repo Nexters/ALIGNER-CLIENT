@@ -1,4 +1,17 @@
 export type { CourseProgress, TodayWorkoutSummary, PoseTip } from "./model/types";
-export { MOCK_COURSE_PROGRESS } from "./model/mock";
+export type { Course, CourseStep, CourseStepExercise } from "./model/course-detail";
+export { courseDetailQueryKey, getCourseDetail, useCourseDetail } from "./model/course-detail";
+export type { BodyPartCode } from "./model/labels";
+export {
+  BODY_PART_LABELS,
+  COURSE_LEVEL_LABELS,
+  EXERCISE_DIFFICULTY_LABELS,
+  MUSCLE_CODE_ALIASES,
+} from "./model/labels";
 export { isCourseCompleted, normalizePoseName } from "./model/lib";
-export { getPoseImageSrc, resolveThumbnailSrc, FALLBACK_POSE_IMAGE } from "./model/pose-images";
+export {
+  getPoseImageSrc,
+  resolveThumbnailSrc,
+  resolvePoseImageByTargetPoseId,
+  FALLBACK_POSE_IMAGE,
+} from "./model/pose-images";

@@ -1,15 +1,21 @@
-import type { BodyPart, ScreeningCause } from "../api/types";
+import type {
+  BodyPartResponse,
+  ScreeningCauseResponse,
+} from "@/shared/api/generated/data-contracts";
+import type { BodyPartCode } from "../constants/body-parts";
+
+export type WeakBodyPart = { bodyPartCode: BodyPartCode; name: string };
 
 export function deriveWeakBodyParts(
-  causes: Pick<ScreeningCause, "bodyPartCode">[],
-  bodyParts: BodyPart[],
-): BodyPart[] {
+  causes: Pick<ScreeningCauseResponse, "bodyPartCode">[],
+  bodyParts: BodyPartResponse[],
+): WeakBodyPart[] {
   const nameByCode = new Map(bodyParts.map((part) => [part.bodyPartCode, part.name]));
-  const seen = new Set<string>();
-  const result: BodyPart[] = [];
+  const seen = new Set<BodyPartCode>();
+  const result: WeakBodyPart[] = [];
 
   for (const cause of causes) {
-    if (seen.has(cause.bodyPartCode)) continue;
+    if (!cause.bodyPartCode || seen.has(cause.bodyPartCode)) continue;
     seen.add(cause.bodyPartCode);
 
     const name = nameByCode.get(cause.bodyPartCode);

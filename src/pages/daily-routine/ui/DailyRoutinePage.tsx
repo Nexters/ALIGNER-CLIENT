@@ -6,6 +6,7 @@ import { cn } from "@/shared/lib/cn";
 import { useInView } from "@/shared/lib/use-in-view";
 import { CTAButton } from "@/shared/ui/button";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { AlarmIcon, FireIcon, HumanIcon } from "@/shared/ui/icons";
 import { SequenceItem } from "@/shared/ui/sequence-item";
 import { Skeleton } from "@/shared/ui/skeleton";
@@ -67,9 +68,10 @@ export function DailyRoutinePage() {
   if (error || !data) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-[2rem]">
-        <p className="typo-body-regular text-gray-50">
-          정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
-        </p>
+        <ErrorMessage
+          message="정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+          className="typo-body-regular text-gray-50"
+        />
       </main>
     );
   }

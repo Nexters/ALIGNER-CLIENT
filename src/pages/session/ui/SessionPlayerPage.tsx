@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import { useExercise } from "@/entities/exercise";
 import { useSession } from "@/entities/session";
 import sessionTimerGlow from "@/shared/assets/imgs/session/timer-glow.svg";
 import sessionWoodBg from "@/shared/assets/imgs/session/wood-bg.png";
@@ -7,7 +8,6 @@ import { toCompletePath, toDailyRoutinePath } from "@/shared/config/routes";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { getActiveVoiceCues } from "../api/active-voice-cues";
 import { useCompleteSession } from "../api/use-complete-session";
-import { useExercise } from "../api/use-exercise";
 import { mapExerciseMuscles } from "../api/map-exercise-muscles";
 import { SessionCountdownTimer } from "./SessionCountdownTimer";
 import { SessionExerciseMedia } from "./SessionExerciseMedia";

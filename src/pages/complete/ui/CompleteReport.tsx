@@ -6,6 +6,7 @@ import { toWeekdayLabel } from "@/shared/lib/date";
 import { ROUTES } from "@/shared/config/routes";
 import { CTAButton } from "@/shared/ui/button";
 import { CheckMarkGroup } from "@/shared/ui/check-mark";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { CheckBoldIcon } from "@/shared/ui/icons";
 import { mapSessionReport, type SessionReportView } from "../api/map-session";
 import { useAchievements } from "../api/use-achievements";
@@ -36,12 +37,12 @@ function CompleteReportContent({ sessionId }: CompleteReportProps) {
     return null;
   }
 
-  // TODO: 에러 메시지 통일
   if (sessionError || !session || achievementsError || !achievements) {
     return (
-      <p className="typo-body-regular text-gray-50 m-auto">
-        정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
-      </p>
+      <ErrorMessage
+        message="정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+        className="typo-body-regular text-gray-50 m-auto"
+      />
     );
   }
 

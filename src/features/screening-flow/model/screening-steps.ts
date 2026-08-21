@@ -1,6 +1,6 @@
 import { ROUTES } from "@/shared/config/routes";
 
-export const SCREENING_STEPS = ["analyzing", "body-part"] as const;
+const SCREENING_STEPS = ["analyzing", "body-part"] as const;
 
 export type ScreeningStep = (typeof SCREENING_STEPS)[number];
 

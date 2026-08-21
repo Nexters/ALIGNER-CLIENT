@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import type { PoseChallengeStatus } from "@/entities/pose";
 import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/button";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { ProgressRingItem, type ProgressRingItemProps } from "@/shared/ui/progress-ring-item";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
@@ -48,9 +49,10 @@ export function PoseChallengePage() {
   if (bodyPartsQuery.error || progressQuery.error || !bodyPartsQuery.data || !progressQuery.data) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center px-[2rem]">
-        <p className="typo-body-regular text-gray-50">
-          정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
-        </p>
+        <ErrorMessage
+          message="정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+          className="typo-body-regular text-gray-50"
+        />
       </main>
     );
   }
