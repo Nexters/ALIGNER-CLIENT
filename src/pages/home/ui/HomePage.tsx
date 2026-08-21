@@ -68,7 +68,7 @@ export function HomePage() {
   }
 
   const view = data ? mapTodayCourseResponse(data) : null;
-  const tip = data ? getPoseTip(data.targetPoseName) : { message: DEFAULT_TIP_MESSAGE };
+  const tip = data ? getPoseTip(data.targetPoseName!) : { message: DEFAULT_TIP_MESSAGE };
 
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
@@ -79,7 +79,7 @@ export function HomePage() {
       <TodayCourseCard
         workout={view?.workout ?? null}
         isCompleted={view?.completed ?? false}
-        onStart={() => navigate(data ? toDailyRoutinePath(data.courseId) : ROUTES.screening)}
+        onStart={() => navigate(data ? toDailyRoutinePath(data.courseId!) : ROUTES.screening)}
       />
 
       <div className="mt-[1.6rem] flex w-full items-center gap-[1.8rem] rounded-[3.2rem] bg-white py-[0.8rem] pr-[0.8rem] pl-[1.6rem]">
