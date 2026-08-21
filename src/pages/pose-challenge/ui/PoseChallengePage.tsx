@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import type { PoseChallengeStatus } from "@/entities/pose";
+import { ROUTES } from "@/shared/config/routes";
 import { cn } from "@/shared/lib/cn";
 import { Button } from "@/shared/ui/button";
 import { ErrorMessage } from "@/shared/ui/error-message";
@@ -33,7 +34,7 @@ export function PoseChallengePage() {
     return (
       <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
         <TopNavBar
-          onBack={() => navigate(-1)}
+          onBack={() => navigate(ROUTES.home)}
           className="w-full"
           children={<span className="typo-headline-emphasized text-black">자세 도전 현황</span>}
         />
@@ -68,7 +69,7 @@ export function PoseChallengePage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[8rem]">
       <TopNavBar
-        onBack={() => navigate(-1)}
+        onBack={() => navigate(ROUTES.home)}
         className="w-full"
         children={<span className="typo-headline-emphasized text-black">자세 도전 현황</span>}
       />

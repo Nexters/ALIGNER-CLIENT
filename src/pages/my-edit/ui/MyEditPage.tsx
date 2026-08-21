@@ -27,7 +27,8 @@ export function MyEditPage() {
         <MyEditForm
           member={member}
           isEditingExperience={isEditingExperience}
-          onNavigateBack={() => navigate(-1)}
+          onNavigateBack={() => navigate(toMyPath())}
+          onBackFromExperience={() => navigate(ROUTES.myEdit)}
           onEditExperience={() => navigate(editStepPath("experience"))}
           onSaveSuccess={() => navigate(toMyPath(), { replace: true })}
         />
@@ -40,12 +41,14 @@ function MyEditForm({
   member,
   isEditingExperience,
   onNavigateBack,
+  onBackFromExperience,
   onEditExperience,
   onSaveSuccess,
 }: {
   member: Member;
   isEditingExperience: boolean;
   onNavigateBack: () => void;
+  onBackFromExperience: () => void;
   onEditExperience: () => void;
   onSaveSuccess: () => void;
 }) {
@@ -85,7 +88,7 @@ function MyEditForm({
       <ExperienceStep
         value={values.experienceLevel}
         onChange={handlers.updateExperienceLevel}
-        onBack={onNavigateBack}
+        onBack={onBackFromExperience}
       />
     );
   }
