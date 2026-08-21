@@ -32,16 +32,18 @@
 
 `beforeError`에서 커스텀 에러 클래스로 변환하지 않는다. 호출부에서 필요하면 `error.response.json()`으로 직접 파싱한다.
 
-### 5. 호출부에는 `get`/`post`/`put`/`patch`/`delete` 헬퍼 함수 세트를 `api`라는 이름으로 노출한다
+### 5. 호출부는 스웨거 생성 클라이언트(`authApi`/`membersApi`/`screeningApi`/`coursesApi`/`catalogApi`/`sessionsApi`)를 그대로 쓴다
 
-ky 인스턴스(`apiClient`)는 export하지 않고, `shared/api/index.ts`가 `api`만 public API로 내보낸다.
+처음엔 `get`/`post`/`put`/`patch`/`delete` 헬퍼 함수 세트를 `api`라는 이름으로 노출해서, 호출부가 응답 타입을 제네릭으로 직접 지정하는 방식(`api.get<Course[]>("courses/today")`)으로 갔다. 그런데 실제로 쓰다 보니 호출부마다 응답 모양을 손으로 다시 타이핑하게 됐고(`pages/*/api/types.ts`), 스웨거 스펙이 필드를 optional로 내려도 그걸 반영 안 하고 required로 잘못 베끼는 일이 반복됐다 — 결국 모든 실제 호출부가 `api.get`을 버리고 `shared/api/http.ts`의 생성 클라이언트로 옮겨갔고, `api` 헬퍼는 아무 데서도 안 쓰는 채로 남았다. `api.ts`는 지우고, 응답 타입은 항상 `@/shared/api/generated/data-contracts`에서 가져다 쓴다.
 
 ```ts
-api.get<Course[]>("courses/today");
-api.post<Course>("courses", { json: payload });
+const response = await coursesApi.getTodayCourse();
+response.data; // TodayCourseResponse, 필드는 스펙 그대로 optional
 ```
+
+응답 필드가 실제로는 항상 채워진다고 확신하는 지점에서만 `!`로 단언하고, 그 외엔 `??`로 폴백한다. 여러 화면이 같은 응답을 다른 모양으로 옮겨 쓰는 경우(예: 코스 상세, 운동 상세, 부위/난이도 라벨) 매핑 함수는 `entities/{도메인}`에 하나만 두고 공유한다 — `feature`끼리 서로 참조할 수 없어서, 캐시 키와 매핑 로직이 각자 갈라지면 같은 데이터를 다른 모양으로 캐싱하는 버그가 난다(실제로 한 번 겪었다: 코스 추천 화면의 prefetch가 원본 응답을, 실제 조회가 매핑된 값을 같은 캐시 키에 쓰면서 이미지가 새로고침해야 뜨는 문제).
 
 ## 결과
 
-- `shared/api` 바깥에는 `api.get/post/put/patch/delete`, `setAccessToken`, `isAuthenticated`만 노출된다.
+- `shared/api` 바깥에는 생성 클라이언트(`authApi`/`membersApi`/`screeningApi`/`coursesApi`/`catalogApi`/`sessionsApi`), `setAccessToken`, `isAuthenticated`, `getAccessToken`만 노출된다. 제네릭 `api.get/post/put/patch/delete` 헬퍼는 없다.
 - 401 처리(재로그인 유도, 토큰 갱신)와 `beforeError` 변환은 요구사항이 나오면 재검토한다.
