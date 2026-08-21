@@ -1,7 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
+import { courseDetailQueryKey } from "@/entities/course";
 import { useUpdateMemberProfile } from "@/entities/member";
+import { coursesApi } from "@/shared/api";
 import type {
   RecommendCourseRequest,
   RecommendCourseResponse,
@@ -28,6 +30,7 @@ function isBodyPartLevelStepLocationState(state: unknown): state is BodyPartLeve
 export default function BodyPartLevelStep() {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const [expandedBodyPartCode, setExpandedBodyPartCode] = useState<BodyPartCode>();
   const updateMemberProfile = useUpdateMemberProfile();
 
@@ -46,8 +49,15 @@ export default function BodyPartLevelStep() {
       ]);
       return course;
     },
-    onSuccess: (course) =>
-      navigate(toCourseRecommendationPath(course.courseId!), { replace: true }),
+    onSuccess: (course) => {
+      const courseId = course.courseId!;
+      // courseId는 이미 알고 있으니 라우트 전환을 기다리지 않고 코스 상세를 바로 당겨둔다
+      queryClient.prefetchQuery({
+        queryKey: courseDetailQueryKey(courseId),
+        queryFn: async () => (await coursesApi.getCourseDetail(courseId)).data,
+      });
+      navigate(toCourseRecommendationPath(courseId), { replace: true });
+    },
   });
 
   if (!isBodyPartLevelStepLocationState(location.state)) {

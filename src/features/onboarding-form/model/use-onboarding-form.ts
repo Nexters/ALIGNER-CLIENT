@@ -1,6 +1,7 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useUpdateMemberProfile } from "@/entities/member";
+import { screeningResultQueryKey } from "@/entities/screening";
 import { parseApiError, screeningApi } from "@/shared/api";
 import type { ScreeningAnswerRequest } from "@/shared/api/generated/data-contracts";
 import type { OnboardingFormValues } from "./schema";
@@ -23,6 +24,7 @@ export function useOnboardingForm() {
     formState: { errors },
   } = useFormContext<OnboardingFormValues>();
 
+  const queryClient = useQueryClient();
   const updateMemberProfile = useUpdateMemberProfile();
   const submitScreening = useMutation({
     mutationFn: (answers: ScreeningAnswerRequest[]) => screeningApi.submit({ answers }),
@@ -93,7 +95,7 @@ export function useOnboardingForm() {
   const handleSubmitForm = async (onSuccess: (data: OnboardingFormValues) => void) => {
     await handleSubmit(async (data) => {
       try {
-        await Promise.all([
+        const [, screeningResponse] = await Promise.all([
           updateMemberProfile.mutateAsync({
             heightCm: data.heightCm,
             weightKg: data.weightKg,
@@ -104,6 +106,8 @@ export function useOnboardingForm() {
             ...toScreeningAnswers(data.hardPoseIds, "HARD"),
           ]),
         ]);
+        // 제출 응답에 판별 결과가 이미 포함돼 있다(제출·판별 단일 요청) — 진단 화면이 다시 GET하지 않도록 캐시에 심어둔다
+        queryClient.setQueryData(screeningResultQueryKey(), screeningResponse.data);
         onSuccess(data);
       } catch {
         // 에러 메시지는 updateMemberProfile.error / submitScreening.error로 노출된다
