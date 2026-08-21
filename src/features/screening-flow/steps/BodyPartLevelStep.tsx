@@ -46,7 +46,8 @@ export default function BodyPartLevelStep() {
       ]);
       return course;
     },
-    onSuccess: (course) => navigate(toCourseRecommendationPath(course.courseId), { replace: true }),
+    onSuccess: (course) =>
+      navigate(toCourseRecommendationPath(course.courseId!), { replace: true }),
   });
 
   if (!isBodyPartLevelStepLocationState(location.state)) {

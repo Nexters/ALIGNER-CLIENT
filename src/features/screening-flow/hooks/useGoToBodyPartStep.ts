@@ -13,7 +13,7 @@ export function useGoToBodyPartStep() {
     setIsPending(true);
     try {
       const [result, bodyParts] = await Promise.all([getLatestScreeningResult(), getBodyParts()]);
-      const weakBodyParts = deriveWeakBodyParts(result.causes, bodyParts);
+      const weakBodyParts = deriveWeakBodyParts(result.causes ?? [], bodyParts);
       navigate(screeningStepPath("body-part"), { state: { bodyParts: weakBodyParts } });
     } catch {
       // 진단 이력이 없으면(404) 서버가 결과를 못 내려준다 — 온보딩부터 다시 시키면 진단이 제출된다.

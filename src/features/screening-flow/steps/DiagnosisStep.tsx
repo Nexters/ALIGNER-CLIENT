@@ -6,11 +6,15 @@ import { CTAButton } from "@/shared/ui/button";
 import { getBodyParts, getLatestScreeningResult } from "../api/screening-api";
 import ScanningMannequin from "../components/ScanningMannequin";
 import { deriveWeakBodyParts } from "../lib/derive-weak-body-parts";
-import { withMinDelay } from "../lib/with-min-delay";
 import type { DiagnosisStatus } from "../model/diagnosis-status";
 import { screeningStepPath } from "../model/screening-steps";
 
 const MIN_ANALYZING_MS = 3000;
+
+function withMinDelay<T>(task: Promise<T>, minDelayMs: number): Promise<T> {
+  const minDelay = new Promise<void>((resolve) => setTimeout(resolve, minDelayMs));
+  return Promise.all([task, minDelay]).then(([result]) => result);
+}
 
 export default function DiagnosisStep() {
   const navigate = useNavigate();
