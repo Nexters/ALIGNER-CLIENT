@@ -1,13 +1,7 @@
-import type { BodyPartResponse } from "@/shared/api/generated/data-contracts";
+import { BODY_PART_LABELS, type BodyPartCode } from "@/entities/course";
 
-// GET /screening/body-parts
-export type BodyPartCode = NonNullable<BodyPartResponse["bodyPartCode"]>;
-
-export const BODY_PART_NAMES: Record<BodyPartCode, string> = {
-  BACK: "등",
-  ABDOMEN: "복부",
-  PELVIS: "골반",
-};
+export type { BodyPartCode };
+export const BODY_PART_NAMES = BODY_PART_LABELS;
 
 // 마네킹 실루엣 위에 부위 마커(Radio)를 얹을 위치. 컨테이너 기준 %.
 // 여기 좌표는 별도 보정 없이 몸통 기준 비율을 그대로 쓴다.

@@ -1,5 +1,5 @@
-export const LEVEL_OPTIONS: { level: number; label: string }[] = [
-  { level: 1, label: "난이도 하" },
-  { level: 2, label: "난이도 중" },
-  { level: 3, label: "난이도 상" },
-];
+import { COURSE_LEVEL_LABELS } from "@/entities/course";
+
+export const LEVEL_OPTIONS: { level: number; label: string }[] = Object.entries(
+  COURSE_LEVEL_LABELS,
+).map(([level, label]) => ({ level: Number(level), label: `난이도 ${label}` }));
