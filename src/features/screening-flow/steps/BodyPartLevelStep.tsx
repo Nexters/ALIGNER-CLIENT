@@ -1,9 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
-import { courseDetailQueryKey } from "@/entities/course";
+import { courseDetailQueryKey, getCourseDetail } from "@/entities/course";
 import { useUpdateMemberProfile } from "@/entities/member";
-import { coursesApi } from "@/shared/api";
 import type {
   RecommendCourseRequest,
   RecommendCourseResponse,
@@ -51,10 +50,13 @@ export default function BodyPartLevelStep() {
     },
     onSuccess: (course) => {
       const courseId = course.courseId!;
-      // courseId는 이미 알고 있으니 라우트 전환을 기다리지 않고 코스 상세를 바로 당겨둔다
+      // courseId는 이미 알고 있으니 라우트 전환을 기다리지 않고 코스 상세를 바로 당겨둔다.
+      // useCourseDetail과 동일한 getCourseDetail을 써야 캐시 모양이 일치한다 —
+      // 여기서 raw 응답을 직접 캐싱하면 화면이 매핑 전 원본(예: 미해석 이미지 asset key)을
+      // 잠깐 그리다가 배경 리페치가 끝나야 정상으로 바뀌는 버그가 생긴다.
       queryClient.prefetchQuery({
         queryKey: courseDetailQueryKey(courseId),
-        queryFn: async () => (await coursesApi.getCourseDetail(courseId)).data,
+        queryFn: () => getCourseDetail(courseId),
       });
       navigate(toCourseRecommendationPath(courseId), { replace: true });
     },

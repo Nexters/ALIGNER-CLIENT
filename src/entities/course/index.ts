@@ -1,5 +1,6 @@
 export type { CourseProgress, TodayWorkoutSummary, PoseTip } from "./model/types";
-export { courseDetailQueryKey } from "./model/course-detail";
+export type { Course, CourseStep, CourseStepExercise } from "./model/course-detail";
+export { courseDetailQueryKey, getCourseDetail, useCourseDetail } from "./model/course-detail";
 export type { BodyPartCode } from "./model/labels";
 export {
   BODY_PART_LABELS,
