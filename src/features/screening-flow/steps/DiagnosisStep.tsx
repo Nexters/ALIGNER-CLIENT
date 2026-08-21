@@ -39,7 +39,9 @@ export default function DiagnosisStep() {
   }, [navigate]);
 
   const weakBodyParts =
-    status.kind === "result" ? deriveWeakBodyParts(status.result.causes, status.bodyParts) : [];
+    status.kind === "result"
+      ? deriveWeakBodyParts(status.result.causes ?? [], status.bodyParts)
+      : [];
 
   return (
     <div className="flex h-full w-full flex-col pt-[9.3rem] gap-[5.3rem]">

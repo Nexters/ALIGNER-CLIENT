@@ -2,24 +2,23 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
 import { useUpdateMemberProfile } from "@/entities/member";
+import type {
+  RecommendCourseRequest,
+  RecommendCourseResponse,
+} from "@/shared/api/generated/data-contracts";
 import { toCourseRecommendationPath } from "@/shared/config/routes";
 import { MannequinScanIcon } from "@/shared/ui/icons";
 import { recommendCourse } from "../api/screening-api";
-import type {
-  BodyPart,
-  CourseLevel,
-  RecommendCourseRequest,
-  RecommendCourseResponse,
-} from "../api/types";
 import BodyPartMarker from "../components/BodyPartMarker";
 import type { BodyPartCode } from "../constants/body-parts";
 import { LEVEL_OPTIONS } from "../constants/level-options";
+import type { WeakBodyPart } from "../lib/derive-weak-body-parts";
 import { screeningStepPath } from "../model/screening-steps";
 import { Select } from "@/shared/ui/select";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 
 type BodyPartLevelStepLocationState = {
-  bodyParts: BodyPart[];
+  bodyParts: WeakBodyPart[];
 };
 
 function isBodyPartLevelStepLocationState(state: unknown): state is BodyPartLevelStepLocationState {
@@ -95,7 +94,7 @@ export default function BodyPartLevelStep() {
                 onValueChange={(value) =>
                   mutate({
                     bodyPartCode: bodyPart.bodyPartCode,
-                    level: Number(value) as CourseLevel,
+                    level: Number(value),
                   })
                 }
               >

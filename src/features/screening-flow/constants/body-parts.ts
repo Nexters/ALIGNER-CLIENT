@@ -1,7 +1,7 @@
-// GET /screening/body-parts
-export const BODY_PART_CODES = ["BACK", "ABDOMEN", "PELVIS"] as const;
+import type { BodyPartResponse } from "@/shared/api/generated/data-contracts";
 
-export type BodyPartCode = (typeof BODY_PART_CODES)[number];
+// GET /screening/body-parts
+export type BodyPartCode = NonNullable<BodyPartResponse["bodyPartCode"]>;
 
 export const BODY_PART_NAMES: Record<BodyPartCode, string> = {
   BACK: "등",
