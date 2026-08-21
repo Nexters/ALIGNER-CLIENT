@@ -3,8 +3,7 @@ import sessionTimerBackdrop from "@/shared/assets/imgs/session/timer-backdrop.sv
 import { IconButton } from "@/shared/ui/button";
 import { NextIcon, PreviousIcon } from "@/shared/ui/icons";
 
-// Figma의 실제 링(Ellipse 4403 Stroke)은 곡선을 따라가는 점선이 아니라, 시계 눈금처럼
-// 중심을 향해 뻗은 직선 tick으로 이루어져 있다. viewBox는 168x84(원본 에셋 픽셀 크기)를 그대로 쓴다.
+// Figma의 실제 링(Ellipse 4403 Stroke)은 곡선을 따라가는 점선이 아니라, 시계 눈금처럼 중심을 향해 뻗은 직선 tick으로 이루어져 있다. viewBox는 168x84(원본 에셋 픽셀 크기)를 그대로 쓴다.
 const CENTER_X = 84;
 const CENTER_Y = 84;
 const OUTER_RADIUS = 80;
@@ -41,11 +40,23 @@ interface SessionCountdownTimerProps {
   totalSeconds: number;
   /** 타이머가 0에 도달하면 호출된다 */
   onFinish: () => void;
+  /** 이전 동작의 코스 상세로 이동한다 */
+  onPrevious?: () => void;
+  /** 다음 동작의 코스 상세로 이동한다 */
+  onNext?: () => void;
+  previousDisabled?: boolean;
+  nextDisabled?: boolean;
 }
 
-export function SessionCountdownTimer({ totalSeconds, onFinish }: SessionCountdownTimerProps) {
-  // 지나간 시간의 비율(0~1). 렌더 중에는 Date.now()나 ref를 직접 읽지 않고(impure),
-  // setInterval 콜백 안에서만 갱신한다.
+export function SessionCountdownTimer({
+  totalSeconds,
+  onFinish,
+  onPrevious,
+  onNext,
+  previousDisabled,
+  nextDisabled,
+}: SessionCountdownTimerProps) {
+  // 지나간 시간의 비율(0~1). 렌더 중에는 Date.now()나 ref를 직접 읽지 않고(impure), setInterval 콜백 안에서만 갱신한다.
   const [elapsedFraction, setElapsedFraction] = useState(0);
 
   useEffect(() => {
@@ -79,8 +90,13 @@ export function SessionCountdownTimer({ totalSeconds, onFinish }: SessionCountdo
       />
 
       <div className="relative z-10 flex w-full items-center justify-center gap-[2.4rem]">
-        {/* TODO: 세션 하나 = 동작 하나라 이전/다음이 지금은 할 일이 없다. 용도가 정해지면 연결한다. */}
-        <IconButton icon={PreviousIcon} aria-label="이전 동작" className="shrink-0 text-gray-80" />
+        <IconButton
+          icon={PreviousIcon}
+          aria-label="이전 동작"
+          onClick={onPrevious}
+          disabled={previousDisabled}
+          className="shrink-0 text-gray-80 disabled:opacity-40"
+        />
 
         <div className="relative h-[10.4rem] w-[20.8rem] shrink-0">
           <svg viewBox="0 0 168 84" fill="none" className="absolute inset-0 size-full">
@@ -107,7 +123,13 @@ export function SessionCountdownTimer({ totalSeconds, onFinish }: SessionCountdo
           </div>
         </div>
 
-        <IconButton icon={NextIcon} aria-label="다음 동작" className="shrink-0 text-gray-80" />
+        <IconButton
+          icon={NextIcon}
+          aria-label="다음 동작"
+          onClick={onNext}
+          disabled={nextDisabled}
+          className="shrink-0 text-gray-80 disabled:opacity-40"
+        />
       </div>
     </div>
   );

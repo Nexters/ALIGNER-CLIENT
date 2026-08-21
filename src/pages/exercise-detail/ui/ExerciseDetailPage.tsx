@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { FALLBACK_POSE_IMAGE } from "@/entities/course";
 import { useExercise } from "@/entities/exercise";
 import { useStartSession } from "@/entities/session";
-import { toSessionPath } from "@/shared/config/routes";
+import { toDailyRoutinePath, toSessionPath } from "@/shared/config/routes";
 import { Button, CTAButton } from "@/shared/ui/button";
 import { CroppedWorkoutImage } from "@/shared/ui/cropped-workout-image";
 import { MuscleDiagram } from "@/shared/ui/muscle-diagram";
@@ -49,7 +49,16 @@ export function ExerciseDetailPage() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[10rem]">
-      <TopNavBar onBack={() => navigate(-1)} className="w-full">
+      <TopNavBar
+        onBack={() => {
+          if (preview) {
+            navigate(toDailyRoutinePath(preview.courseId));
+          } else {
+            navigate(-1);
+          }
+        }}
+        className="w-full"
+      >
         <span className="typo-headline-emphasized text-black">데일리 루틴</span>
       </TopNavBar>
 

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { useStartSession } from "@/entities/session";
-import { toDailyRoutineExercisePath, toSessionPath } from "@/shared/config/routes";
+import { mapCourseDetailResponse } from "@/entities/course";
+import { ROUTES, toDailyRoutineExercisePath } from "@/shared/config/routes";
 import { cn } from "@/shared/lib/cn";
 import { useInView } from "@/shared/lib/use-in-view";
 import { CTAButton } from "@/shared/ui/button";
@@ -13,7 +13,6 @@ import { Skeleton } from "@/shared/ui/skeleton";
 import { SummaryCard, type SummaryCardChip } from "@/shared/ui/summary-card";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { useCourse } from "../api/use-course";
-import { mapCourseDetailResponse } from "../api/map-course";
 
 /** 코스 순서 줄이 스크롤로 뷰포트에 들어올 때 은은하게 떠오르며 나타난다 */
 function RevealOnScroll({ className, children }: { className?: string; children: ReactNode }) {
@@ -40,7 +39,6 @@ export function DailyRoutinePage() {
   const courseId = courseIdParam !== null ? Number(courseIdParam) : null;
 
   const { data, error, isPending } = useCourse(courseId);
-  const startSession = useStartSession();
 
   if (courseId === null) {
     return null;
@@ -50,7 +48,7 @@ export function DailyRoutinePage() {
     return (
       <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[10rem]">
         <TopNavBar
-          onBack={() => navigate(-1)}
+          onBack={() => navigate(ROUTES.home)}
           className="w-full"
           children={<span className="typo-headline-emphasized text-black">데일리 루틴</span>}
         />
@@ -87,7 +85,7 @@ export function DailyRoutinePage() {
   return (
     <main className="relative flex min-h-screen flex-col items-center px-[2rem] pb-[10rem]">
       <TopNavBar
-        onBack={() => navigate(-1)}
+        onBack={() => navigate(ROUTES.home)}
         className="w-full"
         children={<span className="typo-headline-emphasized text-black">데일리 루틴</span>}
       />
@@ -144,13 +142,19 @@ export function DailyRoutinePage() {
 
       <CTAButton>
         <CTAButton.Single
-          disabled={completed || startSession.isPending}
+          disabled={completed}
           onClick={() => {
             if (activeIndex === null) return;
-            startSession.mutate(
-              { courseId, stepOrder: exercises[activeIndex].stepOrder },
-              { onSuccess: (session) => navigate(toSessionPath(session.sessionId as number)) },
-            );
+            const activeRow = exercises[activeIndex];
+            navigate(toDailyRoutineExercisePath(String(activeRow.exercise.exerciseId)), {
+              state: {
+                courseId,
+                stepOrder: activeRow.stepOrder,
+                name: activeRow.exercise.name,
+                imageSrc: activeRow.exercise.imageSrc,
+                step: { current: activeIndex + 1, total: exercises.length },
+              },
+            });
           }}
         >
           운동 시작하기

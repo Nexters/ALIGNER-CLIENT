@@ -1,13 +1,12 @@
-import {
-  getPoseImageSrc,
-  isCourseCompleted,
-  resolveThumbnailSrc,
-  type TodayWorkoutSummary,
-} from "@/entities/course";
+import { useQuery } from "@tanstack/react-query";
+import { coursesApi } from "@/shared/api";
 import type {
   CourseDetailResponse,
   CourseStepExerciseResponse,
 } from "@/shared/api/generated/data-contracts";
+import { isCourseCompleted } from "./lib";
+import { getPoseImageSrc, resolveThumbnailSrc } from "./pose-images";
+import type { TodayWorkoutSummary } from "./types";
 
 export interface DailyRoutineExerciseView {
   exerciseId: number;
@@ -104,4 +103,38 @@ export function mapCourseDetailResponse(response: CourseDetailResponse): CourseD
     activeIndex,
     exercises,
   };
+}
+
+export function courseDetailViewQueryKey(courseId: number) {
+  return ["courses", courseId, "view"] as const;
+}
+
+export function useCourseDetailView(courseId: number | null) {
+  return useQuery({
+    queryKey: courseDetailViewQueryKey(courseId as number),
+    queryFn: async () => {
+      const response = await coursesApi.getCourseDetail(courseId as number);
+      return mapCourseDetailResponse(response.data);
+    },
+    enabled: courseId !== null,
+  });
+}
+
+/** exercises는 stepOrder 오름차순이라고 가정한다(mapCourseDetailResponse가 그렇게 만든다) */
+export function findAdjacentExerciseRow(
+  exercises: DailyRoutineExerciseRowView[],
+  currentStepOrder: number,
+  direction: "previous" | "next",
+): { index: number; row: DailyRoutineExerciseRowView } | null {
+  if (direction === "next") {
+    const index = exercises.findIndex((row) => row.stepOrder > currentStepOrder);
+    return index === -1 ? null : { index, row: exercises[index] };
+  }
+
+  let index = -1;
+  for (let i = 0; i < exercises.length; i++) {
+    if (exercises[i].stepOrder >= currentStepOrder) break;
+    index = i;
+  }
+  return index === -1 ? null : { index, row: exercises[index] };
 }

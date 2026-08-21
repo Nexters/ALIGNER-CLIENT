@@ -1,10 +1,19 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import {
+  findAdjacentExerciseRow,
+  useCourseDetailView,
+  type DailyRoutineExerciseRowView,
+} from "@/entities/course";
 import { useExercise } from "@/entities/exercise";
 import { useSession } from "@/entities/session";
 import sessionTimerGlow from "@/shared/assets/imgs/session/timer-glow.svg";
 import sessionWoodBg from "@/shared/assets/imgs/session/wood-bg.png";
-import { toCompletePath, toDailyRoutinePath } from "@/shared/config/routes";
+import {
+  toCompletePath,
+  toDailyRoutineExercisePath,
+  toDailyRoutinePath,
+} from "@/shared/config/routes";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { getActiveVoiceCues } from "../api/active-voice-cues";
 import { useCompleteSession } from "../api/use-complete-session";
@@ -19,8 +28,10 @@ const DEFAULT_DURATION_SECONDS = 30;
 // exerciseRecords는 스키마상 배열이지만, 이 세션 안에서 여러 동작을 넘나드는 시나리오는 없다.
 //
 // 타이머가 끝나면 세션을 완료 처리하고, 이 코스 회차의 마지막 스텝이었을 때만(courseCompleted)
-// 완료 리포트(핀포즈 직후에만 뜨는 화면)로 보낸다. 아니면 다음 스텝을 고르도록 코스 순서 화면으로
-// 돌려보낸다 — 다른 자세를 하려면 밖에서 다시 "시작하기"를 눌러야 하기 때문이다.
+// 완료 리포트(핀포즈 직후에만 뜨는 화면)로 보낸다. 아니면 코스 상세를 다시 조회해 다음 운동을
+// 찾아 그 운동의 코스 상세 화면으로 보낸다 — 세션은 그 화면의 "운동 시작하기"를 눌러야 다시 시작된다.
+// 이전/다음 동작 버튼도 같은 방식으로, 방금 플레이 중인 스텝 기준 바로 옆 운동의 코스 상세로 보낸다
+// (세션을 시작/완료하지 않고 그냥 둘러보기만 한다).
 export function SessionPlayerPage() {
   const navigate = useNavigate();
   const params = useParams();
@@ -28,6 +39,7 @@ export function SessionPlayerPage() {
 
   const { data: session } = useSession(sessionId);
   const completeSession = useCompleteSession(sessionId as number);
+  const { data: courseDetail } = useCourseDetailView(session?.courseId ?? null);
   const [videoTime, setVideoTime] = useState(0);
 
   const exerciseRecords = useMemo(() => session?.exerciseRecords ?? [], [session]);
@@ -45,15 +57,74 @@ export function SessionPlayerPage() {
     totalSeconds,
   );
 
+  const navigateToExerciseDetail = (
+    courseId: number,
+    index: number,
+    row: DailyRoutineExerciseRowView,
+    total: number,
+  ) => {
+    navigate(toDailyRoutineExercisePath(String(row.exercise.exerciseId)), {
+      state: {
+        courseId,
+        stepOrder: row.stepOrder,
+        name: row.exercise.name,
+        imageSrc: row.exercise.imageSrc,
+        step: { current: index + 1, total },
+      },
+    });
+  };
+
+  const goToCourseDetail = () => {
+    if (!session?.courseId) return;
+    const currentIndex = courseDetail?.exercises.findIndex(
+      (row) => row.stepOrder === session.stepOrder,
+    );
+    if (courseDetail && currentIndex !== undefined && currentIndex !== -1) {
+      navigateToExerciseDetail(
+        session.courseId,
+        currentIndex,
+        courseDetail.exercises[currentIndex],
+        courseDetail.exercises.length,
+      );
+      return;
+    }
+    navigate(toDailyRoutinePath(session.courseId));
+  };
+
+  const goToAdjacentExercise = (direction: "previous" | "next") => {
+    if (!session?.courseId || !session?.stepOrder || !courseDetail) return;
+    const adjacent = findAdjacentExerciseRow(courseDetail.exercises, session.stepOrder, direction);
+    if (!adjacent) return;
+    navigateToExerciseDetail(
+      session.courseId,
+      adjacent.index,
+      adjacent.row,
+      courseDetail.exercises.length,
+    );
+  };
+
   const handleFinish = () => {
-    if (sessionId === null) return;
+    if (sessionId === null || !session?.courseId || !session?.stepOrder) return;
+    const courseId = session.courseId;
+    const playedStepOrder = session.stepOrder;
     completeSession.mutate(exerciseRecords, {
       onSuccess: (result) => {
         if (result.courseProgress?.courseCompleted) {
           navigate(toCompletePath(sessionId));
-        } else {
-          navigate(toDailyRoutinePath(result.courseId as number));
+          return;
         }
+
+        // 방금 마친 세션의 stepOrder 바로 다음 줄로 간다 — 전체 진행도(활성 스텝)와 무관하게,
+        // 예를 들어 5번째까지 진행된 상태에서 2번을 다시 플레이했으면 다음은 3번이어야 한다.
+        const next = courseDetail
+          ? findAdjacentExerciseRow(courseDetail.exercises, playedStepOrder, "next")
+          : null;
+        if (!next) {
+          navigate(toDailyRoutinePath(courseId));
+          return;
+        }
+
+        navigateToExerciseDetail(courseId, next.index, next.row, courseDetail!.exercises.length);
       },
     });
   };
@@ -62,10 +133,17 @@ export function SessionPlayerPage() {
     return null;
   }
 
+  const hasPreviousExercise = Boolean(
+    courseDetail && findAdjacentExerciseRow(courseDetail.exercises, session.stepOrder!, "previous"),
+  );
+  const hasNextExercise = Boolean(
+    courseDetail && findAdjacentExerciseRow(courseDetail.exercises, session.stepOrder!, "next"),
+  );
+
   return (
     <main className="relative flex min-h-screen flex-col bg-white">
       <TopNavBar
-        onBack={() => navigate(-1)}
+        onBack={goToCourseDetail}
         className="px-[2rem]"
         // TODO: 음소거 버튼 추가
         // rightIcon={SoundIcon}
@@ -120,7 +198,14 @@ export function SessionPlayerPage() {
             </div>
           )}
 
-          <SessionCountdownTimer totalSeconds={totalSeconds} onFinish={handleFinish} />
+          <SessionCountdownTimer
+            totalSeconds={totalSeconds}
+            onFinish={handleFinish}
+            onPrevious={() => goToAdjacentExercise("previous")}
+            onNext={() => goToAdjacentExercise("next")}
+            previousDisabled={!hasPreviousExercise}
+            nextDisabled={!hasNextExercise}
+          />
         </div>
       </div>
     </main>

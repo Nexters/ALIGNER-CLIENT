@@ -1,6 +1,16 @@
 export type { CourseProgress, TodayWorkoutSummary, PoseTip } from "./model/types";
 export type { Course, CourseStep, CourseStepExercise } from "./model/course-detail";
 export { courseDetailQueryKey, getCourseDetail, useCourseDetail } from "./model/course-detail";
+export type {
+  DailyRoutineExerciseView,
+  DailyRoutineExerciseRowView,
+  CourseDetailView,
+} from "./model/course-detail-view";
+export {
+  mapCourseDetailResponse,
+  useCourseDetailView,
+  findAdjacentExerciseRow,
+} from "./model/course-detail-view";
 export type { BodyPartCode } from "./model/labels";
 export {
   BODY_PART_LABELS,
