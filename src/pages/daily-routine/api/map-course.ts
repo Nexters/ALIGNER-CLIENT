@@ -4,7 +4,10 @@ import {
   resolveThumbnailSrc,
   type TodayWorkoutSummary,
 } from "@/entities/course";
-import type { CourseDetailResponse, CourseStepExerciseResponse } from "./types";
+import type {
+  CourseDetailResponse,
+  CourseStepExerciseResponse,
+} from "@/shared/api/generated/data-contracts";
 
 export interface DailyRoutineExerciseView {
   exerciseId: number;
@@ -48,28 +51,28 @@ function buildSetInfo(exercise: CourseStepExerciseResponse): string {
 
 function mapExercise(exercise: CourseStepExerciseResponse): DailyRoutineExerciseView {
   return {
-    exerciseId: exercise.exerciseId,
-    name: exercise.name,
+    exerciseId: exercise.exerciseId!,
+    name: exercise.name!,
     category: exercise.category ?? "-",
     setInfo: buildSetInfo(exercise),
-    kcal: exercise.estimatedKcal,
-    imageSrc: resolveThumbnailSrc(exercise.thumbnailUrl, exercise.imageAssetKey),
+    kcal: exercise.estimatedKcal ?? null,
+    imageSrc: resolveThumbnailSrc(exercise.thumbnailUrl, exercise.imageAssetKey ?? null),
   };
 }
 
 export function mapCourseDetailResponse(response: CourseDetailResponse): CourseDetailView {
-  const exercises = response.steps
+  const exercises = (response.steps ?? [])
     .slice()
-    .sort((a, b) => a.stepOrder - b.stepOrder)
+    .sort((a, b) => a.stepOrder! - b.stepOrder!)
     .flatMap((step) =>
-      step.exercises
+      (step.exercises ?? [])
         .slice()
-        .sort((a, b) => a.displayOrder - b.displayOrder)
+        .sort((a, b) => a.displayOrder! - b.displayOrder!)
         .map((exercise) => ({
-          courseStepId: step.courseStepId,
-          stepOrder: step.stepOrder,
-          completed: step.completed,
-          active: step.stepOrder <= response.completedStepCount,
+          courseStepId: step.courseStepId!,
+          stepOrder: step.stepOrder!,
+          completed: step.completed!,
+          active: step.stepOrder! <= response.completedStepCount!,
           exercise: mapExercise(exercise),
         })),
     );
@@ -83,20 +86,20 @@ export function mapCourseDetailResponse(response: CourseDetailResponse): CourseD
         : null;
 
   return {
-    courseName: response.name,
+    courseName: response.name!,
     workout: {
       minutes:
         response.estimatedDurationSeconds != null
           ? Math.round(response.estimatedDurationSeconds / 60)
           : null,
-      exerciseCount: response.exerciseCount,
-      setCount: response.totalSetCount,
-      kcal: response.estimatedKcal,
-      imageSrc: getPoseImageSrc(response.targetPoseImageAssetKey),
+      exerciseCount: response.exerciseCount!,
+      setCount: response.totalSetCount!,
+      kcal: response.estimatedKcal ?? null,
+      imageSrc: getPoseImageSrc(response.targetPoseImageAssetKey ?? null),
     },
     completed: isCourseCompleted({
-      current: response.completedStepCount,
-      total: response.totalStepCount,
+      current: response.completedStepCount!,
+      total: response.totalStepCount!,
     }),
     activeIndex,
     exercises,

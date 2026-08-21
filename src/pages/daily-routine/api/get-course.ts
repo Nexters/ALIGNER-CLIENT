@@ -1,6 +1,6 @@
-import { api } from "@/shared/api";
-import type { CourseDetailResponse } from "./types";
+import { coursesApi } from "@/shared/api";
 
-export function getCourse(courseId: number) {
-  return api.get<CourseDetailResponse>(`courses/${courseId}`);
+export async function getCourse(courseId: number) {
+  const response = await coursesApi.getCourseDetail(courseId);
+  return response.data;
 }
