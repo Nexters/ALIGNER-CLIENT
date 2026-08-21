@@ -21,8 +21,9 @@
 
 별도 상수나 별도 ky 인스턴스를 만들지 않는다. 코드는 항상 `import.meta.env.VITE_API_BASE_URL` 하나만 읽고, 환경별 값은 `.env.*`/배포 설정에서 주입한다.
 
-### 3. 인증 토큰은 `sessionStorage`에 저장하고 `beforeRequest` 훅으로 헤더에 주입한다
+### 3. 인증 토큰은 `localStorage`에 저장하고 `beforeRequest` 훅으로 헤더에 주입한다
 
+- 처음엔 `sessionStorage`로 결정했으나, 탭/브라우저를 닫으면 로그인이 풀려 매번 재로그인해야 하는 불편 때문에 `localStorage`로 바꿨다. XSS로 토큰이 노출될 경우 만료(현재 14일, 리프레시 토큰 없음)까지 계속 쓰일 수 있다는 트레이드오프는 감수한다. 탭 간 로그아웃 동기화(`storage` 이벤트 구독)는 하지 않는다 — 다른 탭은 다음 요청이 401을 받을 때 `sessionExpiry` 훅으로 `/login`에 보내지는 것으로 충분하다고 본다.
 - `shared/api/access-token.ts` — `getAccessToken()`/`setAccessToken(token)`/`isAuthenticated()`를 노출한다. 로그인 로직은 `accessToken`을 받아 `setAccessToken`만 호출하면 되고, 로그아웃은 `setAccessToken(null)`. 라우터 가드·UI 분기는 `isAuthenticated()`만 쓰고 토큰 값은 다루지 않는다.
 - `shared/api/hooks/auth-header.ts` — `BeforeRequestHook`. 토큰이 있으면 `Authorization: Bearer <token>` 헤더를 붙인다.
 - `client.ts`의 `hooks.beforeRequest`에 이 훅 하나만 연결한다. `afterResponse`(401 처리)·`beforeRetry`·`beforeError`는 요구사항이 없어 비워둔다.
