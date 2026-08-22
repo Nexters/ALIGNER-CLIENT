@@ -1,8 +1,8 @@
 import { Navigate, useNavigate } from "react-router";
 import { CTAButton } from "@/shared/ui/button";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { Indicator } from "@/shared/ui/indicator";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
-import ErrorMessage from "../components/ErrorMessage";
 import { useOnboardingStepParam } from "../hooks/useOnboardingStepParam";
 import { useStepChrome } from "../hooks/useStepChrome";
 import { useOnboardingForm } from "../model/use-onboarding-form";

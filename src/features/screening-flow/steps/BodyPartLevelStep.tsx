@@ -1,25 +1,25 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router";
+import { courseDetailQueryKey, getCourseDetail } from "@/entities/course";
 import { useUpdateMemberProfile } from "@/entities/member";
+import type {
+  RecommendCourseRequest,
+  RecommendCourseResponse,
+} from "@/shared/api/generated/data-contracts";
 import { toCourseRecommendationPath } from "@/shared/config/routes";
 import { MannequinScanIcon } from "@/shared/ui/icons";
 import { recommendCourse } from "../api/screening-api";
-import type {
-  BodyPart,
-  CourseLevel,
-  RecommendCourseRequest,
-  RecommendCourseResponse,
-} from "../api/types";
 import BodyPartMarker from "../components/BodyPartMarker";
 import type { BodyPartCode } from "../constants/body-parts";
 import { LEVEL_OPTIONS } from "../constants/level-options";
+import type { WeakBodyPart } from "../lib/derive-weak-body-parts";
 import { screeningStepPath } from "../model/screening-steps";
 import { Select } from "@/shared/ui/select";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 
 type BodyPartLevelStepLocationState = {
-  bodyParts: BodyPart[];
+  bodyParts: WeakBodyPart[];
 };
 
 function isBodyPartLevelStepLocationState(state: unknown): state is BodyPartLevelStepLocationState {
@@ -29,6 +29,7 @@ function isBodyPartLevelStepLocationState(state: unknown): state is BodyPartLeve
 export default function BodyPartLevelStep() {
   const navigate = useNavigate();
   const location = useLocation();
+  const queryClient = useQueryClient();
   const [expandedBodyPartCode, setExpandedBodyPartCode] = useState<BodyPartCode>();
   const updateMemberProfile = useUpdateMemberProfile();
 
@@ -47,7 +48,18 @@ export default function BodyPartLevelStep() {
       ]);
       return course;
     },
-    onSuccess: (course) => navigate(toCourseRecommendationPath(course.courseId), { replace: true }),
+    onSuccess: (course) => {
+      const courseId = course.courseId!;
+      // courseId는 이미 알고 있으니 라우트 전환을 기다리지 않고 코스 상세를 바로 당겨둔다.
+      // useCourseDetail과 동일한 getCourseDetail을 써야 캐시 모양이 일치한다 —
+      // 여기서 raw 응답을 직접 캐싱하면 화면이 매핑 전 원본(예: 미해석 이미지 asset key)을
+      // 잠깐 그리다가 배경 리페치가 끝나야 정상으로 바뀌는 버그가 생긴다.
+      queryClient.prefetchQuery({
+        queryKey: courseDetailQueryKey(courseId),
+        queryFn: () => getCourseDetail(courseId),
+      });
+      navigate(toCourseRecommendationPath(courseId), { replace: true });
+    },
   });
 
   if (!isBodyPartLevelStepLocationState(location.state)) {
@@ -95,7 +107,7 @@ export default function BodyPartLevelStep() {
                 onValueChange={(value) =>
                   mutate({
                     bodyPartCode: bodyPart.bodyPartCode,
-                    level: Number(value) as CourseLevel,
+                    level: Number(value),
                   })
                 }
               >

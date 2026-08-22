@@ -1,7 +1,7 @@
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { useOnboardingForm } from "../model/use-onboarding-form";
 import { useTargetPoses } from "../model/use-target-poses";
 import { MIN_MAX_FIELDS } from "../constants/form-fields";
-import ErrorMessage from "./ErrorMessage";
 import PoseGrid from "./PoseGrid";
 
 type StepLayoutRootProps = {

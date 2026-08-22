@@ -10,7 +10,7 @@ const NICKNAME_PATTERN = /^[가-힣a-zA-Z0-9 ]*$/;
 // 온보딩 쪽 수정은 이 작업 범위 밖이라, 키 상한만 실제 API 기준으로 보정해서 쓴다.
 const HEIGHT_MAX_CM = 250;
 
-export const ERROR_MESSAGES = {
+const ERROR_MESSAGES = {
   nickname: {
     min: `닉네임은 ${NICKNAME_MIN}자 이상이어야 해요`,
     max: `닉네임은 ${NICKNAME_MAX}자 이하여야 해요`,

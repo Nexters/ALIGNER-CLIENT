@@ -2,6 +2,7 @@ import { useLocation } from "react-router";
 import { requestKakaoLogin } from "@/features/login";
 import { CTAButton } from "@/shared/ui/button";
 import { ROUTES } from "@/shared/config/routes";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { KakaoIcon, LogoIcon } from "@/shared/ui/icons";
 import 메인이미지 from "@/shared/assets/imgs/main.png";
 
@@ -20,9 +21,7 @@ export function Login() {
     >
       <LogoIcon className="absolute top-1/2 left-1/2 w-[19.8rem] -translate-x-1/2 -translate-y-1/2 text-white" />
 
-      {error && (
-        <p className="absolute bottom-[20rem] typo-caption-1-emphasized text-ink-error">{error}</p>
-      )}
+      {error && <ErrorMessage message={error} className="absolute bottom-[20rem]" />}
 
       <CTAButton className="bottom-[12.5rem]">
         <CTAButton.Single

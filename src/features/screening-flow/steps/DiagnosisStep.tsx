@@ -1,19 +1,26 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useMemberProfile } from "@/entities/member";
+import { bodyPartsQueryKey, screeningResultQueryKey } from "@/entities/screening";
 import { ROUTES } from "@/shared/config/routes";
 import { CTAButton } from "@/shared/ui/button";
 import { getBodyParts, getLatestScreeningResult } from "../api/screening-api";
 import ScanningMannequin from "../components/ScanningMannequin";
 import { deriveWeakBodyParts } from "../lib/derive-weak-body-parts";
-import { withMinDelay } from "../lib/with-min-delay";
 import type { DiagnosisStatus } from "../model/diagnosis-status";
 import { screeningStepPath } from "../model/screening-steps";
 
 const MIN_ANALYZING_MS = 3000;
 
+function withMinDelay<T>(task: Promise<T>, minDelayMs: number): Promise<T> {
+  const minDelay = new Promise<void>((resolve) => setTimeout(resolve, minDelayMs));
+  return Promise.all([task, minDelay]).then(([result]) => result);
+}
+
 export default function DiagnosisStep() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [status, setStatus] = useState<DiagnosisStatus>({ kind: "loading" });
   const { data: member } = useMemberProfile();
   const nickname = member?.nickname ?? "";
@@ -21,7 +28,23 @@ export default function DiagnosisStep() {
   useEffect(() => {
     let cancelled = false;
 
-    withMinDelay(Promise.all([getLatestScreeningResult(), getBodyParts()]), MIN_ANALYZING_MS)
+    withMinDelay(
+      Promise.all([
+        // 온보딩 제출(POST /screening/results) 응답을 그대로 캐시에 심어둔 경우 재요청하지 않는다
+        queryClient.fetchQuery({
+          queryKey: screeningResultQueryKey(),
+          queryFn: getLatestScreeningResult,
+          staleTime: 10_000,
+        }),
+        // 고정 참조 데이터라 앱 시작 시 미리 당겨둔 캐시를 그대로 쓴다
+        queryClient.fetchQuery({
+          queryKey: bodyPartsQueryKey(),
+          queryFn: getBodyParts,
+          staleTime: Infinity,
+        }),
+      ]),
+      MIN_ANALYZING_MS,
+    )
       .then(([result, bodyParts]) => {
         if (cancelled) return;
         setStatus({ kind: "result", result, bodyParts });
@@ -36,10 +59,12 @@ export default function DiagnosisStep() {
     return () => {
       cancelled = true;
     };
-  }, [navigate]);
+  }, [navigate, queryClient]);
 
   const weakBodyParts =
-    status.kind === "result" ? deriveWeakBodyParts(status.result.causes, status.bodyParts) : [];
+    status.kind === "result"
+      ? deriveWeakBodyParts(status.result.causes ?? [], status.bodyParts)
+      : [];
 
   return (
     <div className="flex h-full w-full flex-col pt-[9.3rem] gap-[5.3rem]">

@@ -1,6 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router";
 import { type Member, useMemberProfile, useUpdateMemberProfile } from "@/entities/member";
 import { createStepPath, ROUTES, toMyPath } from "@/shared/config/routes";
+import { ErrorMessage } from "@/shared/ui/error-message";
 import { useProfileEditForm } from "../model/use-profile-edit-form";
 import { ExperienceStep } from "./ExperienceStep";
 import { ProfileEditForm } from "./ProfileEditForm";
@@ -16,17 +17,18 @@ export function MyEditPage() {
   return (
     <main className="flex min-h-screen flex-col bg-gray-98 px-6">
       {isPending ? null : error || !member ? (
-        // TODO: 에러 상태 통일
         <div className="flex flex-1 flex-col items-center justify-center">
-          <p className="typo-body-regular text-gray-50">
-            정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요.
-          </p>
+          <ErrorMessage
+            message="정보를 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+            className="typo-body-regular text-gray-50"
+          />
         </div>
       ) : (
         <MyEditForm
           member={member}
           isEditingExperience={isEditingExperience}
-          onNavigateBack={() => navigate(-1)}
+          onNavigateBack={() => navigate(toMyPath())}
+          onBackFromExperience={() => navigate(ROUTES.myEdit)}
           onEditExperience={() => navigate(editStepPath("experience"))}
           onSaveSuccess={() => navigate(toMyPath(), { replace: true })}
         />
@@ -39,12 +41,14 @@ function MyEditForm({
   member,
   isEditingExperience,
   onNavigateBack,
+  onBackFromExperience,
   onEditExperience,
   onSaveSuccess,
 }: {
   member: Member;
   isEditingExperience: boolean;
   onNavigateBack: () => void;
+  onBackFromExperience: () => void;
   onEditExperience: () => void;
   onSaveSuccess: () => void;
 }) {
@@ -84,7 +88,7 @@ function MyEditForm({
       <ExperienceStep
         value={values.experienceLevel}
         onChange={handlers.updateExperienceLevel}
-        onBack={onNavigateBack}
+        onBack={onBackFromExperience}
       />
     );
   }

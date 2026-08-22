@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getBodyParts } from "./get-body-parts";
-import { getTargetPoseProgress } from "./get-target-pose-progress";
+import { bodyPartsQueryKey } from "@/entities/screening";
+import { getBodyParts } from "@/features/screening-flow";
+import { coursesApi } from "@/shared/api";
 
 export function useBodyParts() {
   return useQuery({
-    queryKey: ["screening", "body-parts"] as const,
+    queryKey: bodyPartsQueryKey(),
     queryFn: getBodyParts,
     retry: false,
   });
@@ -13,7 +14,10 @@ export function useBodyParts() {
 export function useTargetPoseProgress() {
   return useQuery({
     queryKey: ["courses", "progress", "target-poses"] as const,
-    queryFn: getTargetPoseProgress,
+    queryFn: async () => {
+      const response = await coursesApi.getTargetPoseProgress();
+      return response.data;
+    },
     retry: false,
   });
 }

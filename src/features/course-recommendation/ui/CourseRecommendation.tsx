@@ -3,7 +3,7 @@ import { cn } from "@/shared/lib/cn";
 import { CTAButton } from "@/shared/ui/button";
 import { TopNavBar } from "@/shared/ui/top-nav-bar";
 import { useCourseIntroTransition } from "../model/use-course-intro-transition";
-import type { Course } from "../model/types";
+import type { Course } from "@/entities/course";
 import { EASE_OUT } from "./animation";
 import { HeroSection } from "./HeroSection";
 import { StepList } from "./StepList";
